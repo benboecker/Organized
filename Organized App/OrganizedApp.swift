@@ -6,12 +6,12 @@
 //
 
 import SwiftUI
+import CompositionRoot
+
 
 @main
 struct OrganizedApp: App {
     var body: some Scene {
-        WindowGroup {
-            ContentView()
-        }
+        AppScene()
     }
 }

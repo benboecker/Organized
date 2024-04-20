@@ -7,19 +7,17 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B57D1A452BD39D540028A51A /* CompositionRoot in Frameworks */ = {isa = PBXBuildFile; productRef = B57D1A442BD39D540028A51A /* CompositionRoot */; };
 		B5A899412BD29AE200DC7527 /* OrganizedApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5A899402BD29AE200DC7527 /* OrganizedApp.swift */; };
-		B5A899432BD29AE200DC7527 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5A899422BD29AE200DC7527 /* ContentView.swift */; };
 		B5A899452BD29AE300DC7527 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B5A899442BD29AE300DC7527 /* Assets.xcassets */; };
-		B5A899492BD29AE300DC7527 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B5A899482BD29AE300DC7527 /* Preview Assets.xcassets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		B5A8993D2BD29AE200DC7527 /* Organized.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Organized.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		B57D1A422BD3094C0028A51A /* CompositionRoot */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = CompositionRoot; sourceTree = "<group>"; };
+		B5A8993D2BD29AE200DC7527 /* Organized App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Organized App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B5A899402BD29AE200DC7527 /* OrganizedApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrganizedApp.swift; sourceTree = "<group>"; };
-		B5A899422BD29AE200DC7527 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		B5A899442BD29AE300DC7527 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B5A899462BD29AE300DC7527 /* Organized.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Organized.entitlements; sourceTree = "<group>"; };
-		B5A899482BD29AE300DC7527 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -27,54 +25,78 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B57D1A452BD39D540028A51A /* CompositionRoot in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		B57D1A3F2BD308D10028A51A /* Packages */ = {
+			isa = PBXGroup;
+			children = (
+				B57D1A422BD3094C0028A51A /* CompositionRoot */,
+				B57D1A412BD308EB0028A51A /* Library */,
+				B57D1A402BD308E40028A51A /* Features */,
+			);
+			path = Packages;
+			sourceTree = "<group>";
+		};
+		B57D1A402BD308E40028A51A /* Features */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Features;
+			sourceTree = "<group>";
+		};
+		B57D1A412BD308EB0028A51A /* Library */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Library;
+			sourceTree = "<group>";
+		};
+		B57D1A432BD39D540028A51A /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		B5A899342BD29AE200DC7527 = {
 			isa = PBXGroup;
 			children = (
-				B5A8993F2BD29AE200DC7527 /* Organized */,
+				B57D1A3F2BD308D10028A51A /* Packages */,
+				B5A8993F2BD29AE200DC7527 /* Organized App */,
 				B5A8993E2BD29AE200DC7527 /* Products */,
+				B57D1A432BD39D540028A51A /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
 		B5A8993E2BD29AE200DC7527 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				B5A8993D2BD29AE200DC7527 /* Organized.app */,
+				B5A8993D2BD29AE200DC7527 /* Organized App.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		B5A8993F2BD29AE200DC7527 /* Organized */ = {
+		B5A8993F2BD29AE200DC7527 /* Organized App */ = {
 			isa = PBXGroup;
 			children = (
 				B5A899402BD29AE200DC7527 /* OrganizedApp.swift */,
-				B5A899422BD29AE200DC7527 /* ContentView.swift */,
 				B5A899442BD29AE300DC7527 /* Assets.xcassets */,
 				B5A899462BD29AE300DC7527 /* Organized.entitlements */,
-				B5A899472BD29AE300DC7527 /* Preview Content */,
 			);
-			path = Organized;
-			sourceTree = "<group>";
-		};
-		B5A899472BD29AE300DC7527 /* Preview Content */ = {
-			isa = PBXGroup;
-			children = (
-				B5A899482BD29AE300DC7527 /* Preview Assets.xcassets */,
-			);
-			path = "Preview Content";
+			path = "Organized App";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		B5A8993C2BD29AE200DC7527 /* Organized */ = {
+		B5A8993C2BD29AE200DC7527 /* Organized App */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = B5A8994C2BD29AE300DC7527 /* Build configuration list for PBXNativeTarget "Organized" */;
+			buildConfigurationList = B5A8994C2BD29AE300DC7527 /* Build configuration list for PBXNativeTarget "Organized App" */;
 			buildPhases = (
 				B5A899392BD29AE200DC7527 /* Sources */,
 				B5A8993A2BD29AE200DC7527 /* Frameworks */,
@@ -84,9 +106,12 @@
 			);
 			dependencies = (
 			);
-			name = Organized;
+			name = "Organized App";
+			packageProductDependencies = (
+				B57D1A442BD39D540028A51A /* CompositionRoot */,
+			);
 			productName = Organized;
-			productReference = B5A8993D2BD29AE200DC7527 /* Organized.app */;
+			productReference = B5A8993D2BD29AE200DC7527 /* Organized App.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -117,7 +142,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				B5A8993C2BD29AE200DC7527 /* Organized */,
+				B5A8993C2BD29AE200DC7527 /* Organized App */,
 			);
 		};
 /* End PBXProject section */
@@ -127,7 +152,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B5A899492BD29AE300DC7527 /* Preview Assets.xcassets in Resources */,
 				B5A899452BD29AE300DC7527 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -139,7 +163,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B5A899432BD29AE200DC7527 /* ContentView.swift in Sources */,
 				B5A899412BD29AE200DC7527 /* OrganizedApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -266,10 +289,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = Organized/Organized.entitlements;
+				CODE_SIGN_ENTITLEMENTS = "Organized App/Organized.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"Organized/Preview Content\"";
 				DEVELOPMENT_TEAM = CQSM9HEZ7S;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
@@ -304,10 +326,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = Organized/Organized.entitlements;
+				CODE_SIGN_ENTITLEMENTS = "Organized App/Organized.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"Organized/Preview Content\"";
 				DEVELOPMENT_TEAM = CQSM9HEZ7S;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
@@ -349,7 +370,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		B5A8994C2BD29AE300DC7527 /* Build configuration list for PBXNativeTarget "Organized" */ = {
+		B5A8994C2BD29AE300DC7527 /* Build configuration list for PBXNativeTarget "Organized App" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				B5A8994D2BD29AE300DC7527 /* Debug */,
@@ -359,6 +380,13 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		B57D1A442BD39D540028A51A /* CompositionRoot */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = CompositionRoot;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = B5A899352BD29AE200DC7527 /* Project object */;
 }
