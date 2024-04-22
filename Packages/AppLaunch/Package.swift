@@ -10,11 +10,11 @@ let package = Package(
 		.library(name: "AppLaunch", targets: ["AppLaunch"]),
 	],
 	dependencies: [
-	
+		.package(name: "Styleguide", path: "Library/Styleguide"),
 	],
 	targets: [
 		.target(name: "AppLaunch", dependencies: [
-
+			.product(name: "Styleguide", package: "Styleguide"),
 		]),
 	]
 )

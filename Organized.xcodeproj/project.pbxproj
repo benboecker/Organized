@@ -14,6 +14,7 @@
 
 /* Begin PBXFileReference section */
 		B5843A212BD3C1730059C32D /* AppLaunch */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = AppLaunch; sourceTree = "<group>"; };
+		B5843A242BD3C1EA0059C32D /* Styleguide */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Styleguide; sourceTree = "<group>"; };
 		B5A8993D2BD29AE200DC7527 /* Organized App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Organized App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B5A899402BD29AE200DC7527 /* OrganizedApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrganizedApp.swift; sourceTree = "<group>"; };
 		B5A899442BD29AE300DC7527 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -52,6 +53,7 @@
 		B57D1A412BD308EB0028A51A /* Library */ = {
 			isa = PBXGroup;
 			children = (
+				B5843A242BD3C1EA0059C32D /* Styleguide */,
 			);
 			path = Library;
 			sourceTree = "<group>";
