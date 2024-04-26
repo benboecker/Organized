@@ -24,7 +24,7 @@ extension Styleguide {
 		),
 		colors: Colors(
 			primaryText: .init(light: "#111111", dark: "#EEEEEE"),
-			secondaryText: .init(light: "#AAAAAA", dark: "#CCCCCC"),
+			secondaryText: .init(light: "#999999", dark: "#CCCCCC"),
 			accent: .init(light: "##e84118", dark: "##e84118"),
 			primaryBackground: .init(light: "#FEFEFE", dark: "#111111"),
 			secondaryBackground: .init(light: "#EEEEEE", dark: "#222222")

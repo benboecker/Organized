@@ -11,12 +11,18 @@ let package = Package(
 		.library(name: "NewTodoDomain", targets: ["NewTodoDomain"]),
 		.library(name: "NewTodoUI", targets: ["NewTodoUI"]),
 	],
+	dependencies: [
+		.package(name: "Styleguide", path: "../Library/Styleguide"),
+		.package(name: "SharedComponents", path: "../Library/SharedComponents"),
+	],
 	targets: [
 		.target(name: "NewTodoData", dependencies: [
 			"NewTodoDomain",
 		]),
 		.target(name: "NewTodoDomain"),
 		.target(name: "NewTodoUI", dependencies: [
+			.product(name: "Styleguide", package: "Styleguide"),
+			.product(name: "SharedComponents", package: "SharedComponents"),
 			"NewTodoDomain",
 		]),
 		.testTarget(

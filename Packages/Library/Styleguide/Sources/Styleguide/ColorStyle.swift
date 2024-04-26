@@ -49,7 +49,7 @@ struct ColorModifier: ViewModifier {
 	@Environment(\.styleguide) private var styleguide
 	let color: Styleguide.Color
 	let foreground: Bool
-
+	
 	func body(content: Content) -> some View {
 		if foreground {
 			content.foregroundStyle(
@@ -63,6 +63,17 @@ struct ColorModifier: ViewModifier {
 	}
 }
 
+struct TintModifier: ViewModifier {
+	@Environment(\.styleguide) private var styleguide
+	let color: Styleguide.Color
+	
+	func body(content: Content) -> some View {
+		content.tint(
+			styleguide.colors[keyPath: color.keyPath]
+		)
+	}
+}
+
 
 public extension View {
 	func color(foreground color: Styleguide.Color) -> some View {
@@ -72,4 +83,9 @@ public extension View {
 	func color(background color: Styleguide.Color) -> some View {
 		self.modifier(ColorModifier(color: color, foreground: false))
 	}
+	
+	func tint(_ color: Styleguide.Color) -> some View {
+		self.modifier(TintModifier(color: color))
+	}
 }
+

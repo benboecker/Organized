@@ -33,7 +33,6 @@ public struct AppScene: Scene {
 	public var body: some Scene {
 		WindowGroup {
 			CompositionRoot()
-//				.tint(Color.accent)
 		}
 //		.environment(filterOptions)
 //		.environment(displayMode)

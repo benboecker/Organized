@@ -11,13 +11,21 @@ let package = Package(
 		.library(name: "TodoListDomain", targets: ["TodoListDomain"]),
 		.library(name: "TodoListUI", targets: ["TodoListUI"]),
 	],
+	dependencies: [
+		.package(name: "Styleguide", path: "../Library/Styleguide"),
+		.package(name: "SharedComponents", path: "../Library/SharedComponents"),
+	],
 	targets: [
 		.target(name: "TodoListData", dependencies: [
 			"TodoListDomain",
 		]),
 		.target(name: "TodoListDomain"),
 		.target(name: "TodoListUI", dependencies: [
+			.product(name: "Styleguide", package: "Styleguide"),
+			.product(name: "SharedComponents", package: "SharedComponents"),
 			"TodoListDomain",
+		], resources: [
+			.process("weekdays.json"),
 		]),
 		.testTarget(
 			name: "TodoListDataTests",
