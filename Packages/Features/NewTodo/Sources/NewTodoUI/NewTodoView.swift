@@ -12,7 +12,7 @@ import NewTodoDomain
 
 
 public struct NewTodoView: View {
-	public init(newTodoCreation: NewTodoCreation) {
+	public init(newTodoCreation: NewTodoCreation, dueDate: Date? = nil) {
 		self.newTodoCreation = newTodoCreation
 	}
 	

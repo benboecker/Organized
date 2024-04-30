@@ -16,6 +16,9 @@ public class PersistentWeekdayProvider: WeekdayProvider {
 	}
 	
 	public var weekdays: [TodoListDomain.Weekday]
-
+	
+	public func toggleDateExcluded(_ date: Date) {
+		
+	}
 	
 }

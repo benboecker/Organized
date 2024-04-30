@@ -37,7 +37,7 @@ private struct StyleguideKey: EnvironmentKey {
 	static let defaultValue = Styleguide.default
 }
 
-extension EnvironmentValues {
+public extension EnvironmentValues {
 	var styleguide: Styleguide {
 		get { self[StyleguideKey.self] }
 		set { self[StyleguideKey.self] = newValue }

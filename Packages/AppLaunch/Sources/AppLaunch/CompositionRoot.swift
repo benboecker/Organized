@@ -13,6 +13,7 @@ import SwiftUI
 import TodoListUI
 import TodoListData
 import TodoListDomain
+import Styleguide
 
 
 struct CompositionRoot: View {
@@ -21,6 +22,7 @@ struct CompositionRoot: View {
 	@State private var weekdayProvider: WeekdayProvider
 	@State private var newTodoCreation: NewTodoCreation
 	@State private var showNewTodo = false
+	@State private var newTodoDate: Date? = nil
 	
 	init() {
 		self._todoRepository = State(initialValue: PersistentTodoRepository())
@@ -33,12 +35,15 @@ struct CompositionRoot: View {
 			TodoListView(
 				todoRepository: todoRepository,
 				weekdayProvider: weekdayProvider
-			)
+			) { date in
+				newTodoDate = date
+				showNewTodo = true
+			}
 			
 			NewTodoButton()
 		}
 		.sheet(isPresented: $showNewTodo) {
-			NewTodoView(newTodoCreation: newTodoCreation)
+			NewTodoView(newTodoCreation: newTodoCreation, dueDate: newTodoDate)
 		}
 	}
 }
@@ -48,9 +53,9 @@ private extension CompositionRoot {
 	
 	private func NewTodoButton() -> some View {
 		Button {
-			withAnimation(.snappy) {
+//			withAnimation(.snappy) {
 				showNewTodo = true
-			}
+//			}
 		} label: {
 			Image(systemName: "plus")
 				.font(.title2.bold())

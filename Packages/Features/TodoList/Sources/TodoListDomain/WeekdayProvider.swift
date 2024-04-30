@@ -10,4 +10,5 @@ import Foundation
 
 public protocol WeekdayProvider {
 	var weekdays: [Weekday] { get }
+	func toggleDateExcluded(_ date: Date)
 }

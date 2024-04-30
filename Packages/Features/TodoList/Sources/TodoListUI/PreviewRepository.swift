@@ -16,7 +16,9 @@ class PreviewRepository: WeekdayProvider, TodoRepository {
 
 	var weekdays: [TodoListDomain.Weekday]
 	
-
+	func toggleDateExcluded(_ date: Date) {
+		
+	}
 }
 
 

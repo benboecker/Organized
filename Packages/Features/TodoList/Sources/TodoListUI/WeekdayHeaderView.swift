@@ -6,41 +6,59 @@
 //
 
 import SwiftUI
-
+import TodoListDomain
 
 
 struct WeekdayHeaderView: View {
 	let date: Date
+	let weekdayProvider: WeekdayProvider
+	let newTodo: (Date) -> Void
 	
     var body: some View {
-		HStack {
-			Text(date, format: .dateTime.weekday(.wide))
-				.title()
-
-			Text(date, format: .dateTime.day().month(.wide))
-				.fontStyle(.title)
-				.color(foreground: .secondaryText)
-				.frame(maxWidth: .infinity, alignment: .leading)
-
+		Menu {
+			Button {
+				weekdayProvider.toggleDateExcluded(date)
+			} label: {
+				Label("Tag überspringen", systemImage: "calendar.badge.minus")
+			}
+			
+			Button {
+				newTodo(date)
+			} label: {
+				Label("Neue Aufgabe", systemImage: "plus.circle.fill")
+			}
+		} label: {
+			HStack {
+				Text(date, format: .dateTime.weekday(.wide))
+					.title()
+				
+				Text(date, format: .dateTime.day().month(.wide))
+					.fontStyle(.title)
+					.color(foreground: .secondaryText)
+				
+				Image(systemName: "ellipsis.circle.fill")
+					.font(.headline)
+					.symbolRenderingMode(.hierarchical)
+					.color(foreground: .secondaryText)
+					.padding(.leading, 4)
+				Spacer()
+			}
 		}
-//		.overlay(alignment: .bottom) {
-//			Rectangle()
-//				.frame(height: 1.5)
-//				.color(foreground: .secondaryText)
-//				.offset(y: 6)
-//		}
     }
 }
 
 #Preview {
-	WeekdayHeaderView(date: .now)
-		.padding()
+	WeekdayHeaderView(
+		date: .now,
+		weekdayProvider: PreviewRepository()
+	) { _ in }
+	.padding()
 }
 
 #Preview {
 	TodoListView(
 		todoRepository: PreviewRepository(),
 		weekdayProvider: PreviewRepository()
-	)
+	) { _ in }
 }
 
