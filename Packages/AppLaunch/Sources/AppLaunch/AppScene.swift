@@ -17,7 +17,7 @@ import SwiftUI
 public struct AppScene: Scene {
 
 //	private let persistentContainer: PersistentContainer
-//
+
 //	@State private var displayMode = DisplayMode()
 //	@State private var filterOptions = FilterOptions()
 //	@State private var bookmarksDataStore: BookmarksDataStore

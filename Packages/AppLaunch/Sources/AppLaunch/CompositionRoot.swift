@@ -9,6 +9,7 @@ import Alerts
 import NewTodoUI
 import NewTodoData
 import NewTodoDomain
+import Persistence
 import SwiftUI
 import TodoListUI
 import TodoListData
@@ -18,6 +19,7 @@ import Styleguide
 
 struct CompositionRoot: View {
     
+	private let persistentContainer: PersistentContainer
 	@State private var todoRepository: TodoRepository
 	@State private var weekdayProvider: WeekdayProvider
 	@State private var newTodoCreation: NewTodoCreation
@@ -25,8 +27,10 @@ struct CompositionRoot: View {
 	@State private var newTodoDate: Date? = nil
 	
 	init() {
+		self.persistentContainer = PersistentContainer(with: .testing)
+		
 		self._todoRepository = State(initialValue: PersistentTodoRepository())
-		self._weekdayProvider = State(initialValue: PersistentWeekdayProvider())
+		self._weekdayProvider = State(initialValue: PersistentWeekdayProvider(persistentContainer: persistentContainer))
 		self._newTodoCreation = State(initialValue: PersistentNewTodoCreation())
 	}
 	
@@ -44,6 +48,9 @@ struct CompositionRoot: View {
 		}
 		.sheet(isPresented: $showNewTodo) {
 			NewTodoView(newTodoCreation: newTodoCreation, dueDate: newTodoDate)
+		}
+		.onAppear {
+			persistentContainer.createDemoData()
 		}
 	}
 }

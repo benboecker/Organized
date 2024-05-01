@@ -12,6 +12,7 @@ let package = Package(
 	dependencies: [
 		.package(name: "Alerts", path: "Library/Alerts"),
 		.package(name: "NewTodo", path: "Features/NewTodo"),
+		.package(name: "Persistence", path: "Library/Persistence"),
 		.package(name: "SharedComponents", path: "Library/SharedComponents"),
 		.package(name: "Styleguide", path: "Library/Styleguide"),
 		.package(name: "TodoList", path: "Features/TodoList"),
@@ -22,6 +23,7 @@ let package = Package(
 			.product(name: "NewTodoData", package: "NewTodo"),
 			.product(name: "NewTodoDomain", package: "NewTodo"),
 			.product(name: "NewTodoUI", package: "NewTodo"),
+			.product(name: "Persistence", package: "Persistence"),
 			.product(name: "SharedComponents", package: "SharedComponents"),
 			.product(name: "Styleguide", package: "Styleguide"),
 			.product(name: "TodoListData", package: "TodoList"),

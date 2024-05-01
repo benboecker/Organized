@@ -12,11 +12,13 @@ let package = Package(
 		.library(name: "TodoListUI", targets: ["TodoListUI"]),
 	],
 	dependencies: [
+		.package(name: "Persistence", path: "../Library/Persistence"),
 		.package(name: "Styleguide", path: "../Library/Styleguide"),
 		.package(name: "SharedComponents", path: "../Library/SharedComponents"),
 	],
 	targets: [
 		.target(name: "TodoListData", dependencies: [
+			.product(name: "Persistence", package: "Persistence"),
 			"TodoListDomain",
 		]),
 		.target(name: "TodoListDomain"),
