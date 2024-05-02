@@ -41,13 +41,21 @@ struct CompositionRoot: View {
 				weekdayProvider: weekdayProvider
 			) { date in
 				newTodoDate = date
-				showNewTodo = true
 			}
 			
 			NewTodoButton()
 		}
+		.sheet(item: $newTodoDate) { newTodoDate in
+			NewTodoView(
+				newTodoCreation: newTodoCreation,
+				dueDate: newTodoDate
+			)
+		}
 		.sheet(isPresented: $showNewTodo) {
-			NewTodoView(newTodoCreation: newTodoCreation, dueDate: newTodoDate)
+			NewTodoView(
+				newTodoCreation: newTodoCreation,
+				dueDate: newTodoDate
+			)
 		}
 		.onAppear {
 			persistentContainer.createDemoData()
@@ -55,6 +63,12 @@ struct CompositionRoot: View {
 	}
 }
 
+
+extension Date: Identifiable {
+	public var id: String {
+		formatted()
+	}
+}
 
 private extension CompositionRoot {
 	

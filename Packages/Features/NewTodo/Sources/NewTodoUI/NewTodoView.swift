@@ -14,6 +14,14 @@ import NewTodoDomain
 public struct NewTodoView: View {
 	public init(newTodoCreation: NewTodoCreation, dueDate: Date? = nil) {
 		self.newTodoCreation = newTodoCreation
+
+		if let dueDate {
+			self._hasDateSelected = State(initialValue: true)
+			self._selectedDate = State(initialValue: dueDate)
+		} else {
+			self._hasDateSelected = State(initialValue: false)
+			self._selectedDate = State(initialValue: .now)
+		}
 	}
 	
 	enum Screen {
@@ -25,8 +33,8 @@ public struct NewTodoView: View {
 	@State private var path: [Screen] = []
 	@State private var title: String = ""
 	@State private var isImportant: Bool = false
-	@State private var hasDateSelected: Bool = false
-	@State private var selectedDate: Date = .now
+	@State private var hasDateSelected: Bool
+	@State private var selectedDate: Date
 	
 	@Environment(\.dismiss) private var dismiss
 	
@@ -178,6 +186,10 @@ private extension NewTodoView {
 
 #Preview {
 	NewTodoView(newTodoCreation: PreviewTodoCreation())
+}
+
+#Preview {
+	NewTodoView(newTodoCreation: PreviewTodoCreation(), dueDate: .now.addingTimeInterval(86400))
 }
 
 class PreviewTodoCreation: NewTodoCreation {

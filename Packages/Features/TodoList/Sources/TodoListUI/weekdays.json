@@ -2,8 +2,8 @@
 	{
 		"date": "2024-04-23T08:00:00Z",
 		"todos": [
-			{"id": "ee2a3d41-6872-4e95-9c61-ff9c8fa1eeb1", "title": "Complete math homework", "isDone": false, "isImportant": true},
-			{"id": "ac83923f-37ab-4269-b4f8-2a29a0134fb5", "title": "Prepare presentation slides", "isDone": true, "isImportant": true},
+			{"id": "ee2a3d41-6872-4e95-9c61-ff9c8fa1eeb1", "title": "Complete math homework Complete math homework Complete math homework ", "isDone": false, "isImportant": true},
+			{"id": "ac83923f-37ab-4269-b4f8-2a29a0134fb5", "title": "Prepare presentation slides again with a longer title", "isDone": false, "isImportant": true},
 			{"id": "d7f03be1-69a5-40c4-b99f-68d0b01d450f", "title": "Buy groceries", "isDone": false, "isImportant": false}
 		]
 	},

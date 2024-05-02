@@ -27,7 +27,7 @@ public struct TodoListView: View {
 	
 	public var body: some View {
 		ScrollView {
-			LazyVStack(spacing: 0) {
+			LazyVStack(spacing: 8) {
 				ForEach(weekdayProvider.weekdays, id: \.self) { weekday in
 					WeekdayHeaderView(
 						date: weekday.date,
@@ -36,9 +36,10 @@ public struct TodoListView: View {
 						showNewTodo(date)
 					}
 					.padding(.horizontal, 58)
-					.padding(.top, 40)
-					.padding(.bottom, 6)
-					
+					.padding(.top, 24)
+					.padding(.bottom, 12)
+					.offset(y: 8)
+
 					ForEach(weekday.todos) { todo in
 						TodoRow(
 							title: todo.title,
@@ -47,6 +48,7 @@ public struct TodoListView: View {
 							repository: todoRepository
 						)
 						.padding(.horizontal, 12)
+//						.debugFrame()
 					}
 				}
 			}

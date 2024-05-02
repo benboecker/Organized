@@ -25,14 +25,16 @@ struct TodoRow: View {
 	private let repository: TodoRepository
 	
 	var body: some View {
-		HStack(spacing: 4) {
+		HStack(alignment: .center, spacing: 4) {
 			StatusView(isDone: $isDone, isImportant: $isImportant)
+//				.debugFrame(showSize: false)
 			
 			TextField("", text: $title, axis: .vertical)
 				.fontStyle(.body)
 				.color(foreground: isDone ? .secondaryText : .primaryText)
 				.submitLabel(.done)
 				.strikethrough(isDone, color: .secondary)
+//				.debugFrame(showSize: false)
 		}
 	}
 }
@@ -45,4 +47,12 @@ struct TodoRow: View {
 		TodoRow(title: "This is an example title", isDone: true, isImportant: false, repository: PreviewRepository())
 	}
 	.padding(8)
+}
+
+
+#Preview {
+	TodoListView(
+		todoRepository: PreviewRepository(),
+		weekdayProvider: PreviewRepository()
+	) { _ in }
 }
