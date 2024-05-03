@@ -12,6 +12,7 @@ import TodoListDomain
 struct WeekdayHeaderView: View {
 	let date: Date
 	let weekdayProvider: WeekdayProvider
+	let isExcluded: Bool
 	let newTodo: (Date) -> Void
 	
     var body: some View {
@@ -19,13 +20,15 @@ struct WeekdayHeaderView: View {
 			Button {
 				weekdayProvider.toggleDateExcluded(date)
 			} label: {
-				Label("Tag überspringen", systemImage: "calendar.badge.minus")
+				Label(isExcluded ? "Tag planen" : "Tag überspringen", systemImage: "calendar.badge.minus")
 			}
 			
-			Button {
-				newTodo(date)
-			} label: {
-				Label("Neue Aufgabe", systemImage: "plus.circle.fill")
+			if !isExcluded {
+				Button {
+					newTodo(date)
+				} label: {
+					Label("Neue Aufgabe", systemImage: "plus.circle.fill")
+				}
 			}
 		} label: {
 			HStack {
@@ -50,9 +53,19 @@ struct WeekdayHeaderView: View {
 #Preview {
 	WeekdayHeaderView(
 		date: .now,
-		weekdayProvider: PreviewRepository()
+		weekdayProvider: PreviewRepository(),
+		isExcluded: true
 	) { _ in }
-	.padding()
+		.padding()
+}
+
+#Preview {
+	WeekdayHeaderView(
+		date: .now,
+		weekdayProvider: PreviewRepository(),
+		isExcluded: false
+	) { _ in }
+		.padding()
 }
 
 #Preview {

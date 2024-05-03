@@ -15,6 +15,7 @@
 /* Begin PBXFileReference section */
 		B516315F2BD80DF700387E7E /* SharedComponents */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = SharedComponents; sourceTree = "<group>"; };
 		B540759A2BDAE6CE0077F7C9 /* Alerts */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Alerts; sourceTree = "<group>"; };
+		B5838B6C2BE413930009C61A /* Utils */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Utils; sourceTree = "<group>"; };
 		B5843A212BD3C1730059C32D /* AppLaunch */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = AppLaunch; sourceTree = "<group>"; };
 		B5843A242BD3C1EA0059C32D /* Styleguide */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Styleguide; sourceTree = "<group>"; };
 		B5843A262BD7A4000059C32D /* TodoList */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = TodoList; sourceTree = "<group>"; };
@@ -66,6 +67,7 @@
 				B516315F2BD80DF700387E7E /* SharedComponents */,
 				B5843A292BD7AE6C0059C32D /* Persistence */,
 				B5843A242BD3C1EA0059C32D /* Styleguide */,
+				B5838B6C2BE413930009C61A /* Utils */,
 			);
 			path = Library;
 			sourceTree = "<group>";

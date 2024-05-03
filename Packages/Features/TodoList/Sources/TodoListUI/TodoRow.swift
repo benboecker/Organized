@@ -27,14 +27,13 @@ struct TodoRow: View {
 	var body: some View {
 		HStack(alignment: .center, spacing: 4) {
 			StatusView(isDone: $isDone, isImportant: $isImportant)
-//				.debugFrame(showSize: false)
 			
 			TextField("", text: $title, axis: .vertical)
 				.fontStyle(.body)
 				.color(foreground: isDone ? .secondaryText : .primaryText)
 				.submitLabel(.done)
 				.strikethrough(isDone, color: .secondary)
-//				.debugFrame(showSize: false)
+				.disabled(isDone)
 		}
 	}
 }

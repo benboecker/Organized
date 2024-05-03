@@ -27,28 +27,51 @@ public class PersistentWeekdayProvider: WeekdayProvider {
 	
 	private let observer: StoredTodoObserver
 	public var weekdays: [TodoListDomain.Weekday]
-	
-	
+		
 	public func toggleDateExcluded(_ date: Date) {
 		if ExcludedDates.contains(date) {
 			ExcludedDates.remove(date: date)
 		} else {
 			ExcludedDates.add(date: date)
 		}
+		
+		createWeekdays(from: observer.fetchedTodos)
 	}
 }
 
+//package extension PersistentWeekdayProvider {
+//	func regenerate() {
+//		createWeekdays(from: observer.fetchedTodos)
+//	}
+//}
 
 private extension PersistentWeekdayProvider {
-	
 	func createWeekdays(from storedTodos: [StoredTodo]) {
 		var todos = storedTodos
 		let calendar = Calendar.current
 		var weekdays: [Weekday] = []
-		var currentDate = Date.now
 		var currentWeekdayTodos: [Todo] = []
+		var currentDate = nextWeekday(after: nil)
 		
-	
+		func nextWeekday(after date: Date?) -> Date {
+			let nextDate: Date
+			
+			if let date {
+				weekdays.append(Weekday(date: date, todos: currentWeekdayTodos))
+				currentWeekdayTodos.removeAll()
+				
+				nextDate = calendar.date(byAdding: .day, value: 1, to: date) ?? date
+			} else {
+				nextDate = Date.now
+			}
+			
+			if ExcludedDates.contains(nextDate) {
+				return nextWeekday(after: nextDate)
+			} else {
+				return nextDate
+			}
+		}
+
 		while !todos.isEmpty {
 			let dueTodos = todos.filter {
 				if let dueDate = $0.dueDate {
@@ -63,10 +86,7 @@ private extension PersistentWeekdayProvider {
 			todos.removeAll { dueTodos.contains($0) }
 			
 			if currentWeekdayTodos.count >= 3 {
-				weekdays.append(Weekday(date: currentDate, todos: currentWeekdayTodos))
-				currentWeekdayTodos.removeAll()
-				
-				currentDate = calendar.date(byAdding: .day, value: 1, to: currentDate) ?? .now
+				currentDate = nextWeekday(after: currentDate)
 			}
 			
 			currentWeekdayTodos.append(Todo(from: todos.removeFirst()))
@@ -76,7 +96,6 @@ private extension PersistentWeekdayProvider {
 		
 		self.weekdays = weekdays
 	}
-	
 }
 
 
@@ -86,6 +105,7 @@ private extension Todo {
 			id: todo.id,
 			title: todo.title,
 			isDone: todo.doneDate != nil,
+			dueDate: todo.dueDate,
 			isImportant: todo.isImportant
 		)
 	}

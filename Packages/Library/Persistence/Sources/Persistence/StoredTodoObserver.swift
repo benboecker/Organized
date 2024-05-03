@@ -17,6 +17,11 @@ public class StoredTodoObserver: NSObject, NSFetchedResultsControllerDelegate {
 	private let fetchedResultsController: NSFetchedResultsController<StoredTodo>
 	private let logger = Logger(subsystem: "Persistence", category: "ManagedObjectContextObserver")
 	
+	public var fetchedTodos: [StoredTodo] {
+		fetchedResultsController.fetchedObjects ?? []
+	}
+	
+	
 	public init(context: NSManagedObjectContext) {
 		let fetchRequest = NSFetchRequest<StoredTodo>(entityName: StoredTodo.entity().name!)
 		fetchRequest.sortDescriptors = [

@@ -15,6 +15,7 @@ let package = Package(
 		.package(name: "Persistence", path: "../Library/Persistence"),
 		.package(name: "Styleguide", path: "../Library/Styleguide"),
 		.package(name: "SharedComponents", path: "../Library/SharedComponents"),
+		.package(name: "Utils", path: "../Library/Utils"),
 	],
 	targets: [
 		.target(name: "TodoListData", dependencies: [
@@ -25,6 +26,7 @@ let package = Package(
 		.target(name: "TodoListUI", dependencies: [
 			.product(name: "Styleguide", package: "Styleguide"),
 			.product(name: "SharedComponents", package: "SharedComponents"),
+			.product(name: "Utils", package: "Utils"),
 			"TodoListDomain",
 		], resources: [
 			.process("weekdays.json"),
