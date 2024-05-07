@@ -57,7 +57,7 @@ private extension PersistentWeekdayProvider {
 			let nextDate: Date
 			
 			if let date {
-				weekdays.append(Weekday(date: date, todos: currentWeekdayTodos))
+				weekdays.append(Weekday(date: date, todos: currentWeekdayTodos.sorted { $0.priority < $1.priority }.reversed()))
 				currentWeekdayTodos.removeAll()
 				
 				nextDate = calendar.date(byAdding: .day, value: 1, to: date) ?? date
@@ -92,7 +92,7 @@ private extension PersistentWeekdayProvider {
 			currentWeekdayTodos.append(Todo(from: todos.removeFirst()))
 		}
 				
-		weekdays.append(Weekday(date: currentDate, todos: currentWeekdayTodos))
+		weekdays.append(Weekday(date: currentDate, todos: currentWeekdayTodos.sorted { $0.priority < $1.priority }.reversed()))
 		
 		self.weekdays = weekdays
 	}
@@ -106,7 +106,7 @@ private extension Todo {
 			title: todo.title,
 			isDone: todo.doneDate != nil,
 			dueDate: todo.dueDate,
-			isImportant: todo.isImportant
+			priority: .normal
 		)
 	}
 }

@@ -36,11 +36,11 @@ public extension Styleguide {
 			self.secondaryBackground = secondaryBackground
 		}
 		
-		let primaryText: SwiftUI.Color
-		let secondaryText: SwiftUI.Color
-		let accent: SwiftUI.Color
-		let primaryBackground: SwiftUI.Color
-		let secondaryBackground: SwiftUI.Color
+		public let primaryText: SwiftUI.Color
+		public let secondaryText: SwiftUI.Color
+		public let accent: SwiftUI.Color
+		public let primaryBackground: SwiftUI.Color
+		public let secondaryBackground: SwiftUI.Color
 	}
 }
 

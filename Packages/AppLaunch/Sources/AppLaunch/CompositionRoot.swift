@@ -29,9 +29,9 @@ struct CompositionRoot: View {
 	init() {
 		self.persistentContainer = PersistentContainer(with: .testing)
 		
-		self._todoRepository = State(initialValue: PersistentTodoRepository())
+		self._todoRepository = State(initialValue: PersistentTodoRepository(container: persistentContainer))
 		self._weekdayProvider = State(initialValue: PersistentWeekdayProvider(persistentContainer: persistentContainer))
-		self._newTodoCreation = State(initialValue: PersistentNewTodoCreation())
+		self._newTodoCreation = State(initialValue: PersistentNewTodoCreation(container: persistentContainer))
 	}
 	
 	var body: some View {

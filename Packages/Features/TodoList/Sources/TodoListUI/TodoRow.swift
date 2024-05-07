@@ -12,21 +12,23 @@ import TodoListDomain
 
 
 struct TodoRow: View {
-	init(title: String, isDone: Bool, isImportant: Bool, repository: TodoRepository) {
-		self._title = State(initialValue: title)
-		self._isDone = State(initialValue: isDone)
-		self._isImportant = State(initialValue: isImportant)
+	init(todo: Todo, repository: TodoRepository) {
+		self._title = State(initialValue: todo.title)
+		self._isDone = State(initialValue: todo.isDone)
+		self._priority = State(initialValue: todo.priority)
 		self.repository = repository
+		self.id = todo.id
 	}
 	
 	@State private var title: String
 	@State private var isDone: Bool
-	@State private var isImportant: Bool
+	@State private var priority: Todo.Priority
 	private let repository: TodoRepository
+	private let id: UUID
 	
 	var body: some View {
 		HStack(alignment: .center, spacing: 4) {
-			StatusView(isDone: $isDone, isImportant: $isImportant)
+			StatusView(isDone: $isDone, priority: $priority.wrappedValue)
 			
 			TextField("", text: $title, axis: .vertical)
 				.fontStyle(.body)
@@ -35,15 +37,25 @@ struct TodoRow: View {
 				.strikethrough(isDone, color: .secondary)
 				.disabled(isDone)
 		}
+//		.onChange(of: isImportant) { _, newValue in
+//			repository.update(isImportant: newValue, of: id)
+//		}
+		.onChange(of: title) { _, newValue in
+			repository.update(title: newValue, of: id)
+		}
+		.onChange(of: isDone) { _, newValue in
+			repository.update(isDone: newValue, of: id)
+		}
 	}
 }
 
 
 #Preview {
 	VStack(spacing: 32) {
-		TodoRow(title: "This is an example title", isDone: false, isImportant: false, repository: PreviewRepository())
-		TodoRow(title: "This is an example title", isDone: false, isImportant: true, repository: PreviewRepository())
-		TodoRow(title: "This is an example title", isDone: true, isImportant: false, repository: PreviewRepository())
+		TodoRow(todo: .preview, repository: PreviewRepository())
+		TodoRow(todo: .previewImportant, repository: PreviewRepository())
+		TodoRow(todo: .previewUrgent, repository: PreviewRepository())
+		TodoRow(todo: .previewDone, repository: PreviewRepository())
 	}
 	.padding(8)
 }

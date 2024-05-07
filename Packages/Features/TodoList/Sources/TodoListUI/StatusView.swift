@@ -7,101 +7,98 @@
 
 import SwiftUI
 import SharedComponents
-
+import TodoListDomain
 
 
 struct StatusView: View {
-	init(isDone: Binding<Bool>, isImportant: Binding<Bool>) {
+	init(isDone: Binding<Bool>, priority: Todo.Priority) {
 		self._isDone = isDone
-		self._isImportant = isImportant
+		self.priority = priority
 	}
 	
+	@Environment(\.styleguide) private var styleguide
 	@Binding private var isDone: Bool
-	@Binding private var isImportant: Bool
+	private let priority: Todo.Priority
 
 	var body: some View {
-		if isDone {
-			Button {
-				withAnimation(.snappy) {
-					isDone = false
-				}
-			} label: {
-				Image(systemName: imageName)
-					.font(.title2)
-					.symbolRenderingMode(symbolRenderingMode)
-					.foregroundStyle(foregroundStyle, .primary)
-					.frame(minWidth: 44, minHeight: 44)
+		Button {
+			withAnimation(.snappy) {
+				isDone = false
 			}
-		} else {
-			Menu {
-				Button {
-					withAnimation(.snappy) {
-						isImportant.toggle()
-					}
-				} label: {
-					Label(isImportant ? "Nicht wichtig" : "Wichtig", systemImage: isImportant ? "circle" : "exclamationmark.circle")
-				}
-			} label: {
-				Image(systemName: imageName)
-					.font(.title2)
-					.symbolRenderingMode(symbolRenderingMode)
-					.foregroundStyle(foregroundStyle, Color.primary)
-					.frame(minWidth: 44, minHeight: 44)
-			} primaryAction: {
-				withAnimation(.snappy) {
-					isDone = true
-				}
-			}
+		} label: {
+			Image(systemName: imageName)
+				.font(.title2)
+				.symbolRenderingMode(symbolRenderingMode)
+				.foregroundStyle(foregroundStyle, styleguide.colors.primaryText)
+				.frame(minWidth: 44, minHeight: 44)
 		}
     }
 
 	private var foregroundStyle: Color {
-		switch (isDone, isImportant) {
-		case (true, _): .secondary
-		case (false, true): .red
-		case (false, false): .primary
+		switch (isDone, priority) {
+		case (true, _): styleguide.colors.secondaryText
+		case (false, .normal): styleguide.colors.primaryText
+		case (false, .important): styleguide.colors.accent
+		case (false, .urgent): styleguide.colors.accent
 		}
 	}
 
 	private var symbolRenderingMode: SymbolRenderingMode {
-		switch (isDone, isImportant) {
+		switch (isDone, priority) {
 		case (true, _): .monochrome
-		case (false, true): .palette
-		case (false, false): .monochrome
+		case (false, .normal): .monochrome
+		case (false, .important): .palette
+		case (false, .urgent): .monochrome
 		}
 	}
 
 	private var imageName: String {
-		switch (isDone, isImportant) {
+		switch (isDone, priority) {
 		case (true, _): "checkmark.circle"
-		case (false, true): "exclamationmark.circle"
-		case (false, false): "circle"
+		case (false, .normal): "circle"
+		case (false, .important): "exclamationmark.circle"
+		case (false, .urgent): "exclamationmark.circle"
 		}
 	}
 }
 
 private struct StatusPreview: View {
-	init(isDone: Bool, isImportant: Bool) {
+	init(isDone: Bool, priority: Todo.Priority) {
 		self._isDone = State(initialValue: isDone)
-		self._isImportant = State(initialValue: isImportant)
+		self.priority = priority
 	}
 
 	@State private var isDone: Bool
-	@State private var isImportant: Bool
+	private let priority: Todo.Priority
 
 	var body: some View {
-		StatusView(isDone: $isDone, isImportant: $isImportant)
+		StatusView(isDone: $isDone, priority: priority)
 	}
 }
 
 #Preview {
-	VStack(spacing: 24) {
-		StatusPreview(isDone: false, isImportant: false)
-			.debugFrame(showSize: false)
-		StatusPreview(isDone: false, isImportant: true)
-			.debugFrame(showSize: false)
-		StatusPreview(isDone: true, isImportant: true)
-			.debugFrame(showSize: false)
+	VStack(alignment: .leading, spacing: 24) {
+		HStack {
+			StatusPreview(isDone: false, priority: .normal)
+			Text("Normal")
+				.font(.headline)
+		}
+		HStack {
+			StatusPreview(isDone: false, priority: .important)
+			Text("Important")
+				.font(.headline)
+		}
+		HStack {
+			StatusPreview(isDone: false, priority: .urgent)
+			Text("Urgent")
+				.font(.headline)
+		}
+		HStack {
+			StatusPreview(isDone: true, priority: .normal)
+			Text("Done")
+				.font(.headline)
+		}
+
 	}
 	.frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
 	.padding()

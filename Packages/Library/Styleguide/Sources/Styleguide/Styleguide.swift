@@ -8,8 +8,8 @@ public struct Styleguide {
 		self.colors = colors
 	}
 	
-	let fonts: Fonts
-	let colors: Colors
+	public let fonts: Fonts
+	public let colors: Colors
 }
 
 

@@ -55,15 +55,14 @@ public struct TodoListView: View {
 					} else {
 						ForEach(weekday.todos) { todo in
 							TodoRow(
-								title: todo.title,
-								isDone: todo.isDone,
-								isImportant: todo.isImportant,
+								todo: todo,
 								repository: todoRepository
 							)
 							.padding(.horizontal, 12)
 							.contextMenu {
 								TodoContextMenu(for: todo)
 							}
+							
 						}
 					}
 				}
