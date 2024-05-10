@@ -44,7 +44,7 @@ public class PersistentTodoRepository: TodoRepository {
 		context.performAndWait {
 			container.deleteObject(objectType: StoredTodo.self, with: todoID, in: context)
 			
-			try? context.save()
+			try! context.save()
 		}
 	}
 	

@@ -62,11 +62,11 @@ public struct TodoListView: View {
 							.contextMenu {
 								TodoContextMenu(for: todo)
 							}
-							
 						}
 					}
 				}
 			}
+			.animation(.snappy, value: weekdayProvider.weekdays)
 		}
 	}
 	
@@ -75,6 +75,20 @@ public struct TodoListView: View {
 		if todo.isDone {
 			EmptyView()
 		} else {
+			if todo.priority == .normal {
+				Button {
+					todoRepository.update(isImportant: true, of: todo.id)
+				} label: {
+					Label("Wichtig", systemImage: "exclamationmark.circle")
+				}
+			} else if todo.priority == .important {
+				Button {
+					todoRepository.update(isImportant: false, of: todo.id)
+				} label: {
+					Label("Nicht wichtig", systemImage: "circle")
+				}
+			}
+			
 			Button {
 				
 			} label: {

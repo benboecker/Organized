@@ -10,5 +10,9 @@ import Foundation
 
 public extension Collection {
 	var hasContent: Bool { !isEmpty }
+	
+	func count(where predicate: (Element) -> Bool) -> Int {
+		filter(predicate).count
+	}
 }
 

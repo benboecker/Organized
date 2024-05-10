@@ -20,8 +20,7 @@ public class StoredTodoObserver: NSObject, NSFetchedResultsControllerDelegate {
 	public var fetchedTodos: [StoredTodo] {
 		fetchedResultsController.fetchedObjects ?? []
 	}
-	
-	
+		
 	public init(context: NSManagedObjectContext) {
 		let fetchRequest = NSFetchRequest<StoredTodo>(entityName: StoredTodo.entity().name!)
 		fetchRequest.sortDescriptors = [

@@ -20,6 +20,7 @@ let package = Package(
 	targets: [
 		.target(name: "TodoListData", dependencies: [
 			.product(name: "Persistence", package: "Persistence"),
+			.product(name: "Utils", package: "Utils"),
 			"TodoListDomain",
 		]),
 		.target(name: "TodoListDomain"),

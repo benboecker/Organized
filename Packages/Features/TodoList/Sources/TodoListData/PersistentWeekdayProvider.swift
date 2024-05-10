@@ -9,6 +9,8 @@ import Foundation
 import TodoListDomain
 import Persistence
 import Observation
+import Utils
+import SwiftUI
 
 
 @Observable
@@ -52,13 +54,23 @@ private extension PersistentWeekdayProvider {
 		var weekdays: [Weekday] = []
 		var currentWeekdayTodos: [Todo] = []
 		var currentDate = nextWeekday(after: nil)
+		let startOfToday = calendar.startOfDay(for: .now)
+		
+		func addWeekday(_ date: Date) {
+			let weekdayTodos = currentWeekdayTodos
+				.sorted { $0.priority < $1.priority }
+				.reversed()
+				.map { $0 }
+			
+			weekdays.append(Weekday(date: date, todos: weekdayTodos))
+			currentWeekdayTodos.removeAll()
+		}
 		
 		func nextWeekday(after date: Date?) -> Date {
 			let nextDate: Date
 			
 			if let date {
-				weekdays.append(Weekday(date: date, todos: currentWeekdayTodos.sorted { $0.priority < $1.priority }.reversed()))
-				currentWeekdayTodos.removeAll()
+				addWeekday(date)
 				
 				nextDate = calendar.date(byAdding: .day, value: 1, to: date) ?? date
 			} else {
@@ -72,6 +84,11 @@ private extension PersistentWeekdayProvider {
 			}
 		}
 
+		let _ = todos.partition { todo in
+			guard let dueDate = todo.dueDate else { return true }
+			return dueDate > startOfToday
+		}
+		
 		while !todos.isEmpty {
 			let dueTodos = todos.filter {
 				if let dueDate = $0.dueDate {
@@ -85,14 +102,14 @@ private extension PersistentWeekdayProvider {
 			
 			todos.removeAll { dueTodos.contains($0) }
 			
-			if currentWeekdayTodos.count >= 3 {
+			if currentWeekdayTodos.count(where: { $0.priority != .urgent }) >= 3 {
 				currentDate = nextWeekday(after: currentDate)
 			}
 			
 			currentWeekdayTodos.append(Todo(from: todos.removeFirst()))
 		}
 				
-		weekdays.append(Weekday(date: currentDate, todos: currentWeekdayTodos.sorted { $0.priority < $1.priority }.reversed()))
+		addWeekday(currentDate)
 		
 		self.weekdays = weekdays
 	}
@@ -101,12 +118,25 @@ private extension PersistentWeekdayProvider {
 
 private extension Todo {
 	init(from todo: StoredTodo) {
+		let startOfDay = Calendar.current.startOfDay(for: .now)
+		let priority: Todo.Priority = if let dueDate = todo.dueDate {
+			if dueDate < startOfDay {
+				.urgent
+			} else {
+				.important
+			}
+		} else if todo.isImportant {
+			.important
+		} else {
+			.normal
+		}
+		
 		self.init(
 			id: todo.id,
 			title: todo.title,
 			isDone: todo.doneDate != nil,
 			dueDate: todo.dueDate,
-			priority: .normal
+			priority: priority
 		)
 	}
 }

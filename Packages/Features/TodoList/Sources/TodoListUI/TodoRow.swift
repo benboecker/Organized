@@ -37,9 +37,6 @@ struct TodoRow: View {
 				.strikethrough(isDone, color: .secondary)
 				.disabled(isDone)
 		}
-//		.onChange(of: isImportant) { _, newValue in
-//			repository.update(isImportant: newValue, of: id)
-//		}
 		.onChange(of: title) { _, newValue in
 			repository.update(title: newValue, of: id)
 		}
@@ -47,6 +44,8 @@ struct TodoRow: View {
 			repository.update(isDone: newValue, of: id)
 		}
 	}
+	
+	
 }
 
 

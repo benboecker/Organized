@@ -23,7 +23,7 @@ struct StatusView: View {
 	var body: some View {
 		Button {
 			withAnimation(.snappy) {
-				isDone = false
+				isDone.toggle()
 			}
 		} label: {
 			Image(systemName: imageName)
