@@ -9,6 +9,8 @@ import SwiftUI
 
 
 struct ShowcaseView: View {
+	@Environment(\.styleguide) private var styleguide
+	
     var body: some View {
 		ScrollView {
 			VStack(spacing: 24) {
@@ -18,15 +20,15 @@ struct ShowcaseView: View {
 
 				VStack(alignment: .leading, spacing: 24) {
 					HStack {
-						ColorPreview("Primary Text", color: .primaryText)
-						ColorPreview("Secondary Text", color: .secondaryText)
+						ColorPreview("Primary Text", color: \.primaryText)
+						ColorPreview("Secondary Text", color: \.secondaryText)
 					}
 					HStack {
-						ColorPreview("Primary Background", color: .primaryBackground)
-						ColorPreview("Second. Background", color: .secondaryBackground)
+						ColorPreview("Primary Background", color: \.primaryBackground)
+						ColorPreview("Second. Background", color: \.secondaryBackground)
 					}
 					HStack {
-						ColorPreview("Accent", color: .accent)
+						ColorPreview("Accent", color: \.accent)
 						Color.clear
 					}
 				}
@@ -43,11 +45,11 @@ struct ShowcaseView: View {
 					.frame(maxWidth: .infinity, alignment: .leading)
 				
 				VStack(alignment: .leading, spacing: 24) {
-					FontPreview("Caption", font: .caption)
-					FontPreview("Body", font: .body)
-					FontPreview("Headline", font: .headline)
-					FontPreview("Title", font: .title)
-					FontPreview("Large Title", font: .largeTitle)
+					FontPreview("Caption", font: \.caption)
+					FontPreview("Body", font: \.body)
+					FontPreview("Headline", font: \.headline)
+					FontPreview("Title", font: \.title)
+					FontPreview("Large Title", font: \.largeTitle)
 				}
 				.frame(maxWidth: .infinity, alignment: .leading)
 			}
@@ -55,26 +57,26 @@ struct ShowcaseView: View {
 		}
     }
 
-	func FontPreview(_ name: String, font: Styleguide.Font) -> some View {
+	func FontPreview(_ name: String, font: KeyPath<Styleguide.FontStyle, Font>) -> some View {
 		VStack(alignment: .leading, spacing: 10) {
 			Text(name)
 				.font(.system(.headline, weight: .bold))
 				.foregroundStyle(.secondary.tertiary)
 			Text("This is a quick FontStyle test")
-				.fontStyle(font)
-
+				.font(styleguide[font])
+			
 		}
 	}
 
-	func ColorPreview(_ name: String, color: Styleguide.Color) -> some View {
+	func ColorPreview(_ name: String, color: KeyPath<Styleguide.ColorStyle, Color>) -> some View {
 		VStack(alignment: .leading, spacing: 10) {
 			Text(name)
 				.font(.system(.headline, weight: .bold))
 				.foregroundStyle(.secondary.tertiary)
 			
 			Color.clear
-				.color(background: color)
-				.clipShape(.rect(cornerRadius: 8))		
+				.background(styleguide[color])
+				.clipShape(.rect(cornerRadius: 8))
 				.aspectRatio(1, contentMode: .fill)
 				.shadow(color: .black.opacity(0.3), radius: 4, y: 2)
 		}

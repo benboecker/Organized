@@ -89,7 +89,7 @@ private extension PersistentWeekdayProvider {
 			return dueDate > startOfToday
 		}
 		
-		while !todos.isEmpty {
+		while todos.hasContent {
 			let dueTodos = todos.filter {
 				if let dueDate = $0.dueDate {
 					return calendar.isDate(dueDate, inSameDayAs: currentDate)
@@ -106,7 +106,9 @@ private extension PersistentWeekdayProvider {
 				currentDate = nextWeekday(after: currentDate)
 			}
 			
-			currentWeekdayTodos.append(Todo(from: todos.removeFirst()))
+			if todos.hasContent {
+				currentWeekdayTodos.append(Todo(from: todos.removeFirst()))
+			}
 		}
 				
 		addWeekday(currentDate)

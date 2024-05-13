@@ -8,6 +8,7 @@
 import SwiftUI
 import SharedComponents
 import TodoListDomain
+import Styleguide
 
 
 struct StatusView: View {
@@ -29,17 +30,17 @@ struct StatusView: View {
 			Image(systemName: imageName)
 				.font(.title2)
 				.symbolRenderingMode(symbolRenderingMode)
-				.foregroundStyle(foregroundStyle, styleguide.colors.primaryText)
+				.foregroundStyle(foregroundStyle, styleguide[\.primaryText])
 				.frame(minWidth: 44, minHeight: 44)
 		}
     }
 
 	private var foregroundStyle: Color {
 		switch (isDone, priority) {
-		case (true, _): styleguide.colors.secondaryText
-		case (false, .normal): styleguide.colors.primaryText
-		case (false, .important): styleguide.colors.accent
-		case (false, .urgent): styleguide.colors.accent
+		case (true, _): styleguide[\.secondaryText]
+		case (false, .normal): styleguide[\.primaryText]
+		case (false, .important): styleguide[\.accent]
+		case (false, .urgent): styleguide[\.accent]
 		}
 	}
 

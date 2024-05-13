@@ -37,7 +37,8 @@ public struct NewTodoView: View {
 	@State private var selectedDate: Date
 	
 	@Environment(\.dismiss) private var dismiss
-	
+	@Environment(\.styleguide) private var styleguide
+
 	public var body: some View {
 		NavigationStack(path: $path) {
 			Content()
@@ -50,7 +51,7 @@ public struct NewTodoView: View {
 							Image(systemName: "xmark.circle.fill")
 								.font(.title3.bold())
 								.symbolRenderingMode(.hierarchical)
-								.foregroundStyle(Color.secondary)
+								.foregroundStyle(styleguide[\.secondaryText])
 						}
 					}
 				}
@@ -69,8 +70,8 @@ private extension NewTodoView {
 	func Content() -> some View {
 		VStack(spacing: 24) {
 			TextField("New Todo", text: $title, axis: .vertical)
-				.fontStyle(.body)
-				.color(foreground: .primaryText)
+				.font(styleguide[\.body])
+				.foregroundStyle(styleguide[\.primaryText])
 				.padding(.horizontal, 12)
 				.padding(.vertical, 8)
 				.background(
@@ -82,7 +83,8 @@ private extension NewTodoView {
 			HStack(spacing: 16) {
 				IsImportantButton()
 				Text("Wichtig")
-					.body()
+					.font(styleguide[\.body])
+					.foregroundStyle(styleguide[\.primaryText])
 				Spacer()
 			}
 						
@@ -94,12 +96,13 @@ private extension NewTodoView {
 					path.append(.dateSelection)
 				} label: {
 					Text(hasDateSelected ? "Due Date:" : "Select due date")
-						.body()
+						.font(styleguide[\.body])
+						.foregroundStyle(styleguide[\.primaryText])
 					
 					if hasDateSelected {
 						Text(selectedDate, format: .dateTime.day().month(.wide).year())
-							.fontStyle(.headline)
-							.color(foreground: .primaryText)
+							.font(styleguide[\.headline])
+							.foregroundStyle(styleguide[\.primaryText])
 					}
 				}
 				
@@ -124,8 +127,8 @@ private extension NewTodoView {
 				Label("Speichern", systemImage: "checkmark")
 					.padding(.horizontal, 16)
 					.padding(.vertical, 6)
-					.fontStyle(.body)
-					.color(foreground: .primaryText)
+					.font(styleguide[\.body])
+					.foregroundStyle(styleguide[\.primaryText])
 					.background(
 						.thinMaterial.shadow(.drop(color: .black.opacity(0.15), radius: 2, y: 2)),
 						in: .capsule)
@@ -149,7 +152,7 @@ private extension NewTodoView {
 		} label: {
 			Image(systemName: "exclamationmark")
 				.font(.system(.headline, design: .rounded, weight: .heavy))
-				.color(foreground: isImportant ? .accent : .secondaryText)
+				.foregroundStyle(isImportant ? styleguide[\.accent] : styleguide[\.secondaryText])
 				.padding(8)
 				.frame(minWidth: 36, minHeight: 28)
 				.background(
@@ -171,7 +174,7 @@ private extension NewTodoView {
 		} label: {
 			Image(systemName: "checkmark")
 				.font(.system(.headline, design: .rounded, weight: .heavy))
-				.color(foreground: hasDateSelected ? .primaryText : .secondaryBackground)
+				.foregroundStyle(hasDateSelected ? styleguide[\.primaryText] : styleguide[\.secondaryBackground])
 				.padding(8)
 				.frame(minWidth: 36, minHeight: 28)
 				.background(

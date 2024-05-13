@@ -9,6 +9,7 @@ import Foundation
 import SwiftUI
 import SharedComponents
 import TodoListDomain
+import Styleguide
 
 
 struct TodoRow: View {
@@ -23,6 +24,7 @@ struct TodoRow: View {
 	@State private var title: String
 	@State private var isDone: Bool
 	@State private var priority: Todo.Priority
+	@Environment(\.styleguide) private var styleguide
 	private let repository: TodoRepository
 	private let id: UUID
 	
@@ -31,8 +33,8 @@ struct TodoRow: View {
 			StatusView(isDone: $isDone, priority: $priority.wrappedValue)
 			
 			TextField("", text: $title, axis: .vertical)
-				.fontStyle(.body)
-				.color(foreground: isDone ? .secondaryText : .primaryText)
+				.font(styleguide[\.body])
+				.foregroundStyle(isDone ? styleguide[\.secondaryText] : styleguide[\.primaryText])
 				.submitLabel(.done)
 				.strikethrough(isDone, color: .secondary)
 				.disabled(isDone)

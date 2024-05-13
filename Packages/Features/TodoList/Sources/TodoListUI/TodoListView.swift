@@ -25,6 +25,8 @@ public struct TodoListView: View {
 	private let weekdayProvider: WeekdayProvider
 	private let showNewTodo: (Date) -> Void
 	
+	@Environment(\.styleguide) private var styleguide
+	
 	public var body: some View {
 		ScrollView {
 			LazyVStack(spacing: 8) {
@@ -44,14 +46,13 @@ public struct TodoListView: View {
 					if weekday.todos.isEmpty {
 						ContentUnavailableView {
 							Label("Keine Aufgaben", systemImage: "beach.umbrella")
-								.fontStyle(.title)
+								.font(styleguide[\.title])
 						} description: {
 							Text("Entspann dich, an diesem Tag gibt es keine Aufgaben.")
-								.fontStyle(.body)
+								.font(styleguide[\.body])		
 								.padding(.horizontal)
 								.padding(.top, 8)
 						}
-						.padding(.top)
 					} else {
 						ForEach(weekday.todos) { todo in
 							TodoRow(

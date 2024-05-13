@@ -3,26 +3,26 @@ import SwiftUI
 
 
 public struct Styleguide {
-	public init(fonts: Styleguide.Fonts, colors: Colors) {
+	public init(fonts: FontStyle, colors: ColorStyle) {
 		self.fonts = fonts
 		self.colors = colors
 	}
 	
-	public let fonts: Fonts
-	public let colors: Colors
+	public let fonts: FontStyle
+	public let colors: ColorStyle
 }
 
 
 extension Styleguide {
 	static let `default` = Styleguide(
-		fonts: Fonts(
+		fonts: FontStyle(
 			body: .system(.body, design: .serif, weight: .medium),
 			headline: .system(.headline, design: .serif, weight: .heavy),
 			title: .system(.title2, design: .serif, weight: .heavy),
 			largeTitle: .system(.largeTitle, design: .serif, weight: .heavy),
 			caption: .system(.caption, design: .serif, weight: .bold)
 		),
-		colors: Colors(
+		colors: ColorStyle(
 			primaryText: .init(light: "#111111", dark: "#EEEEEE"),
 			secondaryText: .init(light: "#999999", dark: "#CCCCCC"),
 			accent: .init(light: "##e84118", dark: "##e84118"),

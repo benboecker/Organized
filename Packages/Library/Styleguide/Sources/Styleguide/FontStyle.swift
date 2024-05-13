@@ -10,26 +10,8 @@ import SwiftUI
 
 
 public extension Styleguide {
-	enum Font {
-		case body
-		case headline
-		case title
-		case largeTitle
-		case caption
-
-		var keyPath: KeyPath<Styleguide.Fonts, SwiftUI.Font> {
-			switch self {
-			case .body: \.body
-			case .headline: \.headline
-			case .title: \.title
-			case .largeTitle: \.largeTitle
-			case .caption: \.caption
-			}
-		}
-	}
-
-	struct Fonts {
-		public init(body: SwiftUI.Font, headline: SwiftUI.Font, title: SwiftUI.Font, largeTitle: SwiftUI.Font, caption: SwiftUI.Font) {
+	struct FontStyle {
+		public init(body: Font, headline: Font, title: Font, largeTitle: Font, caption: Font) {
 			self.body = body
 			self.headline = headline
 			self.title = title
@@ -37,31 +19,17 @@ public extension Styleguide {
 			self.caption = caption
 		}
 		
-		let body: SwiftUI.Font
-		let headline: SwiftUI.Font
-		let title: SwiftUI.Font
-		let largeTitle: SwiftUI.Font
-		let caption: SwiftUI.Font
-
+		public let body: Font
+		public let headline: Font
+		public let title: Font
+		public let largeTitle: Font
+		public let caption: Font
 	}
 }
 
 
-
-struct FontStyleModifier: ViewModifier {
-	@Environment(\.styleguide) private var styleguide
-	let access: Styleguide.Font
-
-
-	func body(content: Content) -> some View {
-		content.font(
-			styleguide.fonts[keyPath: access.keyPath]
-		)
-	}
-}
-
-public extension View {
-	func fontStyle(_ access: Styleguide.Font) -> some View {
-		self.modifier(FontStyleModifier(access: access))
+public extension Styleguide {
+	subscript(_ keyPath: KeyPath<FontStyle, Font>) -> Font {
+		fonts[keyPath: keyPath]
 	}
 }

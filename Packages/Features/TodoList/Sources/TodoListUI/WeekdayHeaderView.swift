@@ -7,6 +7,7 @@
 
 import SwiftUI
 import TodoListDomain
+import Styleguide
 
 
 struct WeekdayHeaderView: View {
@@ -14,6 +15,8 @@ struct WeekdayHeaderView: View {
 	let weekdayProvider: WeekdayProvider
 	let isExcluded: Bool
 	let newTodo: (Date) -> Void
+	
+	@Environment(\.styleguide) private var styleguide
 	
     var body: some View {
 		Menu {
@@ -33,16 +36,17 @@ struct WeekdayHeaderView: View {
 		} label: {
 			HStack {
 				Text(date, format: .dateTime.weekday(.wide))
-					.title()
+					.font(styleguide[\.title])
+					.foregroundStyle(styleguide[\.primaryText])
 				
 				Text(date, format: .dateTime.day().month(.wide))
-					.fontStyle(.title)
-					.color(foreground: .secondaryText)
+					.font(styleguide[\.title])
+					.foregroundStyle(styleguide[\.secondaryText])
 				
 				Image(systemName: "ellipsis.circle.fill")
 					.font(.headline)
 					.symbolRenderingMode(.hierarchical)
-					.color(foreground: .secondaryText)
+					.foregroundStyle(styleguide[\.secondaryText])
 					.padding(.leading, 4)
 				Spacer()
 			}
