@@ -8,7 +8,8 @@
 import Foundation
 
 
-public protocol WeekdayProvider {
-	var weekdays: [Weekday] { get }
+public protocol TodoListProvider {
+	var entries: [TodoListEntry] { get }
+	
 	func toggleDateExcluded(_ date: Date)
 }

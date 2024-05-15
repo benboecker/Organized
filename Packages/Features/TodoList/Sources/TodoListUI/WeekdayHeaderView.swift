@@ -12,7 +12,7 @@ import Styleguide
 
 struct WeekdayHeaderView: View {
 	let date: Date
-	let weekdayProvider: WeekdayProvider
+	let weekdayProvider: TodoListProvider
 	let isExcluded: Bool
 	let newTodo: (Date) -> Void
 	

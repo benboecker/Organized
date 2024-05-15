@@ -26,6 +26,7 @@
 		B5A899402BD29AE200DC7527 /* OrganizedApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrganizedApp.swift; sourceTree = "<group>"; };
 		B5A899442BD29AE300DC7527 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B5A899462BD29AE300DC7527 /* Organized.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Organized.entitlements; sourceTree = "<group>"; };
+		B5BAA5C72BF3858400F9D3D5 /* DemoData */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = DemoData; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,6 +64,7 @@
 		B57D1A412BD308EB0028A51A /* Library */ = {
 			isa = PBXGroup;
 			children = (
+				B5BAA5C72BF3858400F9D3D5 /* DemoData */,
 				B540759A2BDAE6CE0077F7C9 /* Alerts */,
 				B516315F2BD80DF700387E7E /* SharedComponents */,
 				B5843A292BD7AE6C0059C32D /* Persistence */,

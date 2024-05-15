@@ -13,17 +13,17 @@ import Styleguide
 
 
 struct TodoRow: View {
-	init(todo: Todo, repository: TodoRepository) {
-		self._title = State(initialValue: todo.title)
-		self._isDone = State(initialValue: todo.isDone)
-		self._priority = State(initialValue: todo.priority)
+	init(id: UUID, title: String, isDone: Bool, priority: TodoListEntry.Priority, repository: TodoRepository) {
+		self._title = State(initialValue: title)
+		self._isDone = State(initialValue: isDone)
+		self._priority = State(initialValue: priority)
 		self.repository = repository
-		self.id = todo.id
+		self.id = id
 	}
 	
 	@State private var title: String
 	@State private var isDone: Bool
-	@State private var priority: Todo.Priority
+	@State private var priority: TodoListEntry.Priority
 	@Environment(\.styleguide) private var styleguide
 	private let repository: TodoRepository
 	private let id: UUID
@@ -51,15 +51,15 @@ struct TodoRow: View {
 }
 
 
-#Preview {
-	VStack(spacing: 32) {
-		TodoRow(todo: .preview, repository: PreviewRepository())
-		TodoRow(todo: .previewImportant, repository: PreviewRepository())
-		TodoRow(todo: .previewUrgent, repository: PreviewRepository())
-		TodoRow(todo: .previewDone, repository: PreviewRepository())
-	}
-	.padding(8)
-}
+//#Preview {
+//	VStack(spacing: 32) {
+//		TodoRow(todo: .preview, repository: PreviewRepository())
+//		TodoRow(todo: .previewImportant, repository: PreviewRepository())
+//		TodoRow(todo: .previewUrgent, repository: PreviewRepository())
+//		TodoRow(todo: .previewDone, repository: PreviewRepository())
+//	}
+//	.padding(8)
+//}
 
 
 #Preview {

@@ -19,11 +19,11 @@ public class PersistentTodoRepository: TodoRepository {
 	
 	private let container: PersistentContainer
 
-	public func update(isImportant: Bool, of todoID: TodoListDomain.Todo.ID) {
+	public func update(isImportant: Bool, of todoID: UUID) {
 		update(\.isImportant, value: isImportant, on: todoID)
 	}
 	
-	public func update(isDone: Bool, of todoID: TodoListDomain.Todo.ID) {
+	public func update(isDone: Bool, of todoID: UUID) {
 		if isDone {
 			update(\.dueDate, value: .now, on: todoID)
 		} else {
@@ -31,11 +31,11 @@ public class PersistentTodoRepository: TodoRepository {
 		}
 	}
 	
-	public func update(title: String, of todoID: TodoListDomain.Todo.ID) {
+	public func update(title: String, of todoID: UUID) {
 		update(\.title, value: title, on: todoID)
 	}
 	
-	public func update(dueDate: Date?, of todoID: TodoListDomain.Todo.ID) {
+	public func update(dueDate: Date?, of todoID: UUID) {
 		update(\.dueDate, value: dueDate, on: todoID)
 	}
 	

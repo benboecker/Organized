@@ -9,10 +9,10 @@ import Foundation
 
 
 public protocol TodoRepository {
-	func update(isImportant: Bool, of todoID: Todo.ID)
-	func update(isDone: Bool, of todoID: Todo.ID)
-	func update(title: String, of todoID: Todo.ID)
-	func update(dueDate: Date?, of todoID: Todo.ID)
+	func update(isImportant: Bool, of todoID: UUID)
+	func update(isDone: Bool, of todoID: UUID)
+	func update(title: String, of todoID: UUID)
+	func update(dueDate: Date?, of todoID: UUID)
 	
 	func delete(todoID: UUID)
 	

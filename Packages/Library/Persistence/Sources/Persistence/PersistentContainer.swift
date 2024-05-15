@@ -10,6 +10,8 @@ import CoreData
 import Combine
 import UIKit
 import OSLog
+import DemoData
+
 
 
 public class PersistentContainer {
@@ -111,7 +113,20 @@ public extension PersistentContainer {
 			
 			guard count == 0 else { return }
 			
-			DemoData.create(in: context)
+				let demoTodos = DemoData.todos
+				
+				for todo in demoTodos {
+					let newTodo = StoredTodo(context: context)
+					newTodo.id = UUID()
+					newTodo.createdDate = todo.createdDate
+					newTodo.doneDate = todo.doneDate
+					newTodo.dueDate = todo.dueDate
+					newTodo.isImportant = todo.isImportant
+					newTodo.title = todo.title
+				}
+				
+				try! context.save()
+
 		}
 	}
 	

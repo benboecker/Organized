@@ -14,5 +14,15 @@ public extension Collection {
 	func count(where predicate: (Element) -> Bool) -> Int {
 		filter(predicate).count
 	}
+	
 }
 
+public extension Array {
+	mutating func extract(_ isIncluded: (Element) -> Bool) -> [Element] {
+		let extracted = filter(isIncluded)
+		removeAll(where: isIncluded)
+		
+		return extracted
+	}
+
+}

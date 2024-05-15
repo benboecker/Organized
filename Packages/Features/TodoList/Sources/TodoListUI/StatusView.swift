@@ -12,14 +12,14 @@ import Styleguide
 
 
 struct StatusView: View {
-	init(isDone: Binding<Bool>, priority: Todo.Priority) {
+	init(isDone: Binding<Bool>, priority: TodoListEntry.Priority) {
 		self._isDone = isDone
 		self.priority = priority
 	}
 	
 	@Environment(\.styleguide) private var styleguide
 	@Binding private var isDone: Bool
-	private let priority: Todo.Priority
+	private let priority: TodoListEntry.Priority
 
 	var body: some View {
 		Button {
@@ -40,7 +40,7 @@ struct StatusView: View {
 		case (true, _): styleguide[\.secondaryText]
 		case (false, .normal): styleguide[\.primaryText]
 		case (false, .important): styleguide[\.accent]
-		case (false, .urgent): styleguide[\.accent]
+		case (false, .overdue): styleguide[\.accent]
 		}
 	}
 
@@ -49,7 +49,7 @@ struct StatusView: View {
 		case (true, _): .monochrome
 		case (false, .normal): .monochrome
 		case (false, .important): .palette
-		case (false, .urgent): .monochrome
+		case (false, .overdue): .monochrome
 		}
 	}
 
@@ -58,19 +58,19 @@ struct StatusView: View {
 		case (true, _): "checkmark.circle"
 		case (false, .normal): "circle"
 		case (false, .important): "exclamationmark.circle"
-		case (false, .urgent): "exclamationmark.circle"
+		case (false, .overdue): "exclamationmark.circle"
 		}
 	}
 }
 
 private struct StatusPreview: View {
-	init(isDone: Bool, priority: Todo.Priority) {
+	init(isDone: Bool, priority: TodoListEntry.Priority) {
 		self._isDone = State(initialValue: isDone)
 		self.priority = priority
 	}
 
 	@State private var isDone: Bool
-	private let priority: Todo.Priority
+	private let priority: TodoListEntry.Priority
 
 	var body: some View {
 		StatusView(isDone: $isDone, priority: priority)
@@ -90,7 +90,7 @@ private struct StatusPreview: View {
 				.font(.headline)
 		}
 		HStack {
-			StatusPreview(isDone: false, priority: .urgent)
+			StatusPreview(isDone: false, priority: .overdue)
 			Text("Urgent")
 				.font(.headline)
 		}

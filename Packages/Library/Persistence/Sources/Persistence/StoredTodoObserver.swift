@@ -23,12 +23,12 @@ public class StoredTodoObserver: NSObject, NSFetchedResultsControllerDelegate {
 		
 	public init(context: NSManagedObjectContext) {
 		let fetchRequest = NSFetchRequest<StoredTodo>(entityName: StoredTodo.entity().name!)
+				
 		fetchRequest.sortDescriptors = [
 			NSSortDescriptor(keyPath: \StoredTodo.isImportant, ascending: false),
 			NSSortDescriptor(keyPath: \StoredTodo.createdDate, ascending: true),
 		]
 		let startOfToday = Calendar.current.startOfDay(for: .now)
-//		fetchRequest.predicate = NSPredicate(format: "doneDate == NULL")
 		fetchRequest.predicate = NSPredicate(format: "doneDate == NULL || doneDate > %@", startOfToday as CVarArg)
 		
 		self.fetchedResultsController = NSFetchedResultsController<StoredTodo>(
