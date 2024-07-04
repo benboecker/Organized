@@ -9,6 +9,8 @@ import Foundation
 
 
 public protocol TodoListProvider {
+	var sections: [TodoSection] { get }
+	
 	var entries: [TodoListEntry] { get }
 	
 	func toggleDateExcluded(_ date: Date)

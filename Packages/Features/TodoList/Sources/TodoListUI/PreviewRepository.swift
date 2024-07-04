@@ -17,6 +17,7 @@ class PreviewRepository: TodoListProvider, TodoRepository {
 	}
 	
 	var entries: [TodoListEntry] = []
+	var sections: [TodoSection] = []
 	
 	func toggleDateExcluded(_ date: Date) {
 		
@@ -72,6 +73,27 @@ extension [TodoListEntry] {
 		.item(id: UUID(), title: "Einen neuen Podcast entdecken und anhören", isDone: false, priority: .normal),
 		.headline(date: .now.addingTimeInterval(86400 * 6), isExcluded: false),
 		.item(id: UUID(), title: "Frühjahrsputz in der Wohnung durchführen", isDone: false, priority: .normal),
-		
 	] }
+}
+
+extension [TodoSection] {
+	static let preview: [TodoSection] = [
+		TodoSection(date: .startOfToday, todos: [
+			Todo(isDone: false, priority: .overdue,   title: "Geburtstagsgeschenk für Mama besorgen"),
+			Todo(isDone: false, priority: .important, title: "Gartenarbeit - Pflanzen gießen und Unkraut jäten"),
+			Todo(isDone: true,  priority: .important, title: "Neue Sprache lernen - Spanisch"),
+		]),
+		TodoSection(date: .startOfToday.addingTimeInterval(86400 * 1), todos: [
+			Todo(isDone: false, priority: .important, title: "Reise nach Paris planen"),
+			Todo(isDone: true,  priority: .important, title: "Buch über Selbstverbesserung lesen"),
+			Todo(isDone: false, priority: .normal,    title: "Investitionsmöglichkeiten recherchieren"),
+			Todo(isDone: false, priority: .normal,    title: "Wochenendtrip in die Berge buchen"),
+		]),
+	]
+}
+
+
+
+extension Date {
+	static var startOfToday: Date { Calendar.current.startOfDay(for: .now) }
 }

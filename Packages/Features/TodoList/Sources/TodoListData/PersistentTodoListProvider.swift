@@ -28,7 +28,7 @@ public class PersistentTodoListProvider: TodoListProvider {
 	
 	private let observer: StoredTodoObserver
 	public var entries: [TodoListEntry] = []
-		
+	public var sections: [TodoSection] = []
 	public func toggleDateExcluded(_ date: Date) {
 		if ExcludedDates.contains(date) {
 			ExcludedDates.remove(date: date)
