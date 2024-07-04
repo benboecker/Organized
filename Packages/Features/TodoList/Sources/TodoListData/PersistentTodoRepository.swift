@@ -25,9 +25,9 @@ public class PersistentTodoRepository: TodoRepository {
 	
 	public func update(isDone: Bool, of todoID: UUID) {
 		if isDone {
-			update(\.dueDate, value: .now, on: todoID)
+			update(\.doneDate, value: .now, on: todoID)
 		} else {
-			update(\.dueDate, value: nil, on: todoID)
+			update(\.doneDate, value: nil, on: todoID)
 		}
 	}
 	

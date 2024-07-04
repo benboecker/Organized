@@ -42,6 +42,7 @@ struct CompositionRoot: View {
 			) { date in
 				newTodoDate = date
 			}
+			.clipShape(.rect(cornerRadius: 12))
 			
 			NewTodoButton()
 		}
@@ -60,18 +61,18 @@ struct CompositionRoot: View {
 		.onAppear {
 			persistentContainer.createDemoData()
 		}
+		.environment(\.styleguide, .organized)
 	}
 }
 
 
-extension Date: Identifiable {
+extension Date: @retroactive Identifiable {
 	public var id: String {
 		formatted()
 	}
 }
 
 private extension CompositionRoot {
-	
 	private func NewTodoButton() -> some View {
 		Button {
 //			withAnimation(.snappy) {
@@ -91,10 +92,8 @@ private extension CompositionRoot {
 				.padding(.bottom)
 		}
 	}
-
 	
 }
-
 
 
 #Preview {

@@ -14,8 +14,9 @@ let package = Package(
 	dependencies: [
 		.package(name: "DemoData", path: "../Library/DemoData"),
 		.package(name: "Persistence", path: "../Library/Persistence"),
-		.package(name: "Styleguide", path: "../Library/Styleguide"),
+		.package(name: "Styleguide", path: "../../../../../Packages/Styleguide"),
 		.package(name: "SharedComponents", path: "../Library/SharedComponents"),
+		.package(name: "SwiftUITools", path: "../../../../../Packages/SwiftUITools"),
 		.package(name: "Utils", path: "../Library/Utils"),
 	],
 	targets: [
@@ -28,6 +29,7 @@ let package = Package(
 		.target(name: "TodoListUI", dependencies: [
 			.product(name: "DemoData", package: "DemoData"),
 			.product(name: "Styleguide", package: "Styleguide"),
+			.product(name: "SwiftUITools", package: "SwiftUITools"),
 			.product(name: "SharedComponents", package: "SharedComponents"),
 			.product(name: "Utils", package: "Utils"),
 			"TodoListDomain",

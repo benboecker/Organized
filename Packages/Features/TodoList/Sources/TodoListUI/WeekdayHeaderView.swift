@@ -36,17 +36,17 @@ struct WeekdayHeaderView: View {
 		} label: {
 			HStack {
 				Text(date, format: .dateTime.weekday(.wide))
-					.font(styleguide[\.title])
-					.foregroundStyle(styleguide[\.primaryText])
+					.font(styleguide.title)
+					.foregroundStyle(styleguide.primaryText)
 				
 				Text(date, format: .dateTime.day().month(.wide))
-					.font(styleguide[\.title])
-					.foregroundStyle(styleguide[\.secondaryText])
+					.font(styleguide.title)
+					.foregroundStyle(styleguide.secondaryText)
 				
 				Image(systemName: "ellipsis.circle.fill")
 					.font(.headline)
 					.symbolRenderingMode(.hierarchical)
-					.foregroundStyle(styleguide[\.secondaryText])
+					.foregroundStyle(styleguide.secondaryText)
 					.padding(.leading, 4)
 				Spacer()
 			}

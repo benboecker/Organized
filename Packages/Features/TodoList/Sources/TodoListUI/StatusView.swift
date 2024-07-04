@@ -30,17 +30,17 @@ struct StatusView: View {
 			Image(systemName: imageName)
 				.font(.title2)
 				.symbolRenderingMode(symbolRenderingMode)
-				.foregroundStyle(foregroundStyle, styleguide[\.primaryText])
+				.foregroundStyle(foregroundStyle, styleguide.primaryText)
 				.frame(minWidth: 44, minHeight: 44)
 		}
     }
 
 	private var foregroundStyle: Color {
 		switch (isDone, priority) {
-		case (true, _): styleguide[\.secondaryText]
-		case (false, .normal): styleguide[\.primaryText]
-		case (false, .important): styleguide[\.accent]
-		case (false, .overdue): styleguide[\.accent]
+		case (true, _): styleguide.secondaryText
+		case (false, .normal): styleguide.primaryText
+		case (false, .important): styleguide.accent
+		case (false, .overdue): styleguide.accent
 		}
 	}
 
@@ -103,4 +103,5 @@ private struct StatusPreview: View {
 	}
 	.frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
 	.padding()
+	.styledPreview()
 }

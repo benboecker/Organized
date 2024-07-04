@@ -13,8 +13,9 @@ let package = Package(
 	],
 	dependencies: [
 		.package(name: "Persistence", path: "../Library/Persistence"),
-		.package(name: "Styleguide", path: "../Library/Styleguide"),
+		.package(name: "Styleguide", path: "../../../../../Packages/Styleguide"),
 		.package(name: "SharedComponents", path: "../Library/SharedComponents"),
+		.package(name: "SwiftUITools", path: "../../../../../Packages/SwiftUITools"),
 	],
 	targets: [
 		.target(name: "NewTodoData", dependencies: [
@@ -24,6 +25,7 @@ let package = Package(
 		.target(name: "NewTodoDomain"),
 		.target(name: "NewTodoUI", dependencies: [
 			.product(name: "Styleguide", package: "Styleguide"),
+			.product(name: "SwiftUITools", package: "SwiftUITools"),
 			.product(name: "SharedComponents", package: "SharedComponents"),
 			"NewTodoDomain",
 		]),

@@ -8,6 +8,8 @@
 import SwiftUI
 import TodoListDomain
 import Utils
+import Styleguide
+import SharedComponents
 
 
 public struct TodoListView: View {
@@ -26,6 +28,7 @@ public struct TodoListView: View {
 	private let showNewTodo: (Date) -> Void
 	
 	@Environment(\.styleguide) private var styleguide
+	@FocusState private var focussedTodoID: UUID?
 	
 	public var body: some View {
 		ScrollView {
@@ -48,17 +51,24 @@ public struct TodoListView: View {
 						if isExcluded {
 							ContentUnavailableView {
 								Label("Keine Aufgaben", systemImage: "beach.umbrella")
-									.font(styleguide[\.title])
+									.font(styleguide.title)
 							} description: {
 								Text("Entspann dich, an diesem Tag gibt es keine Aufgaben.")
-									.font(styleguide[\.body])
+									.font(styleguide.body)
 									.padding(.horizontal)
 									.padding(.top, 8)
 							}
 						}
 						
 					case let .item(id, title, isDone, priority):
-						TodoRow(id: id, title: title, isDone: isDone, priority: priority, repository: todoRepository)
+						TodoRow(
+							id: id,
+							title: title,
+							isDone: isDone,
+							priority: priority,
+							repository: todoRepository,
+							focussed: $focussedTodoID
+						)
 							.padding(.horizontal, 12)
 							.contextMenu {
 								if !isDone {
@@ -67,8 +77,12 @@ public struct TodoListView: View {
 							}
 					}
 				}
+			}		
+			.toolbar {
+				ToolbarItems()
 			}
 			.animation(.snappy, value: weekdayProvider.entries)
+			.padding(.bottom, styleguide.extraLarge)
 		}
 	}
 	
@@ -102,6 +116,41 @@ public struct TodoListView: View {
 			Label("Löschen", systemImage: "trash")
 		}
 	}
+	
+	func ToolbarItems() -> some ToolbarContent {
+		ToolbarItemGroup(placement: .keyboard) {
+			Button {
+				if let focussedTodoID {
+					self.focussedTodoID = weekdayProvider.id(before: focussedTodoID)
+				}
+			} label: {
+				Label("Zurück", systemImage: "arrow.up")
+			}
+			.tint(styleguide.primaryText)
+			
+			Color.clear.frame(width: 10)
+			
+			Button {
+				if let focussedTodoID {
+					self.focussedTodoID = weekdayProvider.id(after: focussedTodoID)
+				}
+			} label: {
+				Label("Weiter", systemImage: "arrow.down")
+					.padding(.leading, 10)
+			}
+			.tint(styleguide.primaryText)
+
+			Spacer()
+			
+			Button {
+				UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+			} label: {
+				Label("Fertig", systemImage: "keyboard.chevron.compact.down")
+			}
+			.tint(styleguide.primaryText)
+		}
+		
+	}
 }
 
 #Preview {
@@ -109,4 +158,5 @@ public struct TodoListView: View {
 		todoRepository: PreviewRepository(),
 		weekdayProvider: PreviewRepository()
 	) { _ in }
+		.styledPreview()
 }

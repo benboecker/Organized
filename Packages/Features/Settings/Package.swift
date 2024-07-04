@@ -11,12 +11,18 @@ let package = Package(
 		.library(name: "SettingsDomain", targets: ["SettingsDomain"]),
 		.library(name: "SettingsUI", targets: ["SettingsUI"]),
 	],
+	dependencies: [
+		.package(name: "Styleguide", path: "../../../../../Packages/Styleguide"),
+		.package(name: "SwiftUITools", path: "../../../../../Packages/SwiftUITools"),
+	],
 	targets: [
 		.target(name: "SettingsData", dependencies: [
 			"SettingsDomain",
 		]),
 		.target(name: "SettingsDomain"),
 		.target(name: "SettingsUI", dependencies: [
+			.product(name: "Styleguide", package: "Styleguide"),
+			.product(name: "SwiftUITools", package: "SwiftUITools"),
 			"SettingsDomain",
 		]),
 		.testTarget(

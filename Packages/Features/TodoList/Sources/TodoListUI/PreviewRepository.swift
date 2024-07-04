@@ -43,7 +43,6 @@ class PreviewRepository: TodoListProvider, TodoRepository {
 	}
 }
 
-
 extension [TodoListEntry] {
 	static var preview: [TodoListEntry] { [
 		.headline(date: .now, isExcluded: false),
