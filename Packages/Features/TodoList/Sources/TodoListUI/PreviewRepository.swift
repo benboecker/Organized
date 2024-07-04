@@ -13,7 +13,8 @@ class PreviewRepository: TodoListProvider, TodoRepository {
 	
 	
 	init() {
-		self.entries = .preview
+		self.entries  = .preview
+		self.sections = .preview
 	}
 	
 	var entries: [TodoListEntry] = []
@@ -84,6 +85,8 @@ extension [TodoSection] {
 			Todo(isDone: true,  priority: .important, title: "Neue Sprache lernen - Spanisch"),
 		]),
 		TodoSection(date: .startOfToday.addingTimeInterval(86400 * 1), todos: [
+		]),
+		TodoSection(date: .startOfToday.addingTimeInterval(86400 * 2), todos: [
 			Todo(isDone: false, priority: .important, title: "Reise nach Paris planen"),
 			Todo(isDone: true,  priority: .important, title: "Buch über Selbstverbesserung lesen"),
 			Todo(isDone: false, priority: .normal,    title: "Investitionsmöglichkeiten recherchieren"),

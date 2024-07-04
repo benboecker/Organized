@@ -12,14 +12,14 @@ import Styleguide
 
 
 struct StatusView: View {
-	init(isDone: Binding<Bool>, priority: TodoListEntry.Priority) {
+	init(isDone: Binding<Bool>, priority: Todo.Priority) {
 		self._isDone = isDone
 		self.priority = priority
 	}
 	
 	@Environment(\.styleguide) private var styleguide
 	@Binding private var isDone: Bool
-	private let priority: TodoListEntry.Priority
+	private let priority: Todo.Priority
 
 	var body: some View {
 		Button {
@@ -31,7 +31,7 @@ struct StatusView: View {
 				.font(.title2)
 				.symbolRenderingMode(symbolRenderingMode)
 				.foregroundStyle(foregroundStyle, styleguide.primaryText)
-				.frame(minWidth: 44, minHeight: 44)
+//				.frame(minWidth: 44, minHeight: 44)
 		}
     }
 
@@ -64,13 +64,13 @@ struct StatusView: View {
 }
 
 private struct StatusPreview: View {
-	init(isDone: Bool, priority: TodoListEntry.Priority) {
+	init(isDone: Bool, priority: Todo.Priority) {
 		self._isDone = State(initialValue: isDone)
 		self.priority = priority
 	}
 
 	@State private var isDone: Bool
-	private let priority: TodoListEntry.Priority
+	private let priority: Todo.Priority
 
 	var body: some View {
 		StatusView(isDone: $isDone, priority: priority)

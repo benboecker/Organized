@@ -13,7 +13,7 @@ import Styleguide
 
 
 struct TodoRow: View {
-	init(id: UUID, title: String, isDone: Bool, priority: TodoListEntry.Priority, repository: TodoRepository, focussed: FocusState<UUID?>.Binding) {
+	init(id: UUID, title: String, isDone: Bool, priority: Todo.Priority, repository: TodoRepository, focussed: FocusState<UUID?>.Binding) {
 		self.originalTitle = title
 		self._title = State(initialValue: title)
 		self.isDone = isDone
@@ -26,7 +26,7 @@ struct TodoRow: View {
 	private let originalTitle: String
 	@State private var title: String
 	private var isDone: Bool
-	@State private var priority: TodoListEntry.Priority
+	@State private var priority: Todo.Priority
 	@Environment(\.styleguide) private var styleguide
 	private let repository: TodoRepository
 	private let id: UUID
@@ -34,7 +34,7 @@ struct TodoRow: View {
 
 	
 	var body: some View {
-		HStack(alignment: .center, spacing: 4) {
+		HStack(alignment: .center, spacing: styleguide.large) {
 			StatusView(isDone: Binding(get: {
 				isDone
 			}, set: {

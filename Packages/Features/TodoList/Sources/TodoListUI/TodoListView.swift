@@ -32,56 +32,49 @@ public struct TodoListView: View {
 	
 	public var body: some View {
 		ScrollView {
-			LazyVStack(spacing: 8) {
-				ForEach(weekdayProvider.entries, id: \.self) { entry in
-					switch entry {
-					case let .headline(date, isExcluded):
-						WeekdayHeaderView(
-							date: date,
-							weekdayProvider: weekdayProvider,
-							isExcluded: isExcluded
-						) { date in
-							showNewTodo(date)
-						}
-						.padding(.horizontal, 58)
-						.padding(.top, 24)
-						.padding(.bottom, 12)
-						.offset(y: 8)
-						
-						if isExcluded {
+			LazyVStack(spacing: styleguide.large) {
+				ForEach(weekdayProvider.sections) { section in
+					Section {
+						if section.todos.isEmpty {
 							ContentUnavailableView {
-								Label("Keine Aufgaben", systemImage: "beach.umbrella")
+								Label(section.date.formatted(.dateTime.weekday().day().month()), systemImage: "beach.umbrella")
 									.font(styleguide.title)
 							} description: {
 								Text("Entspann dich, an diesem Tag gibt es keine Aufgaben.")
 									.font(styleguide.body)
 									.padding(.horizontal)
-									.padding(.top, 8)
+							}
+							.padding(.top, styleguide.medium)
+							.padding(.bottom, -styleguide.large)
+						} else {
+							ForEach(section.todos) { todo in
+								TodoRow(
+									id: todo.id,
+									title: todo.title,
+									isDone: todo.isDone,
+									priority: todo.priority,
+									repository: todoRepository,
+									focussed: $focussedTodoID
+								)
 							}
 						}
-						
-					case let .item(id, title, isDone, priority):
-						TodoRow(
-							id: id,
-							title: title,
-							isDone: isDone,
-							priority: priority,
-							repository: todoRepository,
-							focussed: $focussedTodoID
-						)
-							.padding(.horizontal, 12)
-							.contextMenu {
-								if !isDone {
-									TodoContextMenu(id: id, priority: priority)
-								}
+					} header: {
+						if section.todos.hasContent {
+							WeekdayHeaderView(date: section.date, weekdayProvider: weekdayProvider, isExcluded: section.todos.isEmpty) { date in
+								showNewTodo(date)
 							}
+							.padding(.top, styleguide.extraLarge)
+							.padding(.leading, 42)
+						}
 					}
 				}
 			}		
-			.toolbar {
-				ToolbarItems()
-			}
+//			.toolbar {
+//				ToolbarItems()
+//			}
 			.animation(.snappy, value: weekdayProvider.entries)
+			.padding(.horizontal, styleguide.large)
+			.padding(.leading, styleguide.extraSmall)
 			.padding(.bottom, styleguide.extraLarge)
 		}
 	}
