@@ -43,16 +43,10 @@ struct CompositionRoot: View {
 			NewTodoButton()
 		}
 		.sheet(item: $newTodoDate) { newTodoDate in
-			NewTodoView(
-				newTodoCreation: newTodoCreation,
-				dueDate: newTodoDate
-			)
+			NewTodoView(dueDate: newTodoDate)
 		}
 		.sheet(isPresented: $showNewTodo) {
-			NewTodoView(
-				newTodoCreation: newTodoCreation,
-				dueDate: newTodoDate
-			)
+			NewTodoView(dueDate: newTodoDate)
 		}
 		.onAppear {
 			persistentContainer.createDemoData()
@@ -60,6 +54,7 @@ struct CompositionRoot: View {
 		.environment(\.styleguide, .organized)
 		.environment(\.todoRepository, PersistentTodoRepository(container: persistentContainer))
 		.environment(\.weekdayProvider, PersistentTodoListProvider(persistentContainer: persistentContainer))
+		.environment(\.newTodoCreation, newTodoCreation)
 	}
 }
 

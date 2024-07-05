@@ -12,9 +12,7 @@ import NewTodoDomain
 
 
 public struct NewTodoView: View {
-	public init(newTodoCreation: NewTodoCreation, dueDate: Date? = nil) {
-		self.newTodoCreation = newTodoCreation
-
+	public init(dueDate: Date? = nil) {
 		if let dueDate {
 			self._hasDateSelected = State(initialValue: true)
 			self._selectedDate = State(initialValue: dueDate)
@@ -27,9 +25,7 @@ public struct NewTodoView: View {
 	enum Screen {
 		case dateSelection
 	}
-	
-	let newTodoCreation: NewTodoCreation
-	
+		
 	@State private var path: [Screen] = []
 	@State private var title: String = ""
 	@State private var isImportant: Bool = false
@@ -38,7 +34,8 @@ public struct NewTodoView: View {
 	
 	@Environment(\.dismiss) private var dismiss
 	@Environment(\.styleguide) private var styleguide
-
+	@Environment(\.newTodoCreation) private var newTodoCreation
+	
 	public var body: some View {
 		NavigationStack(path: $path) {
 			Content()
@@ -185,14 +182,16 @@ private extension NewTodoView {
 	}
 }
 
-
-
-#Preview {
-	NewTodoView(newTodoCreation: PreviewTodoCreation())
+public extension EnvironmentValues {
+	@Entry var newTodoCreation: NewTodoCreation = PreviewTodoCreation()
 }
 
 #Preview {
-	NewTodoView(newTodoCreation: PreviewTodoCreation(), dueDate: .now.addingTimeInterval(86400))
+	NewTodoView()
+}
+
+#Preview {
+	NewTodoView(dueDate: .now.addingTimeInterval(86400))
 }
 
 class PreviewTodoCreation: NewTodoCreation {
