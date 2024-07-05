@@ -36,13 +36,9 @@ struct CompositionRoot: View {
 	
 	var body: some View {
 		ZStack(alignment: .bottomTrailing) {
-			TodoListView(
-				todoRepository: todoRepository,
-				weekdayProvider: weekdayProvider
-			) { date in
+			TodoListView { date in
 				newTodoDate = date
 			}
-			.clipShape(.rect(cornerRadius: 12))
 			
 			NewTodoButton()
 		}
@@ -62,6 +58,8 @@ struct CompositionRoot: View {
 			persistentContainer.createDemoData()
 		}
 		.environment(\.styleguide, .organized)
+		.environment(\.todoRepository, PersistentTodoRepository(container: persistentContainer))
+		.environment(\.weekdayProvider, PersistentTodoListProvider(persistentContainer: persistentContainer))
 	}
 }
 
@@ -92,10 +90,4 @@ private extension CompositionRoot {
 				.padding(.bottom)
 		}
 	}
-	
-}
-
-
-#Preview {
-	CompositionRoot()
 }

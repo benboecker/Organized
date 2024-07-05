@@ -14,19 +14,15 @@ import SharedComponents
 
 public struct TodoListView: View {
 	public init(
-		todoRepository: TodoRepository,
-		weekdayProvider: TodoListProvider,
 		showNewTodo: @escaping (Date) -> Void
 	) {
-		self.weekdayProvider = weekdayProvider
-		self.todoRepository = todoRepository
 		self.showNewTodo = showNewTodo
 	}
 	
-	private let todoRepository: TodoRepository
-	private let weekdayProvider: TodoListProvider
 	private let showNewTodo: (Date) -> Void
 	
+	@Environment(\.todoRepository) private var todoRepository
+	@Environment(\.weekdayProvider) private var weekdayProvider
 	@Environment(\.styleguide) private var styleguide
 	@FocusState private var focussedTodoID: UUID?
 	
@@ -36,16 +32,8 @@ public struct TodoListView: View {
 				ForEach(weekdayProvider.sections) { section in
 					Section {
 						if section.todos.isEmpty {
-							ContentUnavailableView {
-								Label(section.date.formatted(.dateTime.weekday().day().month()), systemImage: "beach.umbrella")
-									.font(styleguide.title)
-							} description: {
-								Text("Entspann dich, an diesem Tag gibt es keine Aufgaben.")
-									.font(styleguide.body)
-									.padding(.horizontal)
-							}
-							.padding(.top, styleguide.medium)
-							.padding(.bottom, -styleguide.large)
+							EmptyDayView(date: section.date, isExcluded: section.todos.isEmpty)
+								.padding(.vertical, styleguide.extraLarge)
 						} else {
 							ForEach(section.todos) { todo in
 								TodoRow(
@@ -67,6 +55,7 @@ public struct TodoListView: View {
 							.padding(.leading, 42)
 						}
 					}
+					Divider()
 				}
 			}		
 //			.toolbar {
@@ -147,9 +136,13 @@ public struct TodoListView: View {
 }
 
 #Preview {
-	TodoListView(
-		todoRepository: PreviewRepository(),
-		weekdayProvider: PreviewRepository()
-	) { _ in }
+	TodoListView { _ in }
 		.styledPreview()
 }
+
+
+public extension EnvironmentValues {
+	@Entry var todoRepository: TodoRepository = PreviewRepository()
+	@Entry var weekdayProvider: TodoListProvider = PreviewRepository()
+}
+

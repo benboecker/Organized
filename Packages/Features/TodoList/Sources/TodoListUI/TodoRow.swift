@@ -60,9 +60,6 @@ struct TodoRow: View {
 
 
 #Preview {
-	TodoListView(
-		todoRepository: PreviewRepository(),
-		weekdayProvider: PreviewRepository()
-	) { _ in }
+	TodoListView { _ in }
 		.styledPreview()
 }

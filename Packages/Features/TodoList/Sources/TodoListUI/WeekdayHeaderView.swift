@@ -8,6 +8,7 @@
 import SwiftUI
 import TodoListDomain
 import Styleguide
+import SharedComponents
 
 
 struct WeekdayHeaderView: View {
@@ -35,13 +36,7 @@ struct WeekdayHeaderView: View {
 			}
 		} label: {
 			HStack {
-				Text(date, format: .dateTime.weekday(.wide))
-					.font(styleguide.title)
-					.foregroundStyle(styleguide.primaryText)
-				
-				Text(date, format: .dateTime.day().month(.wide))
-					.font(styleguide.title)
-					.foregroundStyle(styleguide.secondaryText)
+				WeekdayView(date: date)
 				
 				Image(systemName: "ellipsis.circle.fill")
 					.font(.headline)
@@ -61,6 +56,7 @@ struct WeekdayHeaderView: View {
 		isExcluded: true
 	) { _ in }
 		.padding()
+		.styledPreview()
 }
 
 #Preview {
@@ -70,12 +66,11 @@ struct WeekdayHeaderView: View {
 		isExcluded: false
 	) { _ in }
 		.padding()
+		.styledPreview()
 }
 
 #Preview {
-	TodoListView(
-		todoRepository: PreviewRepository(),
-		weekdayProvider: PreviewRepository()
-	) { _ in }
+	TodoListView { _ in }
+		.styledPreview()
 }
 
