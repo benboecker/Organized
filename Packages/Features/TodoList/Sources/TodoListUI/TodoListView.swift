@@ -61,7 +61,7 @@ public struct TodoListView: View {
 //			.toolbar {
 //				ToolbarItems()
 //			}
-			.animation(.snappy, value: weekdayProvider.entries)
+			.animation(.snappy, value: weekdayProvider.sections)
 			.padding(.horizontal, styleguide.large)
 			.padding(.leading, styleguide.extraSmall)
 			.padding(.bottom, styleguide.extraLarge)
@@ -69,7 +69,7 @@ public struct TodoListView: View {
 	}
 	
 	@ViewBuilder
-	func TodoContextMenu(id: UUID, priority: TodoListEntry.Priority) -> some View {
+	func TodoContextMenu(id: UUID, priority: Todo.Priority) -> some View {
 		if priority == .normal {
 			Button {
 				todoRepository.update(isImportant: true, of: id)
