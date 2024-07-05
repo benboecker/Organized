@@ -188,10 +188,12 @@ public extension EnvironmentValues {
 
 #Preview {
 	NewTodoView()
+		.styledPreview()
 }
 
 #Preview {
 	NewTodoView(dueDate: .now.addingTimeInterval(86400))
+		.styledPreview()
 }
 
 class PreviewTodoCreation: NewTodoCreation {

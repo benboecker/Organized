@@ -15,7 +15,6 @@ import SwiftUI
 
 @Observable
 public class PersistentTodoListProvider: TodoListProvider {
-	
 	public init(persistentContainer: PersistentContainer) {
 		self.observer = StoredTodoObserver(
 			context: persistentContainer.mainContext

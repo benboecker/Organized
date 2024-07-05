@@ -6,7 +6,8 @@
 //
 
 import SwiftUI
-
+import SharedComponents
+import Styleguide
 
 
 struct DateSelection: View {
@@ -23,4 +24,5 @@ struct DateSelection: View {
 
 #Preview {
 	DateSelection(selectedDate: .constant(.now))
+		.styledPreview()
 }

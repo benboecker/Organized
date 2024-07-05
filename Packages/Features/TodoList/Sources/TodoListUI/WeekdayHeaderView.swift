@@ -13,11 +13,11 @@ import SharedComponents
 
 struct WeekdayHeaderView: View {
 	let date: Date
-	let weekdayProvider: TodoListProvider
 	let isExcluded: Bool
 	let newTodo: (Date) -> Void
 	
 	@Environment(\.styleguide) private var styleguide
+	@Environment(\.weekdayProvider) private var weekdayProvider
 	
     var body: some View {
 		Menu {
@@ -52,7 +52,6 @@ struct WeekdayHeaderView: View {
 #Preview {
 	WeekdayHeaderView(
 		date: .now,
-		weekdayProvider: PreviewRepository(),
 		isExcluded: true
 	) { _ in }
 		.padding()
@@ -62,7 +61,6 @@ struct WeekdayHeaderView: View {
 #Preview {
 	WeekdayHeaderView(
 		date: .now,
-		weekdayProvider: PreviewRepository(),
 		isExcluded: false
 	) { _ in }
 		.padding()
