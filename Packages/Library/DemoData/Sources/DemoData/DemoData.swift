@@ -49,7 +49,7 @@ public extension DemoData {
 		Todo(title: "Arzttermin für Impfung vereinbaren",               isImportant: true,   dueInDays: 7,   doneDaysAgo: nil, createdDaysAgo: 18),
 		Todo(title: "Fahrrad zur Reparatur bringen",                    isImportant: false,  dueInDays: nil, doneDaysAgo: 0,   createdDaysAgo: 17),
 		Todo(title: "Buch über Selbstverbesserung lesen",               isImportant: false,  dueInDays: 1,   doneDaysAgo: nil, createdDaysAgo: 16),
-		Todo(title: "Mit dem Laufen beginnen",                          isImportant: false,   dueInDays: nil, doneDaysAgo: nil, createdDaysAgo: 15),
+		Todo(title: "Mit dem Laufen beginnen",                          isImportant: false,  dueInDays: nil, doneDaysAgo: nil, createdDaysAgo: 15),
 		Todo(title: "Reise nach Paris planen",                          isImportant: true,   dueInDays: 1,   doneDaysAgo: nil, createdDaysAgo: 14),
 		Todo(title: "Wichtige Dokumente scannen und speichern",         isImportant: false,  dueInDays: nil, doneDaysAgo: nil, createdDaysAgo: 13),
 		Todo(title: "Neue Sprache lernen - Spanisch",                   isImportant: false,  dueInDays: 0,   doneDaysAgo: nil, createdDaysAgo: 12),

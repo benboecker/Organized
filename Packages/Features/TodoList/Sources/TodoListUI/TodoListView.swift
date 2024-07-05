@@ -48,7 +48,7 @@ public struct TodoListView: View {
 						}
 					} header: {
 						if section.todos.hasContent {
-							WeekdayHeaderView(date: section.date, isExcluded: section.todos.isEmpty) { date in
+							WeekdayHeaderView(date: section.date, isExcluded: section.isExcluded) { date in
 								showNewTodo(date)
 							}
 							.padding(.top, styleguide.extraLarge)

@@ -33,13 +33,15 @@ package extension Todo {
 
 
 public struct TodoSection: Identifiable, Hashable {
-	package init(date: Date, todos: [Todo]) {
+	package init(date: Date, isExcluded: Bool, todos: [Todo]) {
 		self.date = date
 		self.todos = todos
+		self.isExcluded = isExcluded
 	}
 	
 	package let date: Date
 	package let todos: [Todo]
+	package let isExcluded: Bool
 	
 	public var id: String {
 		date.formatted()

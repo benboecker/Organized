@@ -46,11 +46,13 @@ public class PersistentTodoListProvider: TodoListProvider {
 
 private extension PersistentTodoListProvider {
 	func createWeekdays(from storedTodos: [StoredTodo]) {
-//		let calendar = Calendar.current
-//		let startOfToday = calendar.startOfDay(for: .now)
-//		
-//		var todos = storedTodos
-//		
+		
+		
+		let calendar = Calendar.current
+		let startOfToday = calendar.startOfDay(for: .now)
+		
+		var todos = storedTodos
+		
 //		var entries: [TodoListEntry] = []
 //		var todoCount = 0
 //		var currentDate = Date.now
