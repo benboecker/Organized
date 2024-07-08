@@ -36,14 +36,7 @@ public struct TodoListView: View {
 								.padding(.vertical, styleguide.extraLarge)
 						} else {
 							ForEach(section.todos) { todo in
-								TodoRow(
-									id: todo.id,
-									title: todo.title,
-									isDone: todo.isDone,
-									priority: todo.priority,
-									repository: todoRepository,
-									focussed: $focussedTodoID
-								)
+								TodoRow(todo: todo, focussed: $focussedTodoID)
 							}
 						}
 					} header: {

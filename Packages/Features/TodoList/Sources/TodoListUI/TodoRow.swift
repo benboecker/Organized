@@ -13,51 +13,46 @@ import Styleguide
 
 
 struct TodoRow: View {
-	init(id: UUID, title: String, isDone: Bool, priority: Todo.Priority, repository: TodoRepository, focussed: FocusState<UUID?>.Binding) {
-		self.originalTitle = title
-		self._title = State(initialValue: title)
-		self.isDone = isDone
-		self._priority = State(initialValue: priority)
-		self.repository = repository
-		self.id = id
+	init(todo: Todo, focussed: FocusState<UUID?>.Binding) {
+		self.todo = todo
+		self._title = State(initialValue: todo.title)
+		self._priority = State(initialValue: todo.priority)
 		self.focussed = focussed
 	}
 	
-	private let originalTitle: String
+	private let todo: Todo
+
 	@State private var title: String
-	private var isDone: Bool
 	@State private var priority: Todo.Priority
 	@Environment(\.styleguide) private var styleguide
-	private let repository: TodoRepository
-	private let id: UUID
+	@Environment(\.todoRepository) private var todoRepository
+
 	private var focussed: FocusState<UUID?>.Binding
 
-	
 	var body: some View {
 		HStack(alignment: .center, spacing: styleguide.large) {
 			StatusView(isDone: Binding(get: {
-				isDone
+				todo.isDone
 			}, set: {
-				repository.update(isDone: $0, of: id)
+				todoRepository.update(isDone: $0, of: todo.id)
 			}), priority: $priority.wrappedValue)
 			
 			TextField("", text: $title, axis: .vertical)
 				.font(styleguide.body)
-				.foregroundStyle(isDone ? styleguide.secondaryText : styleguide.primaryText)
+				.foregroundStyle(todo.isDone ? styleguide.secondaryText : styleguide.primaryText)
 				.submitLabel(.return)
-				.strikethrough(isDone, color: .secondary)
-				.disabled(isDone)
-				.focused(focussed, equals: id)
+				.strikethrough(todo.isDone, color: .secondary)
+				.disabled(todo.isDone)
+				.focused(focussed, equals: todo.id)
 				.ignoresSafeArea()
 		}
 		.onChange(of: focussed.wrappedValue) { oldValue, newValue in
-			if oldValue != newValue, oldValue == id, title != originalTitle {
-				repository.update(title: title, of: id)
-			}			
+			if oldValue != newValue, oldValue == todo.id, title != todo.title {
+				todoRepository.update(title: title, of: todo.id)
+			}
 		}
 	}
 }
-
 
 #Preview {
 	TodoListView { _ in }

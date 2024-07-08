@@ -91,7 +91,7 @@ private struct StatusPreview: View {
 		}
 		HStack {
 			StatusPreview(isDone: false, priority: .overdue)
-			Text("Urgent")
+			Text("Overdue")
 				.font(.headline)
 		}
 		HStack {

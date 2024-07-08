@@ -11,7 +11,6 @@ import TodoListDomain
 
 class PreviewRepository: TodoListProvider, TodoRepository {
 	
-	
 	init() {
 		self.sections = .preview
 	}
@@ -44,6 +43,33 @@ class PreviewRepository: TodoListProvider, TodoRepository {
 }
 
 
+extension Todo {
+	static let previewOverdue = Todo(
+		id: UUID(),
+		isDone: false,
+		priority: .overdue,
+		title: "Wäsche waschen und trocknen"
+	)
+	static let previewImportant = Todo(
+		id: UUID(),
+		isDone: false,
+		priority: .important,
+		title: "Wäsche waschen und trocknen"
+	)
+	static let previewNormal = Todo(
+		id: UUID(),
+		isDone: false,
+		priority: .overdue,
+		title: "Wäsche waschen und trocknen"
+	)
+	static let previewDone = Todo(
+		id: UUID(),
+		isDone: true,
+		priority: .normal,
+		title: "Wäsche waschen und trocknen"
+	)
+}
+
 extension [TodoSection] {
 	static let preview: [TodoSection] = [
 		TodoSection(date: .startOfToday, isExcluded: false, todos: [
@@ -65,8 +91,6 @@ extension [TodoSection] {
 		]),
 	]
 }
-
-
 
 extension Date {
 	static var startOfToday: Date { Calendar.current.startOfDay(for: .now) }
