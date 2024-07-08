@@ -25,6 +25,23 @@ class ExcludedDates {
 
 extension ExcludedDates {
 	
+	static func nextValidDate(after date: Date?) -> Date {
+		let checkDate: Date
+		
+		if let date,
+			let possibleDate = Calendar.current.date(byAdding: .day, value: 1, to: date) {
+			checkDate = possibleDate
+		} else {
+			checkDate = Calendar.current.startOfDay(for: .now).addingTimeInterval(10)
+		}
+		
+		if ExcludedDates.contains(checkDate) {
+			return nextValidDate(after: checkDate)
+		} else {
+			return checkDate
+		}
+	}
+	
 	static func contains(_ date: Date) -> Bool {
 		let excluded = ExcludedDates.shared
 		return excluded.dates.contains { excludedDate in

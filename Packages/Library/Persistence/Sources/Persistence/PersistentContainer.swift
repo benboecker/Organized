@@ -178,8 +178,14 @@ public extension PersistentContainer {
 		let fetchRequest = NSFetchRequest<Object>(entityName: Object.entity().name!)
 		fetchRequest.predicate = NSPredicate(format: "id == %@", id as CVarArg)
 		fetchRequest.fetchLimit = 1
-		let fetched = try? context.fetch(fetchRequest)
-		return fetched?.first
+		do {
+			let fetched = try context.fetch(fetchRequest)
+			return fetched.first
+		} catch {
+			print("\(error)")
+			return nil
+		}
+		
 	}
 
 	func updateObject<Object: NSManagedObject & Identifiable>(with id: Object.ID, in context: NSManagedObjectContext? = nil, configuration: (Object) -> Void) where Object.ID == UUID {

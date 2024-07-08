@@ -9,8 +9,8 @@ import Foundation
 
 
 package struct Todo: Identifiable, Hashable {
-	package init(isDone: Bool, priority: Todo.Priority, title: String) {
-		self.id = UUID()
+	package init(id: UUID, isDone: Bool, priority: Todo.Priority, title: String) {
+		self.id = id
 		self.title = title
 		self.isDone = isDone
 		self.priority = priority
@@ -28,6 +28,14 @@ package extension Todo {
 		case overdue
 		case important
 		case normal
+	}
+	
+	var isOverdue: Bool {
+		priority == .overdue
+	}
+	
+	var notOverdue: Bool {
+		!isOverdue
 	}
 }
 
@@ -47,3 +55,5 @@ public struct TodoSection: Identifiable, Hashable {
 		date.formatted()
 	}
 }
+
+

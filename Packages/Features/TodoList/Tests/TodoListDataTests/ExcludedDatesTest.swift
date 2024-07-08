@@ -11,5 +11,6 @@ final class ExcludedDatesTest: XCTestCase {
 		XCTAssertTrue(ExcludedDates.contains(.now))
 		XCTAssertFalse(ExcludedDates.contains(.now.addingTimeInterval(86_400)))
 
+		ExcludedDates.remove(date: .now)
 	}
 }

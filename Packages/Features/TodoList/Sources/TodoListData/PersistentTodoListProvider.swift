@@ -44,86 +44,82 @@ public class PersistentTodoListProvider: TodoListProvider {
 //	}
 //}
 
+
 private extension PersistentTodoListProvider {
 	func createWeekdays(from storedTodos: [StoredTodo]) {
-		
+		let overdueTodos = storedTodos.filter(\.isOverdue)
+		var todos = storedTodos.filter(\.notOverdue)
 		
 		let calendar = Calendar.current
-		let startOfToday = calendar.startOfDay(for: .now)
+		var currentDate = ExcludedDates.nextValidDate(after: nil)
+		var todoCounter = 3
+		var sections: [TodoSection] = []
+		var currentTodos: [Todo] = overdueTodos.map {
+			Todo(
+				id: $0.id,
+				isDone: $0.doneDate != nil,
+				priority: .overdue,
+				title: $0.title
+			)
+		}
 		
-		var todos = storedTodos
+		func nextDate() {
+			sections.append(TodoSection(
+				date: currentDate,
+				isExcluded: false,
+				todos: currentTodos
+			))
+			
+			currentDate = ExcludedDates.nextValidDate(after: currentDate)
+			
+			currentTodos = []
+			
+			addDueTodos()
+			
+			todoCounter = 3 - currentTodos.count
+		}
 		
-//		var entries: [TodoListEntry] = []
-//		var todoCount = 0
-//		var currentDate = Date.now
-//		var maximumNumberOfTodos = 3
-//				
-//		var overDueTodos = todos.extract {
-//			if let dueDate = $0.dueDate, dueDate < startOfToday {
-//				return true
-//			} else {
-//				return false
-//			}
-//		}
-//		
-//		while todos.hasContent {
-//			if todoCount == 0 {
-//				entries.append(.headline(
-//					date: currentDate,
-//					isExcluded: ExcludedDates.contains(currentDate)
-//				))
-//				
-//				for todo in overDueTodos {
-//					entries.append(.item(
-//						id: todo.id,
-//						title: todo.title,
-//						isDone: todo.doneDate != nil,
-//						priority: .overdue
-//					))
-//					
-//					todoCount += 1
-//				}
-//				
-//				overDueTodos.removeAll()
-//
-//				let dueTodos = todos.extract {
-//					if let dueDate = $0.dueDate {
-//						return calendar.isDate(currentDate, inSameDayAs: dueDate)
-//					} else {
-//						return false
-//					}
-//				}
-//				
-//				for dueTodo in dueTodos {
-//					entries.append(.item(
-//						id: dueTodo.id,
-//						title: dueTodo.title,
-//						isDone: dueTodo.doneDate != nil,
-//						priority: .important
-//					))
-//					todoCount += 1
-//				}
-//			}
-//			
-//			if todoCount >= maximumNumberOfTodos, let nextDate = calendar.date(byAdding: .day, value: 1, to: currentDate) {
-//				currentDate = nextDate
-//				todoCount = 0
-//				maximumNumberOfTodos = 3
-//				continue
-//			}
-//
-//			let todo = todos.removeFirst()
-//			
-//			entries.append(.item(
-//				id: todo.id,
-//				title: todo.title,
-//				isDone: todo.doneDate != nil,
-//				priority: todo.isImportant ? .important : .normal
-//			))
-//			
-//			todoCount += 1
-//		}
-//		
-//		self.entries = entries
+		func addDueTodos() {
+			guard todos.hasContent else { return }
+			let dueTodos = todos.extract { todo in
+				if let dueDate = todo.dueDate {
+					return calendar.isDate(dueDate, inSameDayAs: currentDate)
+				} else {
+					return false
+				}
+			}.map { todo in
+				Todo(
+					id: todo.id,
+					isDone: todo.doneDate != nil,
+					priority: .important,
+					title: todo.title
+				)
+			}
+			
+			currentTodos += dueTodos
+		}
+		
+		addDueTodos()
+		todoCounter = 3 - currentTodos.count
+
+		while todos.hasContent {
+			if todoCounter <= 0 {
+				nextDate()
+			} else {
+				let todo = todos.removeFirst()
+				
+				currentTodos.append(Todo(
+					id: todo.id,
+					isDone: todo.doneDate != nil,
+					priority: todo.isImportant ? .important : .normal,
+					title: todo.title
+				))
+								
+				todoCounter -= 1
+			}
+		}
+		
+		nextDate()
+		self.sections = sections
 	}
 }

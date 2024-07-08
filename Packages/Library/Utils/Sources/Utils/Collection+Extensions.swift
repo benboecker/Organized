@@ -15,9 +15,14 @@ public extension Collection {
 		filter(predicate).count
 	}
 	
+	func count(_ keypath: KeyPath<Element, Bool>) -> Int {
+		filter { $0[keyPath: keypath] }.count		
+	}
+	
 }
 
 public extension Array {
+	/// Removes and returns all elements that return `true` for the given function
 	mutating func extract(_ isIncluded: (Element) -> Bool) -> [Element] {
 		let extracted = filter(isIncluded)
 		removeAll(where: isIncluded)
