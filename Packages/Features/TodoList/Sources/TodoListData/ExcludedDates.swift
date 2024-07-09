@@ -25,21 +25,17 @@ class ExcludedDates {
 
 extension ExcludedDates {
 	
-	static func nextValidDate(after date: Date?) -> Date {
-		let checkDate: Date
+	static func nextDate(after _date: Date?) -> (date: Date, isExcluded: Bool) {
+		let date: Date
 		
-		if let date,
-			let possibleDate = Calendar.current.date(byAdding: .day, value: 1, to: date) {
-			checkDate = possibleDate
+		if let _date,
+		   let possibleDate = Calendar.current.date(byAdding: .day, value: 1, to: _date) {
+			date = possibleDate
 		} else {
-			checkDate = Calendar.current.startOfDay(for: .now).addingTimeInterval(10)
+			date = Calendar.current.startOfDay(for: .now).addingTimeInterval(10)
 		}
 		
-		if ExcludedDates.contains(checkDate) {
-			return nextValidDate(after: checkDate)
-		} else {
-			return checkDate
-		}
+		return (date: date, isExcluded: ExcludedDates.contains(date))
 	}
 	
 	static func contains(_ date: Date) -> Bool {
@@ -65,6 +61,11 @@ extension ExcludedDates {
 		excluded.saveDates()
 	}
 	
+	static func removeAll() {
+		let excluded = ExcludedDates.shared
+		excluded.dates.removeAll()
+		excluded.saveDates()
+	}
 }
 
 

@@ -29,5 +29,19 @@ public extension Array {
 		
 		return extracted
 	}
-
+	
+	/// Removes and returns the first given number of elements
+	mutating func extract(first numberOfElements: Int) -> [Element] {
+		let firstElements = prefix(numberOfElements)
+		
+		if numberOfElements <= count {
+			removeFirst(numberOfElements)
+		} else {
+			removeAll()
+		}
+		
+		return Array(firstElements)
+	}
+	
+	
 }

@@ -14,14 +14,16 @@ let package = Package(
 	dependencies: [
 		.package(name: "DemoData", path: "../Library/DemoData"),
 		.package(name: "Persistence", path: "../Library/Persistence"),
-		.package(name: "Styleguide", path: "../../../../../Packages/Styleguide"),
+		.package(name: "Settings", path: "../Library/Settings"),
 		.package(name: "SharedComponents", path: "../Library/SharedComponents"),
+		.package(name: "Styleguide", path: "../../../../../Packages/Styleguide"),
 		.package(name: "SwiftUITools", path: "../../../../../Packages/SwiftUITools"),
 		.package(name: "Utils", path: "../Library/Utils"),
 	],
 	targets: [
 		.target(name: "TodoListData", dependencies: [
 			.product(name: "Persistence", package: "Persistence"),
+			.product(name: "Settings", package: "Settings"),
 			.product(name: "Utils", package: "Utils"),
 			"TodoListDomain",
 		]),
