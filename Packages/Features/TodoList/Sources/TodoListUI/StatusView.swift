@@ -20,7 +20,7 @@ struct StatusView: View {
 	@Environment(\.styleguide) private var styleguide
 	@Binding private var isDone: Bool
 	private let priority: Todo.Priority
-
+	
 	var body: some View {
 		Button {
 			withAnimation(.snappy) {

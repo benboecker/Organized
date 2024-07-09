@@ -14,11 +14,12 @@
 
 /* Begin PBXFileReference section */
 		B516315F2BD80DF700387E7E /* SharedComponents */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = SharedComponents; sourceTree = "<group>"; };
+		B53959512C3DA6120095E476 /* Settings */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Settings; sourceTree = "<group>"; };
+		B53959522C3DA8E90095E476 /* AppInfo */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = AppInfo; sourceTree = "<group>"; };
 		B540759A2BDAE6CE0077F7C9 /* Alerts */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Alerts; sourceTree = "<group>"; };
 		B5838B6C2BE413930009C61A /* Utils */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Utils; sourceTree = "<group>"; };
 		B5843A212BD3C1730059C32D /* AppLaunch */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = AppLaunch; sourceTree = "<group>"; };
 		B5843A262BD7A4000059C32D /* TodoList */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = TodoList; sourceTree = "<group>"; };
-		B5843A272BD7AD150059C32D /* Settings */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Settings; sourceTree = "<group>"; };
 		B5843A282BD7AD150059C32D /* NewTodo */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = NewTodo; sourceTree = "<group>"; };
 		B5843A292BD7AE6C0059C32D /* Persistence */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Persistence; sourceTree = "<group>"; };
 		B5A8993D2BD29AE200DC7527 /* Organized App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Organized App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -53,9 +54,9 @@
 		B57D1A402BD308E40028A51A /* Features */ = {
 			isa = PBXGroup;
 			children = (
+				B53959522C3DA8E90095E476 /* AppInfo */,
 				B5843A262BD7A4000059C32D /* TodoList */,
 				B5843A282BD7AD150059C32D /* NewTodo */,
-				B5843A272BD7AD150059C32D /* Settings */,
 			);
 			path = Features;
 			sourceTree = "<group>";
@@ -68,6 +69,7 @@
 				B516315F2BD80DF700387E7E /* SharedComponents */,
 				B5843A292BD7AE6C0059C32D /* Persistence */,
 				B5838B6C2BE413930009C61A /* Utils */,
+				B53959512C3DA6120095E476 /* Settings */,
 			);
 			path = Library;
 			sourceTree = "<group>";

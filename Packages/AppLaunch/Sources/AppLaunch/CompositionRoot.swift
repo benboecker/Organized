@@ -52,8 +52,8 @@ struct CompositionRoot: View {
 			persistentContainer.createDemoData()
 		}
 		.environment(\.styleguide, .organized)
-		.environment(\.todoRepository, PersistentTodoRepository(container: persistentContainer))
-		.environment(\.weekdayProvider, PersistentTodoListProvider(persistentContainer: persistentContainer))
+		.environment(\.todoRepository, todoRepository)
+		.environment(\.weekdayProvider, weekdayProvider)
 		.environment(\.newTodoCreation, newTodoCreation)
 	}
 }

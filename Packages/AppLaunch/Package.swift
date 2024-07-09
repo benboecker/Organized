@@ -11,6 +11,7 @@ let package = Package(
 	],
 	dependencies: [
 		.package(name: "Alerts", path: "Library/Alerts"),
+		.package(name: "AppInfo", path: "Features/AppInfo"),
 		.package(name: "NewTodo", path: "Features/NewTodo"),
 		.package(name: "Persistence", path: "Library/Persistence"),
 		.package(name: "SharedComponents", path: "Library/SharedComponents"),
@@ -21,6 +22,7 @@ let package = Package(
 	targets: [
 		.target(name: "AppLaunch", dependencies: [
 			.product(name: "Alerts", package: "Alerts"),
+			.product(name: "AppInfoUI", package: "AppInfo"),
 			.product(name: "NewTodoData", package: "NewTodo"),
 			.product(name: "NewTodoDomain", package: "NewTodo"),
 			.product(name: "NewTodoUI", package: "NewTodo"),

@@ -27,37 +27,41 @@ public struct TodoListView: View {
 	@FocusState private var focussedTodoID: UUID?
 	
 	public var body: some View {
-		ScrollView {
-			LazyVStack(spacing: styleguide.large) {
-				ForEach(weekdayProvider.sections) { section in
-					Section {
-						if section.todos.isEmpty {
-							EmptyDayView(date: section.date, isExcluded: section.todos.isEmpty)
-								.padding(.vertical, styleguide.extraLarge)
-						} else {
-							ForEach(section.todos) { todo in
-								TodoRow(todo: todo, focussed: $focussedTodoID)
+		NavigationStack {
+			ScrollView {
+				LazyVStack(spacing: styleguide.large) {
+					ForEach(weekdayProvider.sections) { section in
+						Section {
+							if section.todos.isEmpty {
+								EmptyDayView(date: section.date, isExcluded: section.todos.isEmpty)
+									.padding(.vertical, styleguide.extraLarge)
+							} else {
+								ForEach(section.todos) { todo in
+									TodoRow(todo: todo, focussed: $focussedTodoID)
+								}
+							}
+						} header: {
+							if section.todos.hasContent {
+								WeekdayHeaderView(date: section.date, isExcluded: section.isExcluded) { date in
+									showNewTodo(date)
+								}
+								.padding(.top, styleguide.extraLarge)
+								.padding(.leading, 42)
 							}
 						}
-					} header: {
-						if section.todos.hasContent {
-							WeekdayHeaderView(date: section.date, isExcluded: section.isExcluded) { date in
-								showNewTodo(date)
-							}
-							.padding(.top, styleguide.extraLarge)
-							.padding(.leading, 42)
-						}
+						Divider()
 					}
-					Divider()
 				}
-			}		
-//			.toolbar {
-//				ToolbarItems()
-//			}
-			.animation(.snappy, value: weekdayProvider.sections)
-			.padding(.horizontal, styleguide.large)
-			.padding(.leading, styleguide.extraSmall)
-			.padding(.bottom, styleguide.extraLarge)
+				//			.toolbar {
+				//				ToolbarItems()
+				//			}
+				.animation(.snappy, value: weekdayProvider.sections)
+				.padding(.horizontal, styleguide.large)
+				.padding(.leading, styleguide.extraSmall)
+				.padding(.bottom, styleguide.extraLarge)
+			}
+			.navigationTitle("Aufgaben")
+			.navigationBarTitleDisplayMode(.large)
 		}
 	}
 	
