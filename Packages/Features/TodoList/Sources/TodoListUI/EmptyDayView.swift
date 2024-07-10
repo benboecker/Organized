@@ -9,15 +9,17 @@ import SwiftUI
 import TodoListDomain
 import Styleguide
 import SharedComponents
+import Settings
 
 
 struct EmptyDayView: View {
-	
 	let date: Date
-	let isExcluded: Bool
+	let isManuallyExcluded: Bool
 	
 	@Environment(\.styleguide) private var styleguide
-	
+	@Environment(\.weekdayProvider) private var weekdayProvider
+	@Environment(\.excludedDates) private var excludedDates
+
 	var body: some View {
 		VStack(spacing: styleguide.medium) {
 			Image(systemName: "beach.umbrella")
@@ -32,6 +34,22 @@ struct EmptyDayView: View {
 				.foregroundStyle(styleguide.primaryText)
 				.padding(.horizontal)
 				.multilineTextAlignment(.center)
+			
+			if isManuallyExcluded {
+				Button {
+					withAnimation(.snappy) {
+						excludedDates.toggleManuallyExclude(date: date)
+					}
+				} label: {
+					Text("Tag einplanen")
+						.font(styleguide.headline)
+						.foregroundStyle(styleguide.primaryText)
+						.padding(.vertical, styleguide.medium)
+						.padding(.horizontal, styleguide.large)
+						.background(styleguide.secondaryBackground, in: .capsule)
+				}
+				.padding(.top, styleguide.large)
+			}
 		}
 	}
 }
@@ -39,9 +57,9 @@ struct EmptyDayView: View {
 
 #Preview {
 	VStack(spacing: 48) {
-		EmptyDayView(date: .now, isExcluded: false)
+		EmptyDayView(date: .now, isManuallyExcluded: false)
 		Divider()
-		EmptyDayView(date: .now, isExcluded: true)
+		EmptyDayView(date: .now, isManuallyExcluded: true)
 	}
 	.styledPreview()
 	.padding()

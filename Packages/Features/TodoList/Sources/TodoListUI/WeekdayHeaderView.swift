@@ -9,30 +9,31 @@ import SwiftUI
 import TodoListDomain
 import Styleguide
 import SharedComponents
+import Settings
 
 
 struct WeekdayHeaderView: View {
 	let date: Date
-	let isExcluded: Bool
 	let newTodo: (Date) -> Void
 	
 	@Environment(\.styleguide) private var styleguide
 	@Environment(\.weekdayProvider) private var weekdayProvider
-	
+	@Environment(\.excludedDates) private var excludedDates
+
     var body: some View {
 		Menu {
 			Button {
-				weekdayProvider.toggleDateExcluded(date)
+				withAnimation(.snappy) {
+					excludedDates.toggleManuallyExclude(date: date)
+				}
 			} label: {
-				Label(isExcluded ? "Tag planen" : "Tag überspringen", systemImage: "calendar.badge.minus")
+				Label("Tag überspringen", systemImage: "calendar.badge.minus")
 			}
 			
-			if !isExcluded {
-				Button {
-					newTodo(date)
-				} label: {
-					Label("Neue Aufgabe", systemImage: "plus.circle.fill")
-				}
+			Button {
+				newTodo(date)
+			} label: {
+				Label("Neue Aufgabe", systemImage: "plus.circle.fill")
 			}
 		} label: {
 			HStack {
@@ -51,17 +52,7 @@ struct WeekdayHeaderView: View {
 
 #Preview {
 	WeekdayHeaderView(
-		date: .now,
-		isExcluded: true
-	) { _ in }
-		.padding()
-		.styledPreview()
-}
-
-#Preview {
-	WeekdayHeaderView(
-		date: .now,
-		isExcluded: false
+		date: .now
 	) { _ in }
 		.padding()
 		.styledPreview()

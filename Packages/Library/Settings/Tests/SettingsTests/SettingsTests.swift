@@ -12,10 +12,10 @@ import Settings
 final class SettingsTests: XCTestCase {
 	
 	func testExcludeWeekdays() {
-		let wee = Calendar.current.standaloneWeekdaySymbols
-		let e = Settings.shared.excludedWeekdaysDescription
-		
-		print(wee)
+//		let wee = Calendar.current.standaloneWeekdaySymbols
+//		let e = Settings.shared.excludedWeekdaysDescription
+//		
+//		print(wee)
 		
 	}
 }

@@ -12,13 +12,13 @@ let package = Package(
 		.library(name: "TodoListUI", targets: ["TodoListUI"]),
 	],
 	dependencies: [
-		.package(name: "DemoData", path: "../Library/DemoData"),
-		.package(name: "Persistence", path: "../Library/Persistence"),
-		.package(name: "Settings", path: "../Library/Settings"),
-		.package(name: "SharedComponents", path: "../Library/SharedComponents"),
+		.package(name: "DemoData", path: "../../Library/DemoData"),
+		.package(name: "Persistence", path: "../../Library/Persistence"),
+		.package(name: "Settings", path: "../../Library/Settings"),
+		.package(name: "SharedComponents", path: "../../Library/SharedComponents"),
 		.package(name: "Styleguide", path: "../../../../../Packages/Styleguide"),
 		.package(name: "SwiftUITools", path: "../../../../../Packages/SwiftUITools"),
-		.package(name: "Utils", path: "../Library/Utils"),
+		.package(name: "Utils", path: "../../Library/Utils"),
 	],
 	targets: [
 		.target(name: "TodoListData", dependencies: [
@@ -30,15 +30,19 @@ let package = Package(
 		.target(name: "TodoListDomain"),
 		.target(name: "TodoListUI", dependencies: [
 			.product(name: "DemoData", package: "DemoData"),
+			.product(name: "Settings", package: "Settings"),
+			.product(name: "SharedComponents", package: "SharedComponents"),
 			.product(name: "Styleguide", package: "Styleguide"),
 			.product(name: "SwiftUITools", package: "SwiftUITools"),
-			.product(name: "SharedComponents", package: "SharedComponents"),
 			.product(name: "Utils", package: "Utils"),
 			"TodoListDomain",
 		]),
 		.testTarget(
 			name: "TodoListDataTests",
-			dependencies: ["TodoListData"]
+			dependencies: [
+				.product(name: "Settings", package: "Settings"),
+				"TodoListData",
+			]
 		),
 	]
 )

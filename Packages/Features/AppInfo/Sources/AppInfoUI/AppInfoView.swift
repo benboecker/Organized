@@ -17,7 +17,8 @@ public struct AppInfoView: View {
 	@Environment(\.dismiss) private var dismiss
 	@Environment(\.styleguide) private var styleguide
 	@Environment(\.settings) private var settings
-	
+	@Environment(\.excludedDates) private var excludedDates
+
     public var body: some View {
 		NavigationStack {
 			ScrollView {
@@ -68,15 +69,14 @@ private extension AppInfoView {
 	
 	@ViewBuilder
 	func SettingsSection() -> some View {
-		@Bindable var settings = settings
 		Section {
 			VStack(spacing: styleguide.medium) {
 				Menu {
-					Button {
-						
-					} label: {
-						Text("3")
-					}
+					Button("3", systemImage: settings.numberOfTodos == 3 ? "checkmark" : "") { withAnimation(.snappy) { settings.setNumberOfTodos(3) } }
+					Button("4", systemImage: settings.numberOfTodos == 4 ? "checkmark" : "") { withAnimation(.snappy) { settings.setNumberOfTodos(4) } }
+					Button("5", systemImage: settings.numberOfTodos == 5 ? "checkmark" : "") { withAnimation(.snappy) { settings.setNumberOfTodos(5) } }
+					Button("6", systemImage: settings.numberOfTodos == 6 ? "checkmark" : "") { withAnimation(.snappy) { settings.setNumberOfTodos(6) } }
+					Button("7", systemImage: settings.numberOfTodos == 7 ? "checkmark" : "") { withAnimation(.snappy) { settings.setNumberOfTodos(7) } }
 				} label: {
 					HStack(alignment: .firstTextBaseline) {
 						Text("Number of tasks per day")
@@ -93,13 +93,13 @@ private extension AppInfoView {
 				}
 				
 				Menu {
-					ForEach(Settings.ExcludedWeekday.all, id: \.self) { weekday in
+					ForEach(ExcludedDates.ExcludedWeekday.all, id: \.self) { weekday in
 						Button {
 							withAnimation(.snappy) {
-								settings.toggleExcluded(weekday)
+								excludedDates.toggleWeekdayExcluded(weekday)
 							}
 						} label: {
-							Label(weekday.name, systemImage: settings.excludedWeekdays.contains(weekday) ? "checkmark" : "")
+							Label(weekday.name, systemImage: excludedDates.isWeekdayExcluded(weekday) ? "checkmark" : "")
 						}
 					}
 				} label: {
@@ -108,7 +108,7 @@ private extension AppInfoView {
 							.font(styleguide.body)
 							.foregroundStyle(styleguide.primaryText)
 						Spacer()
-						Text("\(settings.excludedWeekdaysDescription)")
+						Text(excludedDates.excludedWeekdaysDescription)
 							.font(styleguide.headline)
 							.foregroundStyle(styleguide.primaryText)
 					}

@@ -1,0 +1,24 @@
+{
+  "configurations" : [
+    {
+      "id" : "BDF7EE72-F9CD-4F95-B436-C12DFDCC2BD3",
+      "name" : "Configuration 1",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:",
+        "identifier" : "TodoListDataTests",
+        "name" : "TodoListDataTests"
+      }
+    }
+  ],
+  "version" : 1
+}

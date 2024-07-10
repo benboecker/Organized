@@ -15,7 +15,7 @@ public class StoredTodoObserver: NSObject, NSFetchedResultsControllerDelegate {
 	
 	private var didChangeObjects: ([StoredTodo]) -> Void = { _ in }
 	private let fetchedResultsController: NSFetchedResultsController<StoredTodo>
-	private let logger = Logger(subsystem: "Persistence", category: "ManagedObjectContextObserver")
+	private let logger = Logger(subsystem: "Persistence", category: "StoredTodoObserver")
 	
 	public var fetchedTodos: [StoredTodo] {
 		fetchedResultsController.fetchedObjects ?? []

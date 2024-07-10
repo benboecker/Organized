@@ -16,12 +16,18 @@ import DemoData
 
 public class PersistentContainer {
 	public let storageConfig: StorageConfig
+	public static let testing = PersistentContainer(with: .testing)
+	public static let live = PersistentContainer(with: .live)
+	public static let `extension` = PersistentContainer(with: .extension)
+
 	private let observer: PersistentHistoryObserver
 	private let container: NSPersistentContainer
 	private var cancellables: Set<AnyCancellable> = []
 	private let logger = Logger(subsystem: "Persistence", category: "PersistentContainer")
 	
-	required public init(with storageConfig: StorageConfig) {
+	private init(with storageConfig: StorageConfig) {
+		logger.info("Initializing PersistentContainer")
+		
 		self.storageConfig = storageConfig
 
 		guard let modelURL = Bundle.module.url(forResource: "DataModel", withExtension: "momd") else {

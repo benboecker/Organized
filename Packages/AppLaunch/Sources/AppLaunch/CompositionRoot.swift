@@ -18,22 +18,9 @@ import Styleguide
 
 
 struct CompositionRoot: View {
-    
-	private let persistentContainer: PersistentContainer
-	@State private var todoRepository: TodoRepository
-	@State private var weekdayProvider: TodoListProvider
-	@State private var newTodoCreation: NewTodoCreation
 	@State private var showNewTodo = false
 	@State private var newTodoDate: Date? = nil
-	
-	init() {
-		self.persistentContainer = PersistentContainer(with: .testing)
-		
-		self._todoRepository = State(initialValue: PersistentTodoRepository(container: persistentContainer))
-		self._weekdayProvider = State(initialValue: PersistentTodoListProvider(persistentContainer: persistentContainer))
-		self._newTodoCreation = State(initialValue: PersistentNewTodoCreation(container: persistentContainer))
-	}
-	
+
 	var body: some View {
 		ZStack(alignment: .bottomTrailing) {
 			TodoListView { date in
@@ -48,13 +35,6 @@ struct CompositionRoot: View {
 		.sheet(isPresented: $showNewTodo) {
 			NewTodoView(dueDate: newTodoDate)
 		}
-		.onAppear {
-			persistentContainer.createDemoData()
-		}
-		.environment(\.styleguide, .organized)
-		.environment(\.todoRepository, todoRepository)
-		.environment(\.weekdayProvider, weekdayProvider)
-		.environment(\.newTodoCreation, newTodoCreation)
 	}
 }
 

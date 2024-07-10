@@ -7,36 +7,32 @@
 
 import Foundation
 import SwiftUI
-//import Persistence
-//import URLInformation
-//import ViewState
-//import SharedUI
+import NewTodoUI
+import NewTodoData
+import NewTodoDomain
+import Persistence
+import SwiftUI
+import TodoListUI
+import TodoListData
+import TodoListDomain
+import Styleguide
 
 
 @MainActor
 public struct AppScene: Scene {
-
-//	private let persistentContainer: PersistentContainer
-
-//	@State private var displayMode = DisplayMode()
-//	@State private var filterOptions = FilterOptions()
-//	@State private var bookmarksDataStore: BookmarksDataStore
-
-	public init() {
-//		self.persistentContainer = PersistentContainer()
-//		self.bookmarksDataStore = BookmarksDataStore(persistentContainer: persistentContainer)
-//
-//		UIKitAppearance.configure()
-	}
-
-
+	
+	public init() { }
+	
 	public var body: some Scene {
 		WindowGroup {
 			CompositionRoot()
+				.onAppear {
+					PersistentContainer.testing.createDemoData()
+				}
 		}
-//		.environment(filterOptions)
-//		.environment(displayMode)
-//		.environment(bookmarksDataStore)
-//		.environment(\.managedObjectContext, persistentContainer.mainContext)
+		.environment(\.styleguide, .organized)
+		.environment(\.todoRepository, PersistentTodoRepository(container: .testing))
+		.environment(\.weekdayProvider, PersistentTodoListProvider(persistentContainer: .testing))
+		.environment(\.newTodoCreation, PersistentNewTodoCreation(container: .testing))
 	}
 }

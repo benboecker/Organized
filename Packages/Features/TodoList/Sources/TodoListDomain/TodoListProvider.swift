@@ -10,9 +10,8 @@ import Foundation
 
 public protocol TodoListProvider {
 	var sections: [TodoSection] { get }
-		
-	func toggleDateExcluded(_ date: Date)
 }
+
 
 package extension TodoListProvider {
 	func id(after id: UUID) -> UUID? {

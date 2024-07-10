@@ -32,6 +32,10 @@ public extension Array {
 	
 	/// Removes and returns the first given number of elements
 	mutating func extract(first numberOfElements: Int) -> [Element] {
+		guard numberOfElements >= 0 else {
+			return []
+		}
+		
 		let firstElements = prefix(numberOfElements)
 		
 		if numberOfElements <= count {

@@ -21,6 +21,10 @@ class PreviewRepository: TodoListProvider, TodoRepository {
 		
 	}
 	
+	func isDateExcluded(_ date: Date) -> Bool {
+		true
+	}
+	
 	func update(isImportant: Bool, of todoID: UUID) {
 		
 	}
@@ -72,19 +76,19 @@ extension Todo {
 
 extension [TodoSection] {
 	static let preview: [TodoSection] = [
-		TodoSection(date: .startOfToday, isExcluded: false, todos: [
+		TodoSection(date: .startOfToday, isManuallyExcluded: false, todos: [
 			Todo(id: UUID(), isDone: false, priority: .overdue,   title: "Geburtstagsgeschenk für Mama besorgen"),
 			Todo(id: UUID(), isDone: false, priority: .important, title: "Gartenarbeit - Pflanzen gießen und Unkraut jäten"),
 			Todo(id: UUID(), isDone: false,  priority: .important, title: "Neue Sprache lernen - Spanisch"),
 		]),
-		TodoSection(date: .startOfToday.addingTimeInterval(86400 * 1), isExcluded: false, todos: [
+		TodoSection(date: .startOfToday.addingTimeInterval(86400 * 1), isManuallyExcluded: false, todos: [
 			Todo(id: UUID(), isDone: false, priority: .important,   title: "Wäsche waschen und trocknen"),
 			Todo(id: UUID(), isDone: false, priority: .important, title: "Arzttermin telefonisch vereinbaren"),
 			Todo(id: UUID(), isDone: false,  priority: .normal, title: "Lebensmittel im Supermarkt einkaufen"),
 		]),
-		TodoSection(date: .startOfToday.addingTimeInterval(86400 * 2), isExcluded: true, todos: [
+		TodoSection(date: .startOfToday.addingTimeInterval(86400 * 2), isManuallyExcluded: true, todos: [
 		]),
-		TodoSection(date: .startOfToday.addingTimeInterval(86400 * 3), isExcluded:  false, todos: [
+		TodoSection(date: .startOfToday.addingTimeInterval(86400 * 3), isManuallyExcluded:  false, todos: [
 			Todo(id: UUID(), isDone: false, priority: .normal, title: "Reise nach Paris planen"),
 			Todo(id: UUID(), isDone: true,  priority: .normal, title: "Buch über Selbstverbesserung lesen"),
 			Todo(id: UUID(), isDone: false, priority: .normal,    title: "Investitionsmöglichkeiten recherchieren"),

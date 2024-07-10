@@ -12,6 +12,7 @@ import Observation
 import Utils
 import SwiftUI
 import Settings
+import OSLog
 
 
 @Observable
@@ -26,115 +27,83 @@ public class PersistentTodoListProvider: TodoListProvider {
 		}
 	}
 	
-	private let observer: StoredTodoObserver
 	public var sections: [TodoSection] = []
-	public func toggleDateExcluded(_ date: Date) {
-		if ExcludedDates.contains(date) {
-			ExcludedDates.remove(date: date)
-		} else {
-			ExcludedDates.add(date: date)
-		}
-		
-		createWeekdays(from: observer.fetchedTodos)
-	}
+
+	private let observer: StoredTodoObserver
+	private let logger = Logger(subsystem: "TodoList", category: "PersistentTodoListProvider")
 }
 
-//package extension PersistentTodoListProvider {
-//	func regenerate() {
-//		createWeekdays(from: observer.fetchedTodos)
-//	}
-//}
 
 
 private extension PersistentTodoListProvider {
 	
 	func createWeekdays(from storedTodos: [StoredTodo]) {
-		let overdueTodos = storedTodos.filter(\.isOverdue)
-		var todos = storedTodos.filter(\.notOverdue)
+		logger.info("createWeekdays from \(storedTodos.count) todos")
 		
+		var todos = storedTodos
 		let calendar = Calendar.current
-		var currentDate = calendar.startOfDay(for: .now).addingTimeInterval(100)
-		var stop = false
-		var todoCounter = 3
 		var sections: [TodoSection] = []
-		var currentTodos: [Todo] = overdueTodos.map {
-			Todo(
-				id: $0.id,
-				isDone: $0.doneDate != nil,
-				priority: .overdue,
-				title: $0.title
-			)
-		}
 		
-		func addDueTodos() {
-			guard todos.hasContent else { return }
-			let dueTodos = todos.extract { todo in
-				if let dueDate = todo.dueDate {
-					return calendar.isDate(dueDate, inSameDayAs: currentDate) || dueDate < currentDate
-				} else {
-					return false
+		func getDueTodos(on date: Date) -> [Todo] {
+			todos
+				.extract { todo in
+					if let dueDate = todo.dueDate {
+						return calendar.isDate(dueDate, inSameDayAs: date) || dueDate < date
+					} else {
+						return false
+					}
+				}.map { todo in
+					Todo(
+						id: todo.id,
+						isDone: todo.doneDate != nil,
+						priority: todo.isOverdue ? .overdue : .important,
+						title: todo.title
+					)
 				}
-			}.map { todo in
-				Todo(
-					id: todo.id,
-					isDone: todo.doneDate != nil,
-					priority: todo.isOverdue ? .overdue : .important,
-					title: todo.title
-				)
-			}
-			
-			
-			currentTodos += dueTodos
-			todoCounter = Settings.shared.numberOfTodos - currentTodos.count
+				.sorted { $0.isOverdue != $1.isOverdue }
 		}
-
-		func checkForStop() {
-			stop = todos.isEmpty
-		}
-		
-		repeat {
-			if ExcludedDates.contains(currentDate) {
+				
+		func addTodosForDate(_ date: Date) {
+			let isExcluded = ExcludedDates.shared.isDateExcluded(date)
+						
+			switch isExcluded {
+			case .manually:
 				sections.append(TodoSection(
-					date: currentDate,
-					isExcluded: true,
-					todos: []
-				))
+					date: date,
+					isManuallyExcluded: true,
+					todos: [])
+				)
+			case .weekday:
+				sections.append(TodoSection(
+					date: date,
+					isManuallyExcluded: false,
+					todos: [])
+				)
+
+			case .notExcluded:
+				let dueTodos = getDueTodos(on: date)
+				let remainingTodoCount = Settings.shared.numberOfTodos - dueTodos.count
 				
-				if let nextDate = calendar.date(byAdding: .day, value: 1, to: currentDate) {
-					currentDate = nextDate
-					checkForStop()
-				} else {
-					stop = true
-				}
-			} else {
-				addDueTodos()
-				
-				if todoCounter > 0 {
-					currentTodos += todos.extract(first: todoCounter).map {
+				sections.append(TodoSection(
+					date: date,
+					isManuallyExcluded: false,
+					todos: dueTodos + todos.extract(first: remainingTodoCount).map {
 						Todo(
 							id: $0.id,
 							isDone: $0.doneDate != nil,
-							priority: .normal,
+							priority: $0.isImportant ? .important : .normal,
 							title: $0.title
 						)
 					}
-				}
-				
-				if let nextDate = calendar.date(byAdding: .day, value: 1, to: currentDate) {
-					sections.append(TodoSection(
-						date: currentDate,
-						isExcluded: false,
-						todos: currentTodos
-					))
-
-					currentDate = nextDate
-					currentTodos = []
-					checkForStop()
-				} else {
-					stop = true
-				}
+				))
 			}
-		} while !stop
+			
+			if todos.hasContent, let nextDate = calendar.date(byAdding: .day, value: 1, to: date) {
+				addTodosForDate(nextDate)
+			}
+		}
+		
+		addTodosForDate(.now.addingTimeInterval(100))
 		
 		self.sections = sections
 	}
