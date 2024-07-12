@@ -1,6 +1,6 @@
 //
 //  SwiftUIView.swift
-//  
+//
 //
 //  Created by Benjamin Böcker on 20.04.24.
 //
@@ -26,11 +26,11 @@ struct CompositionRoot: View {
 	@State private var todoListProvider = PersistentTodoListProvider(container: .testing)
 	@State private var newTodoCreation = PersistentNewTodoCreation(container: .testing)
 	@State private var styleguide = Styleguide.organized
-
+	@State private var statusBarOpacity: Double = 0.0
 	
 	var body: some View {
 		NavigationStack {
-			TodoListView { date in
+			TodoListView(statusBarOpacity: $statusBarOpacity) { date in
 				newTodoDate = date
 			} showSettings: {
 				showAppInfo = true
@@ -43,6 +43,13 @@ struct CompositionRoot: View {
 			NewTodoButton()
 				.offset(x: -styleguide.large)
 		}
+		.overlay(alignment: .top) {
+			Color.clear
+				.background(.ultraThinMaterial)
+				.opacity(statusBarOpacity)
+				.ignoresSafeArea(edges: .top)
+				.frame(height: 0) // This will constrain the overlay to only go above the top safe area and not under.
+		}
 		.sheet(item: $newTodoDate) { newTodoDate in
 			NewTodoView(dueDate: newTodoDate)
 		}
@@ -53,7 +60,6 @@ struct CompositionRoot: View {
 		.environment(\.todoRepository, todoRepository)
 		.environment(\.todoListProvider, todoListProvider)
 		.environment(\.newTodoCreation, newTodoCreation)
-
 	}
 }
 
@@ -67,9 +73,9 @@ extension Date: @retroactive Identifiable {
 private extension CompositionRoot {
 	private func NewTodoButton() -> some View {
 		Button {
-//			withAnimation(.snappy) {
-				showNewTodo = true
-//			}
+			//			withAnimation(.snappy) {
+			showNewTodo = true
+			//			}
 		} label: {
 			Image(systemName: "plus")
 				.font(.title2.bold())

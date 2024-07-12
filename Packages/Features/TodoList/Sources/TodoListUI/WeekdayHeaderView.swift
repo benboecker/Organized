@@ -60,7 +60,7 @@ struct WeekdayHeaderView: View {
 }
 
 #Preview {
-	TodoListView { _ in } showSettings: { }
+	TodoListView(statusBarOpacity: .constant(0.0)) { _ in } showSettings: { }
 		.styledPreview()
 }
 

@@ -5,7 +5,7 @@ import PackageDescription
 
 let package = Package(
 	name: "TodoList",
-	platforms: [.iOS(.v17)],
+	platforms: [.iOS("18.0.0")],
 	products: [
 		.library(name: "TodoListData", targets: ["TodoListData"]),
 		.library(name: "TodoListDomain", targets: ["TodoListDomain"]),

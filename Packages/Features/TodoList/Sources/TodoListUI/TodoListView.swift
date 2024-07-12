@@ -14,9 +14,11 @@ import SharedComponents
 
 public struct TodoListView: View {
 	public init(
+		statusBarOpacity: Binding<Double>,
 		showNewTodo: @escaping (Date) -> Void,
 		showSettings: @escaping () -> Void
 	) {
+		self._statusbarOpacity = statusBarOpacity
 		self.showNewTodo = showNewTodo
 		self.showSettings = showSettings
 	}
@@ -28,6 +30,7 @@ public struct TodoListView: View {
 	@Environment(\.todoListProvider) private var todoListProvider
 	@Environment(\.styleguide) private var styleguide
 	@FocusState private var focussedTodoID: UUID?
+	@Binding private var statusbarOpacity: Double
 	
 	public var body: some View {
 		ScrollView {
@@ -57,8 +60,25 @@ public struct TodoListView: View {
 			.animation(.snappy, value: todoListProvider.sections)
 			.padding(.horizontal, styleguide.large)
 			.padding(.leading, styleguide.extraSmall)
-			.padding(.bottom, styleguide.extraLarge)
+			.padding(.vertical, styleguide.extraLarge)
 		}
+		.onScrollGeometryChange(for: ScrollValues.self) { geo in
+			ScrollValues(
+				offset: geo.contentOffset.y,
+				inset: geo.contentInsets.top
+			)
+		} action: { oldValue, newValue in
+			let newOpacity = 1 + ((newValue.offset/* - styleguide.extraLarge*/) / (newValue.inset/* + styleguide.extraLarge*/))
+			
+			if statusbarOpacity > 0.0 && newOpacity < 0.0 {
+				statusbarOpacity = 0.0
+			} else if statusbarOpacity < 1.0 && newOpacity > 1.0 {
+				statusbarOpacity = 1.0
+			} else if newOpacity >= 0.0 && newOpacity <= 1.0 {
+				statusbarOpacity = newOpacity
+			}
+		}
+
 	}
 	
 	@ViewBuilder
@@ -126,10 +146,16 @@ public struct TodoListView: View {
 		}
 		
 	}
+	
+	struct ScrollValues: Equatable {
+		let offset: Double
+		let inset: Double
+	}
 }
 
 #Preview {
-	TodoListView { _ in } showSettings: { }
+	@Previewable @State var v = 0.0
+	TodoListView(statusBarOpacity: $v) { _ in } showSettings: { }
 		.styledPreview()
 }
 

@@ -5,7 +5,7 @@ import PackageDescription
 
 let package = Package(
 	name: "AppLaunch",
-	platforms: [.iOS(.v17)],
+	platforms: [.iOS("18.0.0")],
 	products: [
 		.library(name: "AppLaunch", targets: ["AppLaunch"]),
 	],
