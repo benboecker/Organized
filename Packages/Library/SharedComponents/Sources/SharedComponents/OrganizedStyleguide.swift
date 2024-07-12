@@ -16,8 +16,8 @@ public extension Styleguide {
 		fonts: FontStyle(
 			body:       .system(.body,       design: .serif,   weight: .medium),
 			headline:   .system(.headline,   design: .serif,   weight: .heavy),
-			title:      .system(.title2,     design: .serif,   weight: .heavy),
-			largeTitle: .system(.largeTitle, design: .serif,   weight: .heavy),
+			title:      .system(.title3,     design: .serif,   weight: .heavy),
+			largeTitle: .system(.title,      design: .serif,   weight: .heavy),
 			caption:    .system(.caption,    design: .serif,   weight: .bold)
 		),
 		colors: ColorStyle(

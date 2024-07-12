@@ -17,20 +17,28 @@ import OSLog
 
 @Observable
 public class PersistentTodoListProvider: TodoListProvider {
-	public init(persistentContainer: PersistentContainer) {
-		self.observer = StoredTodoObserver(
-			context: persistentContainer.mainContext
-		)
+	public init(container: PersistentContainer) {
+		logger.info("init")
 		
-		self.observer.didChangeObjects { [weak self] todos in
-			self?.createWeekdays(from: todos)
-		}
+		self.observer = StoredTodoObserver(
+			context: container.mainContext
+		)
 	}
 	
 	public var sections: [TodoSection] = []
 
 	private let observer: StoredTodoObserver
 	private let logger = Logger(subsystem: "TodoList", category: "PersistentTodoListProvider")
+	
+	public func startObserving() {
+		observer.didChangeObjects { [weak self] todos in
+			self?.createWeekdays(from: todos)
+		}
+	}
+	
+	public func regenerate() {
+		createWeekdays(from: observer.fetchedTodos)
+	}
 }
 
 

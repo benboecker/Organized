@@ -17,14 +17,15 @@ struct WeekdayHeaderView: View {
 	let newTodo: (Date) -> Void
 	
 	@Environment(\.styleguide) private var styleguide
-	@Environment(\.weekdayProvider) private var weekdayProvider
-	@Environment(\.excludedDates) private var excludedDates
-
+	@Environment(\.todoListProvider) private var todoListProvider
+	
+	
     var body: some View {
 		Menu {
 			Button {
 				withAnimation(.snappy) {
-					excludedDates.toggleManuallyExclude(date: date)
+					ExcludedDates.shared.toggleManuallyExclude(date: date)
+					todoListProvider.regenerate()
 				}
 			} label: {
 				Label("Tag überspringen", systemImage: "calendar.badge.minus")
@@ -59,7 +60,7 @@ struct WeekdayHeaderView: View {
 }
 
 #Preview {
-	TodoListView { _ in }
+	TodoListView { _ in } showSettings: { }
 		.styledPreview()
 }
 

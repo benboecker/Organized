@@ -10,8 +10,17 @@ import Foundation
 
 public protocol TodoListProvider {
 	var sections: [TodoSection] { get }
+	var totalTodoCount: Int { get }
+	
+	func startObserving()
+	func regenerate()
 }
 
+public extension TodoListProvider {
+	var totalTodoCount: Int {
+		sections.reduce(0) { $0 + $1.todos.count }
+	}
+}
 
 package extension TodoListProvider {
 	func id(after id: UUID) -> UUID? {

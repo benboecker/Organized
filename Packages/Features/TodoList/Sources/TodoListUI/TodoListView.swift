@@ -13,25 +13,30 @@ import SharedComponents
 
 
 public struct TodoListView: View {
-	public init(showNewTodo: @escaping (Date) -> Void) {
+	public init(
+		showNewTodo: @escaping (Date) -> Void,
+		showSettings: @escaping () -> Void
+	) {
 		self.showNewTodo = showNewTodo
+		self.showSettings = showSettings
 	}
 	
 	private let showNewTodo: (Date) -> Void
+	private let showSettings: () -> Void
 	
 	@Environment(\.todoRepository) private var todoRepository
-	@Environment(\.weekdayProvider) private var weekdayProvider
+	@Environment(\.todoListProvider) private var todoListProvider
 	@Environment(\.styleguide) private var styleguide
 	@FocusState private var focussedTodoID: UUID?
 	
 	public var body: some View {
 		ScrollView {
 			LazyVStack(spacing: styleguide.large) {
-				ForEach(weekdayProvider.sections) { section in
+				ForEach(todoListProvider.sections) { section in
 					Section {
 						if section.todos.isEmpty {
 							EmptyDayView(date: section.date, isManuallyExcluded: section.isManuallyExcluded)
-								.padding(.vertical, styleguide.extraLarge)
+								.padding(.bottom, styleguide.extraLarge)
 						} else {
 							ForEach(section.todos) { todo in
 								TodoRow(todo: todo, focussed: $focussedTodoID)
@@ -42,14 +47,14 @@ public struct TodoListView: View {
 							WeekdayHeaderView(date: section.date) { date in
 								showNewTodo(date)
 							}
-							.padding(.top, styleguide.extraLarge)
 							.padding(.leading, 42)
 						}
 					}
 					Divider()
+						.padding(.bottom, styleguide.extraLarge)
 				}
 			}
-			.animation(.snappy, value: weekdayProvider.sections)
+			.animation(.snappy, value: todoListProvider.sections)
 			.padding(.horizontal, styleguide.large)
 			.padding(.leading, styleguide.extraSmall)
 			.padding(.bottom, styleguide.extraLarge)
@@ -91,7 +96,7 @@ public struct TodoListView: View {
 		ToolbarItemGroup(placement: .keyboard) {
 			Button {
 				if let focussedTodoID {
-					self.focussedTodoID = weekdayProvider.id(before: focussedTodoID)
+					self.focussedTodoID = todoListProvider.id(before: focussedTodoID)
 				}
 			} label: {
 				Label("Zurück", systemImage: "arrow.up")
@@ -102,7 +107,7 @@ public struct TodoListView: View {
 			
 			Button {
 				if let focussedTodoID {
-					self.focussedTodoID = weekdayProvider.id(after: focussedTodoID)
+					self.focussedTodoID = todoListProvider.id(after: focussedTodoID)
 				}
 			} label: {
 				Label("Weiter", systemImage: "arrow.down")
@@ -124,13 +129,13 @@ public struct TodoListView: View {
 }
 
 #Preview {
-	TodoListView { _ in }
+	TodoListView { _ in } showSettings: { }
 		.styledPreview()
 }
 
 
 public extension EnvironmentValues {
 	@Entry var todoRepository: TodoRepository = PreviewRepository()
-	@Entry var weekdayProvider: TodoListProvider = PreviewRepository()
+	@Entry var todoListProvider: TodoListProvider = PreviewRepository()
 }
 

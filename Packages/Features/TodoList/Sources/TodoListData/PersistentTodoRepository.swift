@@ -9,8 +9,10 @@ import Foundation
 import TodoListDomain
 import Persistence
 import CoreData
+import Observation
 
 
+@Observable
 public class PersistentTodoRepository: TodoRepository {
 	
 	public init(container: PersistentContainer) {		

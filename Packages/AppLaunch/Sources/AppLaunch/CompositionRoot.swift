@@ -15,19 +15,33 @@ import TodoListUI
 import TodoListData
 import TodoListDomain
 import Styleguide
+import Settings
 
 
 struct CompositionRoot: View {
 	@State private var showNewTodo = false
+	@State private var showAppInfo = false
 	@State private var newTodoDate: Date? = nil
+	@State private var todoRepository = PersistentTodoRepository(container: .testing)
+	@State private var todoListProvider = PersistentTodoListProvider(container: .testing)
+	@State private var newTodoCreation = PersistentNewTodoCreation(container: .testing)
+	@State private var styleguide = Styleguide.organized
 
+	
 	var body: some View {
-		ZStack(alignment: .bottomTrailing) {
+		NavigationStack {
 			TodoListView { date in
 				newTodoDate = date
+			} showSettings: {
+				showAppInfo = true
 			}
-			
+		}
+		.onAppear {
+			todoListProvider.startObserving()
+		}
+		.overlay(alignment: .bottomTrailing) {
 			NewTodoButton()
+				.offset(x: -styleguide.large)
 		}
 		.sheet(item: $newTodoDate) { newTodoDate in
 			NewTodoView(dueDate: newTodoDate)
@@ -35,6 +49,11 @@ struct CompositionRoot: View {
 		.sheet(isPresented: $showNewTodo) {
 			NewTodoView(dueDate: newTodoDate)
 		}
+		.environment(\.styleguide, styleguide)
+		.environment(\.todoRepository, todoRepository)
+		.environment(\.todoListProvider, todoListProvider)
+		.environment(\.newTodoCreation, newTodoCreation)
+
 	}
 }
 
@@ -65,4 +84,10 @@ private extension CompositionRoot {
 				.padding(.bottom)
 		}
 	}
+}
+
+
+#Preview {
+	CompositionRoot()
+		.styledPreview()
 }

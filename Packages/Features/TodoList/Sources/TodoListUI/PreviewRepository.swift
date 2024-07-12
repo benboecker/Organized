@@ -44,6 +44,14 @@ class PreviewRepository: TodoListProvider, TodoRepository {
 	func delete(todoID: UUID) {
 		
 	}
+	
+	public func startObserving() {
+		
+	}
+	
+	public func regenerate() {
+		
+	}
 }
 
 

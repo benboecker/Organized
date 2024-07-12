@@ -17,8 +17,7 @@ public struct AppInfoView: View {
 	@Environment(\.dismiss) private var dismiss
 	@Environment(\.styleguide) private var styleguide
 	@Environment(\.settings) private var settings
-	@Environment(\.excludedDates) private var excludedDates
-
+	
     public var body: some View {
 		NavigationStack {
 			ScrollView {
@@ -96,10 +95,10 @@ private extension AppInfoView {
 					ForEach(ExcludedDates.ExcludedWeekday.all, id: \.self) { weekday in
 						Button {
 							withAnimation(.snappy) {
-								excludedDates.toggleWeekdayExcluded(weekday)
+								ExcludedDates.shared.toggleWeekdayExcluded(weekday)
 							}
 						} label: {
-							Label(weekday.name, systemImage: excludedDates.isWeekdayExcluded(weekday) ? "checkmark" : "")
+							Label(weekday.name, systemImage: ExcludedDates.shared.isWeekdayExcluded(weekday) ? "checkmark" : "")
 						}
 					}
 				} label: {
@@ -108,7 +107,7 @@ private extension AppInfoView {
 							.font(styleguide.body)
 							.foregroundStyle(styleguide.primaryText)
 						Spacer()
-						Text(excludedDates.excludedWeekdaysDescription)
+						Text(ExcludedDates.shared.excludedWeekdaysDescription)
 							.font(styleguide.headline)
 							.foregroundStyle(styleguide.primaryText)
 					}

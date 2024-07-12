@@ -17,8 +17,7 @@ struct EmptyDayView: View {
 	let isManuallyExcluded: Bool
 	
 	@Environment(\.styleguide) private var styleguide
-	@Environment(\.weekdayProvider) private var weekdayProvider
-	@Environment(\.excludedDates) private var excludedDates
+	@Environment(\.todoListProvider) private var todoListProvider
 
 	var body: some View {
 		VStack(spacing: styleguide.medium) {
@@ -38,7 +37,8 @@ struct EmptyDayView: View {
 			if isManuallyExcluded {
 				Button {
 					withAnimation(.snappy) {
-						excludedDates.toggleManuallyExclude(date: date)
+						ExcludedDates.shared.toggleManuallyExclude(date: date)
+						todoListProvider.regenerate()
 					}
 				} label: {
 					Text("Tag einplanen")

@@ -7,8 +7,8 @@
 
 import Foundation
 import OSLog
-import Observation
 import SwiftUI
+import Observation
 
 
 @Observable
@@ -157,9 +157,3 @@ private extension ExcludedDates {
 		return excludedWeekdays.contains { $0.index == index }
 	}
 }
-
-
-public extension EnvironmentValues {
-	@Entry var excludedDates = ExcludedDates.shared
-}
-

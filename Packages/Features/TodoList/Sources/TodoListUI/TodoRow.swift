@@ -55,6 +55,6 @@ struct TodoRow: View {
 }
 
 #Preview {
-	TodoListView { _ in }
+	TodoListView { _ in } showSettings: { }
 		.styledPreview()
 }

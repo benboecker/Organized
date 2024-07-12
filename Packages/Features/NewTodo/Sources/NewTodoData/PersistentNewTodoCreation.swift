@@ -8,8 +8,10 @@
 import Foundation
 import NewTodoDomain
 import Persistence
+import Observation
 
 
+@Observable
 public class PersistentNewTodoCreation: NewTodoCreation {
 
 	public init(container: PersistentContainer) {
