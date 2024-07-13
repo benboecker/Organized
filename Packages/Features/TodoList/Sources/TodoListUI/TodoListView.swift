@@ -36,25 +36,12 @@ public struct TodoListView: View {
 		ScrollView {
 			LazyVStack(spacing: styleguide.large) {
 				ForEach(todoListProvider.sections) { section in
-					Section {
-						if section.todos.isEmpty {
-							EmptyDayView(date: section.date, isManuallyExcluded: section.isManuallyExcluded)
-								.padding(.bottom, styleguide.extraLarge)
-						} else {
-							ForEach(section.todos) { todo in
-								TodoRow(todo: todo, focussed: $focussedTodoID)
-							}
-						}
-					} header: {
-						if section.todos.hasContent {
-							WeekdayHeaderView(date: section.date) { date in
-								showNewTodo(date)
-							}
-							.padding(.leading, 42)
-						}
+					TodoSection(for: section)
+					
+					if todoListProvider.sections.last != section {
+						Divider()
+							.padding(.bottom, styleguide.extraLarge)
 					}
-					Divider()
-						.padding(.bottom, styleguide.extraLarge)
 				}
 			}
 			.animation(.snappy, value: todoListProvider.sections)
@@ -68,7 +55,7 @@ public struct TodoListView: View {
 				inset: geo.contentInsets.top
 			)
 		} action: { oldValue, newValue in
-			let newOpacity = 1 + ((newValue.offset/* - styleguide.extraLarge*/) / (newValue.inset/* + styleguide.extraLarge*/))
+			let newOpacity = 1 + ((newValue.offset) / (newValue.inset))
 			
 			if statusbarOpacity > 0.0 && newOpacity < 0.0 {
 				statusbarOpacity = 0.0
@@ -79,6 +66,26 @@ public struct TodoListView: View {
 			}
 		}
 
+	}
+	
+	func TodoSection(for section: TodoSection) -> some View {
+		Section {
+			if section.todos.isEmpty {
+				EmptyDayView(date: section.date, isManuallyExcluded: section.isManuallyExcluded)
+					.padding(.bottom, styleguide.extraLarge)
+			} else {
+				ForEach(section.todos) { todo in
+					TodoRow(todo: todo, focussed: $focussedTodoID)
+				}
+			}
+		} header: {
+			if section.todos.hasContent {
+				WeekdayHeaderView(date: section.date) { date in
+					showNewTodo(date)
+				}
+				.padding(.leading, 42)
+			}
+		}
 	}
 	
 	@ViewBuilder
