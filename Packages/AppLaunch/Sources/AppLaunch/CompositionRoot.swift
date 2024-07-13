@@ -50,8 +50,11 @@ struct CompositionRoot: View {
 			todoListProvider.startObserving()
 		}
 		.overlay(alignment: .bottomTrailing) {
-			NewTodoButton()
-				.offset(x: -styleguide.large)
+			ButtonBarView(
+				showsAppInfo: $showAppInfo,
+				showsNewTodo: $showNewTodo
+			)
+			.padding(.horizontal)
 		}
 		.overlay(alignment: .top) {
 			Color.clear
@@ -78,28 +81,6 @@ struct CompositionRoot: View {
 extension Date: @retroactive Identifiable {
 	public var id: String {
 		formatted()
-	}
-}
-
-private extension CompositionRoot {
-	private func NewTodoButton() -> some View {
-		Button {
-			//			withAnimation(.snappy) {
-			showNewTodo = true
-			//			}
-		} label: {
-			Image(systemName: "plus")
-				.font(.title2.bold())
-				.frame(minWidth: 32, minHeight: 32)
-				.foregroundStyle(Color.primary)
-				.padding(8)
-				.background(
-					.thinMaterial.shadow(.drop(color: .black.opacity(0.15), radius: 2, y: 2)),
-					in: .circle
-				)
-				.padding(.trailing)
-				.padding(.bottom)
-		}
 	}
 }
 

@@ -14,9 +14,9 @@ import OSLog
 @Observable
 public class Settings {
 	public var numberOfTodos: Int = 3
+	public var isFocusedOnToday: Bool = true
 	
 	var manuallyExcludedDates: Set<Date> = []
-	var isFocusedOnToday: Bool = true
 	var excludedWeekdays: Set<ExcludedWeekday> = []
 	let calendar = Calendar.current
 	let logger = Logger(subsystem: "Settings", category: "Settings")
