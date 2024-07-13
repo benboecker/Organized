@@ -29,43 +29,67 @@ public struct TodoListView: View {
 	@Environment(\.todoRepository) private var todoRepository
 	@Environment(\.todoListProvider) private var todoListProvider
 	@Environment(\.styleguide) private var styleguide
+	@Environment(\.settings) private var settings
 	@FocusState private var focussedTodoID: UUID?
 	@Binding private var statusbarOpacity: Double
 	
 	public var body: some View {
-		ScrollView {
-			LazyVStack(spacing: styleguide.large) {
-				ForEach(todoListProvider.sections) { section in
-					TodoSection(for: section)
-					
-					if todoListProvider.sections.last != section {
-						Divider()
-							.padding(.bottom, styleguide.extraLarge)
+		if settings.isFocusedOnToday, let section = todoListProvider.sections.first {
+//			VStack {
+//				Spacer()
+				FoucusedTodayView(for: section)
+//				Spacer()
+//			}
+			.padding(.horizontal, styleguide.large)
+		} else {
+			ScrollView {
+				LazyVStack(spacing: styleguide.large) {
+					ForEach(todoListProvider.sections) { section in
+						TodoSection(for: section)
+						
+						if todoListProvider.sections.last != section {
+							Divider()
+								.padding(.bottom, styleguide.extraLarge)
+						}
 					}
 				}
+				.animation(.snappy, value: todoListProvider.sections)
+				.padding(.horizontal, styleguide.large)
+				.padding(.leading, styleguide.extraSmall)
+				.padding(.vertical, styleguide.extraLarge)
 			}
-			.animation(.snappy, value: todoListProvider.sections)
-			.padding(.horizontal, styleguide.large)
-			.padding(.leading, styleguide.extraSmall)
-			.padding(.vertical, styleguide.extraLarge)
-		}
-		.onScrollGeometryChange(for: ScrollValues.self) { geo in
-			ScrollValues(
-				offset: geo.contentOffset.y,
-				inset: geo.contentInsets.top
-			)
-		} action: { oldValue, newValue in
-			let newOpacity = 1 + ((newValue.offset) / (newValue.inset))
-			
-			if statusbarOpacity > 0.0 && newOpacity < 0.0 {
-				statusbarOpacity = 0.0
-			} else if statusbarOpacity < 1.0 && newOpacity > 1.0 {
-				statusbarOpacity = 1.0
-			} else if newOpacity >= 0.0 && newOpacity <= 1.0 {
-				statusbarOpacity = newOpacity
+			.onScrollGeometryChange(for: ScrollValues.self) { geo in
+				ScrollValues(
+					offset: geo.contentOffset.y,
+					inset: geo.contentInsets.top
+				)
+			} action: { oldValue, newValue in
+				let newOpacity = 1 + ((newValue.offset) / (newValue.inset))
+				
+				if statusbarOpacity > 0.0 && newOpacity < 0.0 {
+					statusbarOpacity = 0.0
+				} else if statusbarOpacity < 1.0 && newOpacity > 1.0 {
+					statusbarOpacity = 1.0
+				} else if newOpacity >= 0.0 && newOpacity <= 1.0 {
+					statusbarOpacity = newOpacity
+				}
 			}
 		}
-
+	}
+	
+	func FoucusedTodayView(for section: TodoSection) -> some View {
+		VStack(spacing: styleguide.large) {
+			Spacer()
+			TodoSection(for: section)
+			Spacer()
+			PillButton(title: "Alle Aufgaben", imageName: "arrow.down.backward.and.arrow.up.forward") {
+				withAnimation(.snappy) {
+					settings.isFocusedOnToday = false
+					
+				}
+			}
+		}
+		
 	}
 	
 	func TodoSection(for section: TodoSection) -> some View {
@@ -161,10 +185,26 @@ public struct TodoListView: View {
 }
 
 #Preview {
-	@Previewable @State var v = 0.0
-	TodoListView(statusBarOpacity: $v) { _ in } showSettings: { }
+	TodoListView(statusBarOpacity: .constant(0.0)) { _ in } showSettings: { }
 		.styledPreview()
 }
+
+#Preview {
+	@Previewable @Environment(\.settings) var settings
+	TodoListView(statusBarOpacity: .constant(0.0)) { _ in } showSettings: { }
+		.overlay(alignment: .bottomLeading) {
+			if !settings.isFocusedOnToday {
+				RoundedButton(image: "arrow.up.right.and.arrow.down.left") {
+					withAnimation(.snappy) {
+						settings.isFocusedOnToday = true
+					}
+				}
+				.padding()
+			}
+		}
+		.styledPreview()
+}
+
 
 
 public extension EnvironmentValues {

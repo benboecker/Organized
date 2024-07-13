@@ -31,7 +31,7 @@ struct ButtonBarView: View {
 			Spacer()
 			
 			RoundedButton(image: "plus") {
-				
+				showsNewTodo = true
 			}
 		}
 	}

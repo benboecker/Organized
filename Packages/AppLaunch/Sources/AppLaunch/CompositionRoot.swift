@@ -6,6 +6,7 @@
 //
 
 import Alerts
+import AppInfoUI
 import NewTodoUI
 import NewTodoData
 import NewTodoDomain
@@ -44,17 +45,19 @@ struct CompositionRoot: View {
 			} showSettings: {
 				showAppInfo = true
 			}
+			.overlay(alignment: .bottom) {
+				if !settings.isFocusedOnToday {
+					ButtonBarView(
+						showsAppInfo: $showAppInfo,
+						showsNewTodo: $showNewTodo
+					)
+					.padding(.horizontal)
+				}
+			}
 		}
 		.onAppear {
 			settings.observeChanges()
 			todoListProvider.startObserving()
-		}
-		.overlay(alignment: .bottomTrailing) {
-			ButtonBarView(
-				showsAppInfo: $showAppInfo,
-				showsNewTodo: $showNewTodo
-			)
-			.padding(.horizontal)
 		}
 		.overlay(alignment: .top) {
 			Color.clear
@@ -68,6 +71,9 @@ struct CompositionRoot: View {
 		}
 		.sheet(isPresented: $showNewTodo) {
 			NewTodoView(dueDate: newTodoDate)
+		}
+		.sheet(isPresented: $showAppInfo) {
+			AppInfoView()
 		}
 		.environment(\.styleguide, styleguide)
 		.environment(\.settings, settings)

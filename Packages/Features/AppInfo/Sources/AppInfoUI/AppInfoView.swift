@@ -13,6 +13,7 @@ import SwiftUI
 
 
 public struct AppInfoView: View {
+	public init() { }
 	
 	@Environment(\.dismiss) private var dismiss
 	@Environment(\.styleguide) private var styleguide

@@ -21,35 +21,30 @@ struct EmptyDayView: View {
 	@Environment(\.settings) private var settings
 
 	var body: some View {
-		VStack(spacing: styleguide.medium) {
+		VStack(spacing: styleguide.large) {
 			Image(systemName: "beach.umbrella")
 				.font(.system(.largeTitle, weight: .medium))
 				.foregroundStyle(styleguide.primaryText)
-				.padding(.bottom, styleguide.large)
 			
-			WeekdayView(date: date)
-			
-			Text("Entspann dich, an diesem Tag gibt es keine Aufgaben.")
-				.font(styleguide.body)
-				.foregroundStyle(styleguide.primaryText)
-				.padding(.horizontal)
-				.multilineTextAlignment(.center)
+			VStack(spacing: styleguide.small) {
+				WeekdayView(date: date)
+				Text("Entspann dich, an diesem Tag gibt es keine Aufgaben.")
+					.font(styleguide.body)
+					.foregroundStyle(styleguide.primaryText)
+					.padding(.horizontal)
+					.multilineTextAlignment(.center)
+			}
 			
 			if isManuallyExcluded {
-				Button {
+				PillButton(
+					title: "Tag einplanen",
+					imageName: "calendar"
+				) {
 					withAnimation(.snappy) {
 						settings.toggleManuallyExclude(date: date)
 						todoListProvider.regenerate()
 					}
-				} label: {
-					Text("Tag einplanen")
-						.font(styleguide.headline)
-						.foregroundStyle(styleguide.primaryText)
-						.padding(.vertical, styleguide.medium)
-						.padding(.horizontal, styleguide.large)
-						.background(styleguide.secondaryBackground, in: .capsule)
 				}
-				.padding(.top, styleguide.large)
 			}
 		}
 	}
