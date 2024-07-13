@@ -71,11 +71,11 @@ private extension AppInfoView {
 		Section {
 			VStack(spacing: styleguide.medium) {
 				Menu {
-					Button("3", systemImage: settings.numberOfTodos == 3 ? "checkmark" : "") { withAnimation(.snappy) { settings.setNumberOfTodos(3) } }
-					Button("4", systemImage: settings.numberOfTodos == 4 ? "checkmark" : "") { withAnimation(.snappy) { settings.setNumberOfTodos(4) } }
-					Button("5", systemImage: settings.numberOfTodos == 5 ? "checkmark" : "") { withAnimation(.snappy) { settings.setNumberOfTodos(5) } }
-					Button("6", systemImage: settings.numberOfTodos == 6 ? "checkmark" : "") { withAnimation(.snappy) { settings.setNumberOfTodos(6) } }
-					Button("7", systemImage: settings.numberOfTodos == 7 ? "checkmark" : "") { withAnimation(.snappy) { settings.setNumberOfTodos(7) } }
+					Button("3", systemImage: settings.numberOfTodos == 3 ? "checkmark" : "") { withAnimation(.snappy) { settings.numberOfTodos = 3 } }
+					Button("4", systemImage: settings.numberOfTodos == 4 ? "checkmark" : "") { withAnimation(.snappy) { settings.numberOfTodos = 4 } }
+					Button("5", systemImage: settings.numberOfTodos == 5 ? "checkmark" : "") { withAnimation(.snappy) { settings.numberOfTodos = 5 } }
+					Button("6", systemImage: settings.numberOfTodos == 6 ? "checkmark" : "") { withAnimation(.snappy) { settings.numberOfTodos = 6 } }
+					Button("7", systemImage: settings.numberOfTodos == 7 ? "checkmark" : "") { withAnimation(.snappy) { settings.numberOfTodos = 7 } }
 				} label: {
 					HStack(alignment: .firstTextBaseline) {
 						Text("Number of tasks per day")
@@ -92,13 +92,13 @@ private extension AppInfoView {
 				}
 				
 				Menu {
-					ForEach(ExcludedDates.ExcludedWeekday.all, id: \.self) { weekday in
+					ForEach(Settings.ExcludedWeekday.all, id: \.self) { weekday in
 						Button {
 							withAnimation(.snappy) {
-								ExcludedDates.shared.toggleWeekdayExcluded(weekday)
+								settings.toggleWeekdayExcluded(weekday)
 							}
 						} label: {
-							Label(weekday.name, systemImage: ExcludedDates.shared.isWeekdayExcluded(weekday) ? "checkmark" : "")
+							Label(weekday.name, systemImage: settings.isWeekdayExcluded(weekday) ? "checkmark" : "")
 						}
 					}
 				} label: {
@@ -107,7 +107,7 @@ private extension AppInfoView {
 							.font(styleguide.body)
 							.foregroundStyle(styleguide.primaryText)
 						Spacer()
-						Text(ExcludedDates.shared.excludedWeekdaysDescription)
+						Text(settings.excludedWeekdaysDescription)
 							.font(styleguide.headline)
 							.foregroundStyle(styleguide.primaryText)
 					}

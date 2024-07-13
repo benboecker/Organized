@@ -6,29 +6,10 @@
 //
 
 import Foundation
-import OSLog
-import SwiftUI
-import Observation
 
 
-@Observable
-public class ExcludedDates {
-	
-	public static let shared = ExcludedDates()
-	
-	private var manuallyExcludedDates: Set<Date> = []
-	private var excludedWeekdays: Set<ExcludedWeekday> = []
-	private let calendar = Calendar.current
-	private let logger = Logger(subsystem: "Settings", category: "ExcludedDates")
-	
-	private init() {
-		loadDates()
-		cleanUp()
-	}
-}
-
-
-public extension ExcludedDates {
+// MARK: - Public excluded date functions
+public extension Settings {
 	enum ExcludedState: Equatable {
 		case manually, weekday, notExcluded
 	}
@@ -46,7 +27,7 @@ public extension ExcludedDates {
 	func isWeekdayExcluded(_ weekday: ExcludedWeekday) -> Bool {
 		return excludedWeekdays.contains { $0 == weekday }
 	}
-
+	
 	func nextDate(after _date: Date) -> (date: Date, isExcluded: ExcludedState) {
 		let date: Date
 		
@@ -71,8 +52,6 @@ public extension ExcludedDates {
 			manuallyExcludedDates.insert(date)
 			logger.info("excluded date \(date)")
 		}
-		
-		saveDates()
 	}
 	
 	func toggleWeekdayExcluded(_ weekday: ExcludedWeekday) {
@@ -97,7 +76,6 @@ public extension ExcludedDates {
 	/// used for unit tests
 	func removeAll() {
 		manuallyExcludedDates.removeAll()
-		saveDates()
 	}
 	
 	struct ExcludedWeekday: Hashable {
@@ -120,20 +98,8 @@ public extension ExcludedDates {
 	}
 }
 
-
-private extension ExcludedDates {
-	var key: String { "de.ben-boecker.organized.manually-excluded-dates" }
-	
-	func loadDates() {
-		if let dates = UserDefaults.standard.object(forKey: key) as? [Date] {
-			self.manuallyExcludedDates = Set(dates)
-		}
-	}
-	
-	func saveDates() {
-		UserDefaults.standard.setValue(Array(manuallyExcludedDates), forKey: key)
-	}
-	
+// MARK: - Private excluded date functions
+private extension Settings {
 	func cleanUp() {
 		let start = calendar.startOfDay(for: .now)
 		
@@ -141,8 +107,6 @@ private extension ExcludedDates {
 		for pastDate in pastDates {
 			manuallyExcludedDates.remove(pastDate)
 		}
-		
-		saveDates()
 	}
 	
 	func isManuallyExcluded(_ date: Date) -> Bool {
@@ -150,7 +114,7 @@ private extension ExcludedDates {
 			calendar.isDate(excludedDate, inSameDayAs: date)
 		}
 	}
-
+	
 	func isWeekdayExcluded(_ date: Date) -> Bool {
 		let index = calendar.component(.weekday, from: date)
 		

@@ -1,49 +1,90 @@
 //
-//  File.swift
-//  
+//  NewSettings.swift
+//  Settings
 //
-//  Created by Benjamin Böcker on 09.07.24.
+//  Created by Benjamin Böcker on 13.07.24.
 //
 
 import Foundation
 import Observation
 import SwiftUI
+import OSLog
 
 
 @Observable
 public class Settings {
-	public static let shared = Settings()
-	
 	public var numberOfTodos: Int = 3
 	
-	private init() {
+	var manuallyExcludedDates: Set<Date> = []
+	var isFocusedOnToday: Bool = true
+	var excludedWeekdays: Set<ExcludedWeekday> = []
+	let calendar = Calendar.current
+	let logger = Logger(subsystem: "Settings", category: "Settings")
+	
+	public init() {
 		loadData()
 	}
-}
-
-public extension Settings {
-	func setNumberOfTodos(_ numberOfTodos: Int) {
-		self.numberOfTodos = numberOfTodos
-		saveData()
-	}
-}
-
-private extension Settings {
-	var numberOfTodosKey: String { "de.ben-boecker.organized.number-of-todos" }
-
-	func loadData() {
-		if let numberOfTodos = UserDefaults.standard.object(forKey: numberOfTodosKey) as? Int {
-			self.numberOfTodos = numberOfTodos
+	
+	public func observeChanges() {
+		@Sendable func observeNumberOfTodos() {
+			_ = withObservationTracking {
+				numberOfTodos
+			} onChange: { [weak self] in
+				self?.saveData()
+				observeNumberOfTodos()
+			}
 		}
+		
+		@Sendable func observeManuallyExcludedDates() {
+			_ = withObservationTracking {
+				manuallyExcludedDates
+			} onChange: { [weak self] in
+				self?.saveData()
+				observeManuallyExcludedDates()
+			}
+		}
+		
+		@Sendable func observeExcludedWeekdays() {
+			_ = withObservationTracking {
+				excludedWeekdays
+			} onChange: { [weak self] in
+				self?.saveData()
+				observeExcludedWeekdays()
+			}
+		}
+		
+		@Sendable func observeFocusedOnToday() {
+			_ = withObservationTracking {
+				isFocusedOnToday
+			} onChange: { [weak self] in
+				self?.saveData()
+				observeFocusedOnToday()
+			}
+		}
+		
+		observeManuallyExcludedDates()
+		observeExcludedWeekdays()
+		observeNumberOfTodos()
+		observeFocusedOnToday()
 	}
+}
+
+
+
+
+// MARK: - Loading & saving data
+private extension Settings {
 	
 	func saveData() {
-		UserDefaults.standard.setValue(numberOfTodos, forKey: numberOfTodosKey)
+		logger.info("saving data")
+	}
+	
+	func loadData() {
+		
+		logger.info("loaded data")
 	}
 }
 
-
 public extension EnvironmentValues {
-	@Entry var settings = Settings.shared
+	@Entry var settings = Settings()
 }
-

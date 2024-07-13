@@ -18,13 +18,14 @@ struct WeekdayHeaderView: View {
 	
 	@Environment(\.styleguide) private var styleguide
 	@Environment(\.todoListProvider) private var todoListProvider
-	
+	@Environment(\.settings) private var settings
+
 	
     var body: some View {
 		Menu {
 			Button {
 				withAnimation(.snappy) {
-					ExcludedDates.shared.toggleManuallyExclude(date: date)
+					settings.toggleManuallyExclude(date: date)
 					todoListProvider.regenerate()
 				}
 			} label: {

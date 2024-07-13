@@ -17,9 +17,8 @@ import OSLog
 
 @Observable
 public class PersistentTodoListProvider: TodoListProvider {
-	public init(container: PersistentContainer) {
-		logger.info("init")
-		
+	public init(container: PersistentContainer, settings: Settings) {
+		self.settings = settings
 		self.observer = StoredTodoObserver(
 			context: container.mainContext
 		)
@@ -27,6 +26,7 @@ public class PersistentTodoListProvider: TodoListProvider {
 	
 	public var sections: [TodoSection] = []
 
+	private let settings: Settings
 	private let observer: StoredTodoObserver
 	private let logger = Logger(subsystem: "TodoList", category: "PersistentTodoListProvider")
 	
@@ -72,7 +72,7 @@ private extension PersistentTodoListProvider {
 		}
 				
 		func addTodosForDate(_ date: Date) {
-			let isExcluded = ExcludedDates.shared.isDateExcluded(date)
+			let isExcluded = settings.isDateExcluded(date)
 						
 			switch isExcluded {
 			case .manually:
@@ -90,7 +90,7 @@ private extension PersistentTodoListProvider {
 
 			case .notExcluded:
 				let dueTodos = getDueTodos(on: date)
-				let remainingTodoCount = Settings.shared.numberOfTodos - dueTodos.count
+				let remainingTodoCount = settings.numberOfTodos - dueTodos.count
 				
 				sections.append(TodoSection(
 					date: date,
