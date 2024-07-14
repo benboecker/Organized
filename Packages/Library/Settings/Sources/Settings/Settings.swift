@@ -14,7 +14,7 @@ import OSLog
 @Observable
 public class Settings {
 	public var numberOfTodos: Int = 3
-	public var isFocusedOnToday: Bool = true
+	public var isFocusedOnToday: Bool = false
 	
 	var manuallyExcludedDates: Set<Date> = []
 	var excludedWeekdays: Set<ExcludedWeekday> = []

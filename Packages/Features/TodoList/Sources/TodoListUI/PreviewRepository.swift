@@ -104,6 +104,10 @@ extension [TodoSection] {
 	]
 }
 
+extension TodoSection {
+	static let preview = [TodoSection].preview.first!
+}
+
 extension Date {
 	static var startOfToday: Date { Calendar.current.startOfDay(for: .now) }
 }

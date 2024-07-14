@@ -30,22 +30,42 @@ public struct TodoListView: View {
 	@Environment(\.todoListProvider) private var todoListProvider
 	@Environment(\.styleguide) private var styleguide
 	@Environment(\.settings) private var settings
-	@FocusState private var focussedTodoID: UUID?
+	@FocusState private var focusedTodoID: UUID?
 	@Binding private var statusbarOpacity: Double
+	@Namespace private var animation
 	
 	public var body: some View {
 		if settings.isFocusedOnToday, let section = todoListProvider.sections.first {
-//			VStack {
-//				Spacer()
-				FoucusedTodayView(for: section)
-//				Spacer()
-//			}
-			.padding(.horizontal, styleguide.large)
+			TodayView(
+				section: section,
+				focusedID: $focusedTodoID,
+				animation: animation
+			)
+				.padding(.horizontal, styleguide.large)
 		} else {
 			ScrollView {
 				LazyVStack(spacing: styleguide.large) {
+					HStack(spacing: styleguide.large) {
+						PillButton(title: "App Info", imageName: "info.circle") {
+							
+						}
+
+						PillButton(title: "Nur Heute", imageName: "arrow.up.right.and.arrow.down.left") {
+							withAnimation(.snappy) {
+								settings.isFocusedOnToday = true
+							}
+						}
+						
+						Spacer()
+					}
+					.padding(.bottom, styleguide.extraLarge)
+					
 					ForEach(todoListProvider.sections) { section in
-						TodoSection(for: section)
+						TodoSectionView(
+							section: section,
+							focusedID: $focusedTodoID,
+							animation: animation
+						)
 						
 						if todoListProvider.sections.last != section {
 							Divider()
@@ -73,41 +93,6 @@ public struct TodoListView: View {
 				} else if newOpacity >= 0.0 && newOpacity <= 1.0 {
 					statusbarOpacity = newOpacity
 				}
-			}
-		}
-	}
-	
-	func FoucusedTodayView(for section: TodoSection) -> some View {
-		VStack(spacing: styleguide.large) {
-			Spacer()
-			TodoSection(for: section)
-			Spacer()
-			PillButton(title: "Alle Aufgaben", imageName: "arrow.down.backward.and.arrow.up.forward") {
-				withAnimation(.snappy) {
-					settings.isFocusedOnToday = false
-					
-				}
-			}
-		}
-		
-	}
-	
-	func TodoSection(for section: TodoSection) -> some View {
-		Section {
-			if section.todos.isEmpty {
-				EmptyDayView(date: section.date, isManuallyExcluded: section.isManuallyExcluded)
-					.padding(.bottom, styleguide.extraLarge)
-			} else {
-				ForEach(section.todos) { todo in
-					TodoRow(todo: todo, focussed: $focussedTodoID)
-				}
-			}
-		} header: {
-			if section.todos.hasContent {
-				WeekdayHeaderView(date: section.date) { date in
-					showNewTodo(date)
-				}
-				.padding(.leading, 42)
 			}
 		}
 	}
@@ -143,40 +128,40 @@ public struct TodoListView: View {
 		}
 	}
 	
-	func ToolbarItems() -> some ToolbarContent {
-		ToolbarItemGroup(placement: .keyboard) {
-			Button {
-				if let focussedTodoID {
-					self.focussedTodoID = todoListProvider.id(before: focussedTodoID)
-				}
-			} label: {
-				Label("Zurück", systemImage: "arrow.up")
-			}
-			.tint(styleguide.primaryText)
-			
-			Color.clear.frame(width: 10)
-			
-			Button {
-				if let focussedTodoID {
-					self.focussedTodoID = todoListProvider.id(after: focussedTodoID)
-				}
-			} label: {
-				Label("Weiter", systemImage: "arrow.down")
-					.padding(.leading, 10)
-			}
-			.tint(styleguide.primaryText)
-
-			Spacer()
-			
-			Button {
-				UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
-			} label: {
-				Label("Fertig", systemImage: "keyboard.chevron.compact.down")
-			}
-			.tint(styleguide.primaryText)
-		}
+//	func ToolbarItems() -> some ToolbarContent {
+//		ToolbarItemGroup(placement: .keyboard) {
+//			Button {
+//				if let focussedTodoID {
+//					self.focussedTodoID = todoListProvider.id(before: focussedTodoID)
+//				}
+//			} label: {
+//				Label("Zurück", systemImage: "arrow.up")
+//			}
+//			.tint(styleguide.primaryText)
+//			
+//			Color.clear.frame(width: 10)
+//			
+//			Button {
+//				if let focussedTodoID {
+//					self.focussedTodoID = todoListProvider.id(after: focussedTodoID)
+//				}
+//			} label: {
+//				Label("Weiter", systemImage: "arrow.down")
+//					.padding(.leading, 10)
+//			}
+//			.tint(styleguide.primaryText)
+//
+//			Spacer()
+//			
+//			Button {
+//				UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+//			} label: {
+//				Label("Fertig", systemImage: "keyboard.chevron.compact.down")
+//			}
+//			.tint(styleguide.primaryText)
+//		}
 		
-	}
+	//}
 	
 	struct ScrollValues: Equatable {
 		let offset: Double
@@ -190,18 +175,7 @@ public struct TodoListView: View {
 }
 
 #Preview {
-	@Previewable @Environment(\.settings) var settings
 	TodoListView(statusBarOpacity: .constant(0.0)) { _ in } showSettings: { }
-		.overlay(alignment: .bottomLeading) {
-			if !settings.isFocusedOnToday {
-				RoundedButton(image: "arrow.up.right.and.arrow.down.left") {
-					withAnimation(.snappy) {
-						settings.isFocusedOnToday = true
-					}
-				}
-				.padding()
-			}
-		}
 		.styledPreview()
 }
 

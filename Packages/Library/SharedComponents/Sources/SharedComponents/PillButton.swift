@@ -40,23 +40,20 @@ struct PillButtonStyle: ButtonStyle {
 	let textOnly: Bool
 	
 	func makeBody(configuration: Configuration) -> some View {
-		if textOnly {
-			configuration.label
-				.labelStyle(.titleOnly)
-				.font(styleguide.headline)
-				.foregroundStyle(styleguide.primaryText)
-				.padding(.vertical, styleguide.medium)
-				.padding(.horizontal, styleguide.large)
-				.background(styleguide.secondaryBackground, in: .capsule)
-		} else {
-			configuration.label
-				.labelStyle(.titleAndIcon)
-				.font(styleguide.headline)
-				.foregroundStyle(styleguide.primaryText)
-				.padding(.vertical, styleguide.medium)
-				.padding(.horizontal, styleguide.large)
-				.background(styleguide.secondaryBackground, in: .capsule)
+		VStack {
+			if textOnly {
+				configuration.label
+					.labelStyle(.titleOnly)
+			} else {
+				configuration.label
+					.labelStyle(.titleAndIcon)
+			}
 		}
+		.font(styleguide.headline)
+		.foregroundStyle(styleguide.primaryText)
+		.padding(.vertical, styleguide.medium)
+		.padding(.horizontal, styleguide.large)
+		.background(styleguide.secondaryBackground, in: .capsule)
 	}
 }
 

@@ -20,7 +20,6 @@ struct WeekdayHeaderView: View {
 	@Environment(\.todoListProvider) private var todoListProvider
 	@Environment(\.settings) private var settings
 
-	
     var body: some View {
 		Menu {
 			Button {
