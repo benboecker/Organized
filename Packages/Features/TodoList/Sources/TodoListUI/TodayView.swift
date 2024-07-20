@@ -30,7 +30,7 @@ struct TodayView: View {
 			)
 			Spacer()
 			
-			PillButton(title: "Alle Aufgaben", imageName: "arrow.down.backward.and.arrow.up.forward") {
+			OrganizedButton(title: "Alle Aufgaben", imageName: "arrow.down.backward.and.arrow.up.forward") {
 				withAnimation(.snappy) {
 					settings.isFocusedOnToday = false
 					

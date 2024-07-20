@@ -14,6 +14,7 @@ import Settings
 
 struct WeekdayHeaderView: View {
 	let date: Date
+	@State var isExpanded: Bool = false
 	let newTodo: (Date) -> Void
 	
 	@Environment(\.styleguide) private var styleguide
@@ -21,46 +22,43 @@ struct WeekdayHeaderView: View {
 	@Environment(\.settings) private var settings
 
     var body: some View {
-		Menu {
+		VStack(spacing: styleguide.large) {
 			Button {
 				withAnimation(.snappy) {
-					settings.toggleManuallyExclude(date: date)
-					todoListProvider.regenerate()
+					isExpanded.toggle()
 				}
 			} label: {
-				Label("Tag überspringen", systemImage: "calendar.badge.minus")
+				HStack(spacing: styleguide.medium) {
+					WeekdayView(date: date)
+					
+					Image(systemName: "chevron.\(isExpanded ? "up" : "down").circle.fill")
+						.font(.headline)
+						.symbolRenderingMode(.hierarchical)
+						.foregroundStyle(styleguide.secondaryText)
+						.padding(.leading, 4)
+					Spacer()
+				}
 			}
 			
-			Button {
-				newTodo(date)
-			} label: {
-				Label("Neue Aufgabe", systemImage: "plus.circle.fill")
-			}
-		} label: {
-			HStack {
-				WeekdayView(date: date)
-				
-				Image(systemName: "ellipsis.circle.fill")
-					.font(.headline)
-					.symbolRenderingMode(.hierarchical)
-					.foregroundStyle(styleguide.secondaryText)
-					.padding(.leading, 4)
-				Spacer()
+			if isExpanded {
+				OrganizedButton(title: "Neue Aufgabe", imageName: "plus") {
+					newTodo(date)
+				}
+				.frame(maxWidth: .infinity, alignment: .leading)
+				OrganizedButton(title: "Tag ausschließen", imageName: "calendar.badge.minus") {
+					settings.toggleManuallyExclude(date: date)
+				}
+				.frame(maxWidth: .infinity, alignment: .leading)
 			}
 		}
     }
 }
 
 #Preview {
+	@Previewable @State var isExpanded = false
 	WeekdayHeaderView(
 		date: .now
 	) { _ in }
 		.padding()
 		.styledPreview()
 }
-
-#Preview {
-	TodoListView(statusBarOpacity: .constant(0.0)) { _ in } showSettings: { }
-		.styledPreview()
-}
-

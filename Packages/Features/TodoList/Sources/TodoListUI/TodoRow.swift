@@ -31,11 +31,10 @@ struct TodoRow: View {
 
 	var body: some View {
 		HStack(alignment: .center, spacing: styleguide.large) {
-			StatusView(isDone: Binding(get: {
-				todo.isDone
-			}, set: {
-				todoRepository.update(isDone: $0, of: todo.id)
-			}), priority: $priority.wrappedValue)
+			StatusView(
+				isDone: isDoneBinding,
+				status: status
+			)
 			
 			TextField("", text: $title, axis: .vertical)
 				.font(styleguide.body)
@@ -52,9 +51,26 @@ struct TodoRow: View {
 			}
 		}
 	}
+	
+	var isDoneBinding: Binding<Bool> {
+		Binding {
+			todo.isDone
+		} set: {
+			todoRepository.update(isDone: $0, of: todo.id)
+		}
+	}
+	
+	var status: StatusView.Status {
+		switch todo.priority {
+		case .overdue: .urgent
+		case .important: .important
+		case .normal: .normal
+		}
+	}
 }
 
+
 #Preview {
-	TodoListView(statusBarOpacity: .constant(0.0)) { _ in } showSettings: { }
+	TodoListView { _ in } showSettings: { }
 		.styledPreview()
 }

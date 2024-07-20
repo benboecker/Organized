@@ -14,11 +14,9 @@ import SharedComponents
 
 public struct TodoListView: View {
 	public init(
-		statusBarOpacity: Binding<Double>,
 		showNewTodo: @escaping (Date) -> Void,
 		showSettings: @escaping () -> Void
 	) {
-		self._statusbarOpacity = statusBarOpacity
 		self.showNewTodo = showNewTodo
 		self.showSettings = showSettings
 	}
@@ -30,8 +28,8 @@ public struct TodoListView: View {
 	@Environment(\.todoListProvider) private var todoListProvider
 	@Environment(\.styleguide) private var styleguide
 	@Environment(\.settings) private var settings
+	@Environment(\.statusBarOpacity) private var statusBarOpacity
 	@FocusState private var focusedTodoID: UUID?
-	@Binding private var statusbarOpacity: Double
 	@Namespace private var animation
 	
 	public var body: some View {
@@ -45,32 +43,17 @@ public struct TodoListView: View {
 		} else {
 			ScrollView {
 				LazyVStack(spacing: styleguide.large) {
-					HStack(spacing: styleguide.large) {
-						PillButton(title: "App Info", imageName: "info.circle") {
-							
-						}
-
-						PillButton(title: "Nur Heute", imageName: "arrow.up.right.and.arrow.down.left") {
-							withAnimation(.snappy) {
-								settings.isFocusedOnToday = true
-							}
-						}
-						
-						Spacer()
-					}
-					.padding(.bottom, styleguide.extraLarge)
-					
 					ForEach(todoListProvider.sections) { section in
 						TodoSectionView(
 							section: section,
 							focusedID: $focusedTodoID,
 							animation: animation
-						)
-						
-						if todoListProvider.sections.last != section {
-							Divider()
-								.padding(.bottom, styleguide.extraLarge)
-						}
+						)						
+
+//						if todoListProvider.sections.last != section {
+//							Divider()
+//								.padding(.bottom, styleguide.extraLarge)
+//						}
 					}
 				}
 				.animation(.snappy, value: todoListProvider.sections)
@@ -85,14 +68,7 @@ public struct TodoListView: View {
 				)
 			} action: { oldValue, newValue in
 				let newOpacity = 1 + ((newValue.offset) / (newValue.inset))
-				
-				if statusbarOpacity > 0.0 && newOpacity < 0.0 {
-					statusbarOpacity = 0.0
-				} else if statusbarOpacity < 1.0 && newOpacity > 1.0 {
-					statusbarOpacity = 1.0
-				} else if newOpacity >= 0.0 && newOpacity <= 1.0 {
-					statusbarOpacity = newOpacity
-				}
+				statusBarOpacity.value = newOpacity
 			}
 		}
 	}
@@ -170,15 +146,9 @@ public struct TodoListView: View {
 }
 
 #Preview {
-	TodoListView(statusBarOpacity: .constant(0.0)) { _ in } showSettings: { }
+	TodoListView { _ in } showSettings: { }
 		.styledPreview()
 }
-
-#Preview {
-	TodoListView(statusBarOpacity: .constant(0.0)) { _ in } showSettings: { }
-		.styledPreview()
-}
-
 
 
 public extension EnvironmentValues {

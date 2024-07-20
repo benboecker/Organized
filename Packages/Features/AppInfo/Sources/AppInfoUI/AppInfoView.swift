@@ -25,6 +25,7 @@ public struct AppInfoView: View {
 				VStack(spacing: 0) {
 					HeaderSection()
 					SettingsSection()
+					HelpSection()
 					ProVersionSection()
 					SocialSection()
 					AppInfoSection()
@@ -56,7 +57,7 @@ private extension AppInfoView {
 					.resizable()
 					.frame(width: 100, height: 100, alignment: .center)
 					.clipShape(.rect(cornerRadius: 20))
-					.shadow(color: .black.opacity(0.1), radius: 10, y: 4)
+					.shadow(color: .black.opacity(0.2), radius: 10, y: 4)
 					.padding(.vertical, styleguide.extraLarge)
 				
 				Text("Organized")
@@ -133,8 +134,20 @@ private extension AppInfoView {
 	func ProVersionSection() -> some View {
 		Section {
 			VStack(spacing: styleguide.medium) {
-				Label("Pro Version unlocked", systemImage: "checkmark.circle")
+				if true {
+					HStack(spacing: styleguide.medium) {
+						Image(systemName: "exclamationmark.circle")
+							.symbolRenderingMode(.palette)
+							.foregroundStyle(styleguide.accent, styleguide.primaryText)
+						Text("Pro Version freischalten")
+							.font(styleguide.body)
+							.foregroundStyle(styleguide.primaryText)
+					}
 					.rowBackground()
+				} else {
+					Label("Pro Version unlocked", systemImage: "checkmark.circle")
+						.rowBackground()
+				}
 			}
 			.font(styleguide.body)
 			.foregroundStyle(styleguide.primaryText)
@@ -163,6 +176,30 @@ private extension AppInfoView {
 			.foregroundStyle(styleguide.primaryText)
 		} header: {
 			Text("Contact")
+				.font(styleguide.headline)
+				.foregroundStyle(styleguide.secondaryText)
+				.frame(maxWidth: .infinity, alignment: .leading)
+				.padding(.bottom, styleguide.medium)
+				.padding(.top, styleguide.extraLarge)
+		}
+
+	}
+	
+	func HelpSection() -> some View {
+		Section {
+			VStack(spacing: styleguide.medium) {
+				Label("Einführung erneut anzeigen", systemImage: "play.circle")
+					.rowBackground()
+					.onTapGesture {
+						settings.showOnboarding = true
+					}
+				Label("Anleitung", systemImage: "questionmark.circle")
+					.rowBackground()
+			}
+			.font(styleguide.body)
+			.foregroundStyle(styleguide.primaryText)
+		} header: {
+			Text("Hilfe")
 				.font(styleguide.headline)
 				.foregroundStyle(styleguide.secondaryText)
 				.frame(maxWidth: .infinity, alignment: .leading)

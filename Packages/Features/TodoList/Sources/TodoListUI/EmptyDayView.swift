@@ -36,7 +36,7 @@ struct EmptyDayView: View {
 			}
 			
 			if isManuallyExcluded {
-				PillButton(
+				OrganizedButton(
 					title: "Tag einplanen",
 					imageName: "calendar"
 				) {

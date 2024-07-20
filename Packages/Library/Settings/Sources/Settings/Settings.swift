@@ -15,7 +15,8 @@ import OSLog
 public class Settings {
 	public var numberOfTodos: Int = 3
 	public var isFocusedOnToday: Bool = false
-	
+	public var showOnboarding: Bool = true
+
 	var manuallyExcludedDates: Set<Date> = []
 	var excludedWeekdays: Set<ExcludedWeekday> = []
 	let calendar = Calendar.current
@@ -24,6 +25,22 @@ public class Settings {
 	public init() {
 		loadData()
 	}
+	
+	private init(numberOfTodos: Int, isFocusedOnToday: Bool, showOnboarding: Bool, manuallyExcludedDates: Set<Date>, excludedWeekdays: Set<Settings.ExcludedWeekday>) {
+		self.numberOfTodos = numberOfTodos
+		self.isFocusedOnToday = isFocusedOnToday
+		self.showOnboarding = showOnboarding
+		self.manuallyExcludedDates = manuallyExcludedDates
+		self.excludedWeekdays = excludedWeekdays
+	}
+	
+	public static let testing = Settings(
+		numberOfTodos: 3,
+		isFocusedOnToday: false,
+		showOnboarding: false,
+		manuallyExcludedDates: [],
+		excludedWeekdays: []
+	)
 	
 	public func observeChanges() {
 		@Sendable func observeNumberOfTodos() {
@@ -62,10 +79,20 @@ public class Settings {
 			}
 		}
 		
+		@Sendable func observeShowOnboarding() {
+			_ = withObservationTracking {
+				showOnboarding
+			} onChange: { [weak self] in
+				self?.saveData()
+				observeShowOnboarding()
+			}
+		}
+		
 		observeManuallyExcludedDates()
 		observeExcludedWeekdays()
 		observeNumberOfTodos()
 		observeFocusedOnToday()
+		observeShowOnboarding()
 	}
 }
 

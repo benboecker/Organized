@@ -10,6 +10,8 @@ import AppInfoUI
 import NewTodoUI
 import NewTodoData
 import NewTodoDomain
+import OnboardingUI
+import OnboardingDomain
 import Persistence
 import SwiftUI
 import TodoListUI
@@ -33,47 +35,61 @@ struct CompositionRoot: View {
 	init() {
 		print("CompositionRoot init")
 		
-		let settings = Settings()
+		let settings: Settings
+#if DEBUG
+		settings = .testing
+#else
+		settings = Settings()
+#endif
+		
 		self._settings = State(initialValue: settings)
 		self._todoListProvider = State(initialValue: PersistentTodoListProvider(container: .testing, settings: settings))
 	}
 	
 	var body: some View {
-		NavigationStack {
-			TodoListView(statusBarOpacity: $statusBarOpacity) { date in
-				newTodoDate = date
-			} showSettings: {
-				showAppInfo = true
-			}
-			.overlay(alignment: .bottom) {
-				if !settings.isFocusedOnToday {
-					ButtonBarView(
-						showsAppInfo: $showAppInfo,
-						showsNewTodo: $showNewTodo
-					)
-					.padding(.horizontal)
+		ZStack(alignment: .bottom) {
+			NavigationStack {
+				TodoListView { date in
+					newTodoDate = date
+				} showSettings: {
+					showAppInfo = true
 				}
 			}
+			
+//			BottomButtonBar()
 		}
+		.statusBarBlur(fixedBlur: false)
 		.onAppear {
 			settings.observeChanges()
 			todoListProvider.startObserving()
 		}
-		.overlay(alignment: .top) {
-			Color.clear
-				.background(.ultraThinMaterial)
-				.opacity(statusBarOpacity)
-				.ignoresSafeArea(edges: .top)
-				.frame(height: 0) // This will constrain the overlay to only go above the top safe area and not under.
-		}
-		.sheet(item: $newTodoDate) { newTodoDate in
+		.alert(item: $newTodoDate) { newTodoDate in
 			NewTodoView(dueDate: newTodoDate)
 		}
-		.sheet(isPresented: $showNewTodo) {
-			NewTodoView(dueDate: newTodoDate)
+		.alert(isPresented: $showNewTodo, displayConfig: DisplayConfig(
+			enableBackgroundBlur: true,
+			disableOutsideTap: true,
+			transitionType: .slide,
+			slideEdge: .bottom
+		)) {
+			NewTodoView()
+				.padding(30)
 		}
+//		.sheet(item: $newTodoDate) { newTodoDate in
+//			NewTodoView(dueDate: newTodoDate)
+//		}
+//		.sheet(isPresented: $showNewTodo) {
+//			NewTodoView()
+//		}
 		.sheet(isPresented: $showAppInfo) {
 			AppInfoView()
+				.sheet(isPresented: $settings.showOnboarding) {
+					OnboardingView()
+				}
+		}
+		.sheet(isPresented: $settings.showOnboarding) {
+			OnboardingView()
+				.interactiveDismissDisabled()
 		}
 		.environment(\.styleguide, styleguide)
 		.environment(\.settings, settings)
@@ -82,7 +98,6 @@ struct CompositionRoot: View {
 		.environment(\.newTodoCreation, newTodoCreation)
 	}
 }
-
 
 extension Date: @retroactive Identifiable {
 	public var id: String {

@@ -52,7 +52,7 @@ public struct TodoSection: Identifiable, Hashable {
 	package let isManuallyExcluded: Bool
 	
 	public var id: String {
-		date.formatted()
+		date.formatted(.dateTime.year().month().day())
 	}
 }
 

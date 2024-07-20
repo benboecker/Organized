@@ -16,7 +16,7 @@
 		B516315F2BD80DF700387E7E /* SharedComponents */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = SharedComponents; sourceTree = "<group>"; };
 		B53959512C3DA6120095E476 /* Settings */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Settings; sourceTree = "<group>"; };
 		B53959522C3DA8E90095E476 /* AppInfo */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = AppInfo; sourceTree = "<group>"; };
-		B540759A2BDAE6CE0077F7C9 /* Alerts */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Alerts; sourceTree = "<group>"; };
+		B540749C2C43AE1D00E2D95D /* Onboarding */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Onboarding; sourceTree = "<group>"; };
 		B5838B6C2BE413930009C61A /* Utils */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Utils; sourceTree = "<group>"; };
 		B5843A212BD3C1730059C32D /* AppLaunch */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = AppLaunch; sourceTree = "<group>"; };
 		B5843A262BD7A4000059C32D /* TodoList */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = TodoList; sourceTree = "<group>"; };
@@ -54,6 +54,7 @@
 		B57D1A402BD308E40028A51A /* Features */ = {
 			isa = PBXGroup;
 			children = (
+				B540749C2C43AE1D00E2D95D /* Onboarding */,
 				B53959522C3DA8E90095E476 /* AppInfo */,
 				B5843A262BD7A4000059C32D /* TodoList */,
 				B5843A282BD7AD150059C32D /* NewTodo */,
@@ -65,7 +66,6 @@
 			isa = PBXGroup;
 			children = (
 				B5BAA5C72BF3858400F9D3D5 /* DemoData */,
-				B540759A2BDAE6CE0077F7C9 /* Alerts */,
 				B516315F2BD80DF700387E7E /* SharedComponents */,
 				B5843A292BD7AE6C0059C32D /* Persistence */,
 				B5838B6C2BE413930009C61A /* Utils */,

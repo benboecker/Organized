@@ -6,22 +6,24 @@
 //
 
 import SwiftUI
-import SharedComponents
-import TodoListDomain
 import Styleguide
 
 
-struct StatusView: View {
-	init(isDone: Binding<Bool>, priority: Todo.Priority) {
+public struct StatusView: View {
+	public enum Status {
+		case urgent, important, normal
+	}
+	
+	public init(isDone: Binding<Bool>, status: Status) {
 		self._isDone = isDone
-		self.priority = priority
+		self.status = status
 	}
 	
 	@Environment(\.styleguide) private var styleguide
 	@Binding private var isDone: Bool
-	private let priority: Todo.Priority
+	private let status: Status
 	
-	var body: some View {
+	public var body: some View {
 		Button {
 			withAnimation(.snappy) {
 				isDone.toggle()
@@ -36,66 +38,55 @@ struct StatusView: View {
     }
 
 	private var foregroundStyle: Color {
-		switch (isDone, priority) {
+		switch (isDone, status) {
 		case (true, _): styleguide.secondaryText
 		case (false, .normal): styleguide.primaryText
 		case (false, .important): styleguide.accent
-		case (false, .overdue): styleguide.accent
+		case (false, .urgent): styleguide.accent
 		}
 	}
 
 	private var symbolRenderingMode: SymbolRenderingMode {
-		switch (isDone, priority) {
+		switch (isDone, status) {
 		case (true, _): .monochrome
 		case (false, .normal): .monochrome
 		case (false, .important): .palette
-		case (false, .overdue): .monochrome
+		case (false, .urgent): .monochrome
 		}
 	}
 
 	private var imageName: String {
-		switch (isDone, priority) {
+		switch (isDone, status) {
 		case (true, _): "checkmark.circle"
 		case (false, .normal): "circle"
 		case (false, .important): "exclamationmark.circle"
-		case (false, .overdue): "exclamationmark.circle"
+		case (false, .urgent): "exclamationmark.circle"
 		}
 	}
 }
 
-private struct StatusPreview: View {
-	init(isDone: Bool, priority: Todo.Priority) {
-		self._isDone = State(initialValue: isDone)
-		self.priority = priority
-	}
-
-	@State private var isDone: Bool
-	private let priority: Todo.Priority
-
-	var body: some View {
-		StatusView(isDone: $isDone, priority: priority)
-	}
-}
 
 #Preview {
+	@Previewable @State var isDone = false
+	
 	VStack(alignment: .leading, spacing: 24) {
 		HStack {
-			StatusPreview(isDone: false, priority: .normal)
+			StatusView(isDone: $isDone, status: .normal)
 			Text("Normal")
 				.font(.headline)
 		}
 		HStack {
-			StatusPreview(isDone: false, priority: .important)
+			StatusView(isDone: $isDone, status: .important)
 			Text("Important")
 				.font(.headline)
 		}
 		HStack {
-			StatusPreview(isDone: false, priority: .overdue)
+			StatusView(isDone: $isDone, status: .urgent)
 			Text("Overdue")
 				.font(.headline)
 		}
 		HStack {
-			StatusPreview(isDone: true, priority: .normal)
+			StatusView(isDone: .constant(true), status: .normal)
 			Text("Done")
 				.font(.headline)
 		}
