@@ -10,6 +10,8 @@ import Settings
 import SharedComponents
 import Styleguide
 import SwiftUI
+import Utils
+
 
 
 public struct AppInfoView: View {
@@ -18,7 +20,8 @@ public struct AppInfoView: View {
 	@Environment(\.dismiss) private var dismiss
 	@Environment(\.styleguide) private var styleguide
 	@Environment(\.settings) private var settings
-	
+	@Environment(\.appNavigation) private var appNavigation
+
     public var body: some View {
 		NavigationStack {
 			ScrollView {
@@ -191,7 +194,7 @@ private extension AppInfoView {
 				Label("Einführung erneut anzeigen", systemImage: "play.circle")
 					.rowBackground()
 					.onTapGesture {
-						settings.showOnboarding = true
+						appNavigation.showsOnboarding = true
 					}
 				Label("Anleitung", systemImage: "questionmark.circle")
 					.rowBackground()

@@ -19,18 +19,19 @@ import TodoListData
 import TodoListDomain
 import Styleguide
 import Settings
+import Utils
 
 
 struct CompositionRoot: View {
 	@State private var showNewTodo = false
-	@State private var showAppInfo = false
 	@State private var newTodoDate: Date? = nil
 	@State private var settings: Settings
+	@State private var appNavigation: AppNavigation
 	@State private var todoRepository = PersistentTodoRepository(container: .testing)
 	@State private var todoListProvider: TodoListProvider
 	@State private var newTodoCreation = PersistentNewTodoCreation(container: .testing)
 	@State private var styleguide = Styleguide.organized
-	@State private var statusBarOpacity: Double = 0.0
+	
 	
 	init() {
 		print("CompositionRoot init")
@@ -44,19 +45,18 @@ struct CompositionRoot: View {
 		
 		self._settings = State(initialValue: settings)
 		self._todoListProvider = State(initialValue: PersistentTodoListProvider(container: .testing, settings: settings))
+		self._appNavigation = State(initialValue: .showingOnboarding(!settings.didShowOnboarding))
 	}
 	
 	var body: some View {
+		@Bindable var appNavigation = appNavigation
 		ZStack(alignment: .bottom) {
-			NavigationStack {
-				TodoListView { date in
-					newTodoDate = date
-				} showSettings: {
-					showAppInfo = true
+			TodoContainerView()
+				.overlay {
+					Button("APP INFO") {
+						appNavigation.showsAppInfo = true
+					}
 				}
-			}
-			
-//			BottomButtonBar()
 		}
 		.statusBarBlur(fixedBlur: false)
 		.onAppear {
@@ -81,13 +81,13 @@ struct CompositionRoot: View {
 //		.sheet(isPresented: $showNewTodo) {
 //			NewTodoView()
 //		}
-		.sheet(isPresented: $showAppInfo) {
+		.sheet(isPresented: $appNavigation.showsAppInfo) {
 			AppInfoView()
-				.sheet(isPresented: $settings.showOnboarding) {
+				.sheet(isPresented: $appNavigation.showsOnboarding) {
 					OnboardingView()
 				}
 		}
-		.sheet(isPresented: $settings.showOnboarding) {
+		.sheet(isPresented: $appNavigation.showsOnboarding) {
 			OnboardingView()
 				.interactiveDismissDisabled()
 		}
@@ -96,6 +96,7 @@ struct CompositionRoot: View {
 		.environment(\.todoRepository, todoRepository)
 		.environment(\.todoListProvider, todoListProvider)
 		.environment(\.newTodoCreation, newTodoCreation)
+		.environment(\.appNavigation, appNavigation)
 	}
 }
 
