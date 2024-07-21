@@ -38,7 +38,7 @@ struct TodoPagingView: View {
 								animation: animation
 							)
 						}
-						.padding(.horizontal, styleguide.extraLarge)
+						.padding(.horizontal, styleguide.large)
 						.containerRelativeFrame(.horizontal)
 						.id(todoListProvider.sections.map(\.id).firstIndex(of: section.id))
 					}
@@ -48,6 +48,7 @@ struct TodoPagingView: View {
 			.scrollPosition(id: $selectedWeekdayIndex)
 			.scrollIndicators(.hidden)
 			.scrollTargetBehavior(.paging)
+			.animation(.snappy, value: selectedWeekdayIndex)
 			Spacer()
 			
 			if todoListProvider.sections.count > 1 {
@@ -57,6 +58,13 @@ struct TodoPagingView: View {
 				)
 				.pageIndicatorTintColor(styleguide.secondaryText)
 				.currentPageIndicatorTintColor(styleguide.primaryText)
+				.symbol { index in
+					if todoListProvider.sections[index].todos.isEmpty {
+						return "beach.umbrella.fill"
+					} else {
+						return nil
+					}
+				}
 				Spacer()
 			}
 		}

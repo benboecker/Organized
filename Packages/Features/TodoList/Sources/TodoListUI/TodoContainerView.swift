@@ -24,10 +24,12 @@ public struct TodoContainerView: View {
 	
 	
     public var body: some View {
-		switch displayMode {
-		case .list: TodoListView(showNewTodo: { _ in }, showSettings: { })
-		case .focused: TodoPagingView()
-		}
+//		switch displayMode {
+//		case .list:
+//			TodoListView(showNewTodo: { _ in }, showSettings: { })
+//		case .focused:
+			TodoPagingView()
+//		}
 	}
 }
 

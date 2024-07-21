@@ -45,8 +45,12 @@ struct WeekdayHeaderView: View {
 					newTodo(date)
 				}
 				.frame(maxWidth: .infinity, alignment: .leading)
+				
 				OrganizedButton(title: "Tag ausschließen", imageName: "calendar.badge.minus") {
-					settings.toggleManuallyExclude(date: date)
+					withAnimation(.snappy) {
+						settings.toggleManuallyExclude(date: date)
+						todoListProvider.regenerate()
+					}
 				}
 				.frame(maxWidth: .infinity, alignment: .leading)
 			}

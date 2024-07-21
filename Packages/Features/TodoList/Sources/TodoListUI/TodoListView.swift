@@ -33,44 +33,45 @@ public struct TodoListView: View {
 	@Namespace private var animation
 	
 	public var body: some View {
-		if settings.isFocusedOnToday, let section = todoListProvider.sections.first {
-			TodayView(
-				section: section,
-				focusedID: $focusedTodoID,
-				animation: animation
-			)
-				.padding(.horizontal, styleguide.large)
-		} else {
-			ScrollView {
-				LazyVStack(spacing: styleguide.large) {
-					ForEach(todoListProvider.sections) { section in
-						TodoSectionView(
-							section: section,
-							focusedID: $focusedTodoID,
-							animation: animation
-						)						
-
-//						if todoListProvider.sections.last != section {
-//							Divider()
-//								.padding(.bottom, styleguide.extraLarge)
-//						}
-					}
-				}
-				.animation(.snappy, value: todoListProvider.sections)
-				.padding(.horizontal, styleguide.large)
-				.padding(.leading, styleguide.extraSmall)
-				.padding(.vertical, styleguide.extraLarge)
-			}
-			.onScrollGeometryChange(for: ScrollValues.self) { geo in
-				ScrollValues(
-					offset: geo.contentOffset.y,
-					inset: geo.contentInsets.top
-				)
-			} action: { oldValue, newValue in
-				let newOpacity = 1 + ((newValue.offset) / (newValue.inset))
-				statusBarOpacity.value = newOpacity
-			}
-		}
+		TodoPagingView()
+//		if settings.isFocusedOnToday, let section = todoListProvider.sections.first {
+//			TodayView(
+//				section: section,
+//				focusedID: $focusedTodoID,
+//				animation: animation
+//			)
+//				.padding(.horizontal, styleguide.large)
+//		} else {
+//			ScrollView {
+//				LazyVStack(spacing: styleguide.large) {
+//					ForEach(todoListProvider.sections) { section in
+//						TodoSectionView(
+//							section: section,
+//							focusedID: $focusedTodoID,
+//							animation: animation
+//						)						
+//
+////						if todoListProvider.sections.last != section {
+////							Divider()
+////								.padding(.bottom, styleguide.extraLarge)
+////						}
+//					}
+//				}
+//				.animation(.snappy, value: todoListProvider.sections)
+//				.padding(.horizontal, styleguide.large)
+//				.padding(.leading, styleguide.extraSmall)
+//				.padding(.vertical, styleguide.extraLarge)
+//			}
+//			.onScrollGeometryChange(for: ScrollValues.self) { geo in
+//				ScrollValues(
+//					offset: geo.contentOffset.y,
+//					inset: geo.contentInsets.top
+//				)
+//			} action: { oldValue, newValue in
+//				let newOpacity = 1 + ((newValue.offset) / (newValue.inset))
+//				statusBarOpacity.value = newOpacity
+//			}
+//		}
 	}
 	
 	@ViewBuilder
