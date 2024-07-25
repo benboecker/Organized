@@ -16,6 +16,7 @@ let package = Package(
 		.package(name: "Styleguide", path: "../../../../../Packages/Styleguide"),
 		.package(name: "SharedComponents", path: "../Library/SharedComponents"),
 		.package(name: "SwiftUITools", path: "../../../../../Packages/SwiftUITools"),
+		.package(name: "Utils", path: "../../../../../Packages/Utils"),
 	],
 	targets: [
 		.target(name: "NewTodoData", dependencies: [
@@ -27,6 +28,7 @@ let package = Package(
 			.product(name: "Styleguide", package: "Styleguide"),
 			.product(name: "SwiftUITools", package: "SwiftUITools"),
 			.product(name: "SharedComponents", package: "SharedComponents"),
+			.product(name: "Utils", package: "Utils"),
 			"NewTodoDomain",
 		]),
 		.testTarget(

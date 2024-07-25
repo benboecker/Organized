@@ -87,6 +87,7 @@ struct OrganizedButtonLabelStyle: LabelStyle {
 					.foregroundStyle(isPressed ? styleguide.tertiaryText : styleguide.primaryText)
 					.padding(.vertical, styleguide.medium)
 					.padding(.horizontal, styleguide.large)
+					.frame(minWidth: 42, minHeight: 42)
 					.background(isPressed ? styleguide.secondaryText : styleguide.secondaryBackground, in: .circle)
 			case .text:
 				configuration.title

@@ -68,9 +68,3 @@ struct TodoRow: View {
 		}
 	}
 }
-
-
-#Preview {
-	TodoListView()
-		.styledPreview()
-}

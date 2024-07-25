@@ -18,7 +18,6 @@ struct TodoSectionView: View {
 	@Environment(\.settings) private var settings
 	@Environment(\.styleguide) private var styleguide
 	var focusedID: FocusState<Todo.ID?>.Binding
-	let animation: Namespace.ID
 		
     var body: some View {
 		Section {
@@ -28,16 +27,13 @@ struct TodoSectionView: View {
 			} else {
 				ForEach(section.todos) { todo in
 					TodoRow(todo: todo, focussed: focusedID)
-						.matchedGeometryEffect(id: todo.id, in: animation)
 				}
 			}
 		} header: {
 			if section.todos.hasContent {
-				WeekdayHeaderView(date: section.date) { date in
-					//					showNewTodo(date)
-				}
-				.matchedGeometryEffect(id: section.date, in: animation)
-				.padding(.leading, 42)
+				WeekdayView(date: section.date)
+					.frame(maxWidth: .infinity, alignment: .leading)
+					.padding(.leading, 42)
 			}
 		}
     }
@@ -45,8 +41,7 @@ struct TodoSectionView: View {
 
 #Preview {
 	@Previewable @FocusState var id: UUID?
-	@Previewable @Namespace var animation
-	TodoSectionView(section: .preview, focusedID: $id, animation: animation)
+	TodoSectionView(section: .preview, focusedID: $id)
 		.padding(.horizontal)
 		.padding(.vertical, 4)
 		.styledPreview()

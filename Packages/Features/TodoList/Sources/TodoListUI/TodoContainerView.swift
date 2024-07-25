@@ -7,7 +7,7 @@
 
 import SwiftUI
 import Utils
-
+import TodoListDomain
 
 public struct TodoContainerView: View {
 	public init() { }
@@ -15,13 +15,19 @@ public struct TodoContainerView: View {
 	@Environment(\.appNavigation) private var appNavigation
 	
     public var body: some View {
-		switch appNavigation.displayMode {
-		case .list:
-			TodoListView()
-		case .pages:
+//		switch appNavigation.displayMode {
+//		case .list:
+//			TodoListView()
+//		case .pages:
 			TodoPagingView()
-		}
+//		}
 	}
+}
+
+
+public extension EnvironmentValues {
+	@Entry var todoRepository: TodoRepository = PreviewRepository()
+	@Entry var todoListProvider: TodoListProvider = PreviewRepository()
 }
 
 

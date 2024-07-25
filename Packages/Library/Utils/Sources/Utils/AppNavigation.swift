@@ -15,18 +15,18 @@ import SwiftUI
 public class AppNavigation {
 	fileprivate init(
 		displayMode: TodoListDisplayMode = .list,
-		newTodo: NewTodo = .notShown,
+		newTodoDate: Date? = nil,
 		showsAppInfo: Bool = false,
 		showsOnboarding: Bool = false
 	) {
 		self.displayMode = displayMode
-		self.newTodo = newTodo
+		self.newTodoDate = newTodoDate
 		self.showsAppInfo = showsAppInfo
 		self.showsOnboarding = showsOnboarding
 	}
 	
 	public var displayMode: TodoListDisplayMode
-	public var newTodo: NewTodo
+	public var newTodoDate: Date?
 	public var showsAppInfo: Bool
 	public var showsOnboarding: Bool
 }
@@ -38,16 +38,10 @@ public extension AppNavigation {
 		case pages
 	}
 	
-	enum NewTodo {
-		case notShown
-		case withoutDate
-		case withDate(Date)
-	}
-	
 	static let pages = AppNavigation(displayMode: .pages)
 	static let appInfo = AppNavigation(showsAppInfo: true)
-	static let newTodo = AppNavigation(newTodo: .withoutDate)
-	static let newTodoWithDate = AppNavigation(newTodo: .withDate(.now.addingTimeInterval(86400 * 2)))
+	static let newTodo = AppNavigation(newTodoDate: nil)
+	static let newTodoWithDate = AppNavigation(newTodoDate: .now.addingTimeInterval(86400 * 2))
 	static func showingOnboarding(_ showOnboarding: Bool) -> AppNavigation { AppNavigation(showsOnboarding: showOnboarding) }
 }
 
