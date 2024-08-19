@@ -30,7 +30,6 @@ struct CompositionRoot: View {
 	@State private var newTodoCreation = PersistentNewTodoCreation(container: .testing)
 	@State private var styleguide = Styleguide.organized
 	
-	
 	init() {
 		print("CompositionRoot init")
 		
@@ -43,7 +42,7 @@ struct CompositionRoot: View {
 		
 		self._settings = State(initialValue: settings)
 		self._todoListProvider = State(initialValue: PersistentTodoListProvider(container: .testing, settings: settings))
-		self._appNavigation = State(initialValue: .showingOnboarding(!settings.didShowOnboarding))
+		self._appNavigation = State(initialValue: .onboarding(!settings.didShowOnboarding))
 	}
 	
 	var body: some View {

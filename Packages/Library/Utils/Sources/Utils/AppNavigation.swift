@@ -11,38 +11,39 @@ import SwiftUI
 
 
 
+public enum AppNavi {
+	case onboarding
+	case appInfo
+	case newTodo(date: Date?)
+	case existingTodo(id: UUID)
+}
+
+
+
 @Observable
 public class AppNavigation {
 	fileprivate init(
-		displayMode: TodoListDisplayMode = .list,
 		newTodoDate: Date? = nil,
 		showsAppInfo: Bool = false,
 		showsOnboarding: Bool = false
 	) {
-		self.displayMode = displayMode
 		self.newTodoDate = newTodoDate
 		self.showsAppInfo = showsAppInfo
 		self.showsOnboarding = showsOnboarding
 	}
 	
-	public var displayMode: TodoListDisplayMode
 	public var newTodoDate: Date?
 	public var showsAppInfo: Bool
 	public var showsOnboarding: Bool
 }
 
 
+// For use in previews
 public extension AppNavigation {
-	enum TodoListDisplayMode {
-		case list
-		case pages
-	}
-	
-	static let pages = AppNavigation(displayMode: .pages)
 	static let appInfo = AppNavigation(showsAppInfo: true)
 	static let newTodo = AppNavigation(newTodoDate: nil)
 	static let newTodoWithDate = AppNavigation(newTodoDate: .now.addingTimeInterval(86400 * 2))
-	static func showingOnboarding(_ showOnboarding: Bool) -> AppNavigation { AppNavigation(showsOnboarding: showOnboarding) }
+	static func onboarding(_ showOnboarding: Bool) -> AppNavigation { AppNavigation(showsOnboarding: showOnboarding) }
 }
 
 

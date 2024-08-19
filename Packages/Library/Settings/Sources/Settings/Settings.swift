@@ -37,7 +37,7 @@ public class Settings {
 	public static let testing = Settings(
 		numberOfTodos: 3,
 		isFocusedOnToday: false,
-		didShowOnboarding: true,
+		didShowOnboarding: false,
 		manuallyExcludedDates: [],
 		excludedWeekdays: []
 	)
@@ -101,13 +101,11 @@ public class Settings {
 
 // MARK: - Loading & saving data
 private extension Settings {
-	
 	func saveData() {
 		logger.info("saving data")
 	}
 	
 	func loadData() {
-		
 		logger.info("loaded data")
 	}
 }

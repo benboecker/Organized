@@ -15,12 +15,7 @@ public struct TodoContainerView: View {
 	@Environment(\.appNavigation) private var appNavigation
 	
     public var body: some View {
-//		switch appNavigation.displayMode {
-//		case .list:
-//			TodoListView()
-//		case .pages:
-			TodoPagingView()
-//		}
+		TodoPagingView()
 	}
 }
 
@@ -31,13 +26,8 @@ public extension EnvironmentValues {
 }
 
 
-#Preview("List") {
-	TodoContainerView()
-		.styledPreview()
-}
 
 #Preview("Pages") {
 	TodoContainerView()
-		.environment(\.appNavigation, .pages)
 		.styledPreview()
 }

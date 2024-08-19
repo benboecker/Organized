@@ -67,7 +67,7 @@ struct TodoPagingView: View {
 			OrganizedButton(imageName: "info") {
 				appNavigation.showsAppInfo = true
 			}
-			
+
 			if todoListProvider.sections.count > 1 {
 				PageIndicatorView(
 					numberOfPages: todoListProvider.sections.count,
@@ -82,6 +82,8 @@ struct TodoPagingView: View {
 						return nil
 					}
 				}
+			} else {
+				Spacer()
 			}
 			
 			VStack(alignment: .trailing, spacing: styleguide.medium) {

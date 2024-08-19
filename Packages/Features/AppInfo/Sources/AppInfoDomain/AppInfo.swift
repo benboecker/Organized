@@ -18,7 +18,4 @@ package extension AppInfo {
 	static var buildNumber: String {
 		"100"
 	}
-	
-	
-	
 }
