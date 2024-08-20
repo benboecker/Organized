@@ -20,13 +20,12 @@ struct ThirdPageView: View {
 	@Environment(\.appNavigation) private var appNavigation
     var body: some View {
 		VStack {
-			
 			OrganizedButton(
 				title: "Starten",
 				imageName: "checkmark"
 			) {
 				settings.didShowOnboarding = true
-				appNavigation.showsOnboarding = false
+				appNavigation.performAction(.showTodos)				
 			}
 		}
 	}

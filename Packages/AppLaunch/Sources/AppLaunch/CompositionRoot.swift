@@ -42,7 +42,7 @@ struct CompositionRoot: View {
 		
 		self._settings = State(initialValue: settings)
 		self._todoListProvider = State(initialValue: PersistentTodoListProvider(container: .testing, settings: settings))
-		self._appNavigation = State(initialValue: .onboarding(!settings.didShowOnboarding))
+		self._appNavigation = State(initialValue: AppNavigation(showsOnboarding: !settings.didShowOnboarding))
 	}
 	
 	var body: some View {
@@ -54,43 +54,29 @@ struct CompositionRoot: View {
 			settings.observeChanges()
 			todoListProvider.startObserving()
 		}
-		.alert(isPresented: newTodoBinding, displayConfig: alertConfig) {
-			NewTodo()
-		}
-		.sheet(isPresented: $appNavigation.showsAppInfo) {
+		.sheet(isPresented: appNavigation.showsAppInfo) {
 			AppInfoView()
-				.sheet(isPresented: $appNavigation.showsOnboarding) {
+				.sheet(isPresented: appNavigation.showsOnboarding) {
 					OnboardingView()
+						.interactiveDismissDisabled()
 				}
 		}
-		.sheet(isPresented: onboardingBinding) {
+		.sheet(isPresented: appNavigation.showsOnboarding) {
 			OnboardingView()
 				.interactiveDismissDisabled()
 		}
+
+		
+//		.sheet(item: appNavigation.newTodoDate, content: { new in
+//			NewTodo(date: new)
+//		})
+
 		.environment(\.styleguide, styleguide)
 		.environment(\.settings, settings)
 		.environment(\.todoRepository, todoRepository)
 		.environment(\.todoListProvider, todoListProvider)
 		.environment(\.newTodoCreation, newTodoCreation)
 		.environment(\.appNavigation, appNavigation)
-	}
-	
-	var onboardingBinding: Binding<Bool> {
-		Binding(get: {
-			appNavigation.showsOnboarding && !appNavigation.showsAppInfo
-		}, set: {
-			appNavigation.showsOnboarding = $0
-		})
-	}
-	
-	var newTodoBinding: Binding<Bool> {
-		Binding {
-			appNavigation.newTodoDate != nil
-		} set: {
-			guard $0 else { return }
-			appNavigation.newTodoDate = nil
-		}
-
 	}
 	
 	let alertConfig = DisplayConfig(
@@ -100,8 +86,8 @@ struct CompositionRoot: View {
 		slideEdge: .bottom
 	)
 	
-	func NewTodo() -> some View {
-		NewNewTodoView(date: appNavigation.newTodoDate ?? .now)
+	func NewTodo(date: Date) -> some View {
+		NewNewTodoView(date: date)
 			.environment(\.styleguide, styleguide)
 			.environment(\.settings, settings)
 			.environment(\.todoRepository, todoRepository)
@@ -110,6 +96,8 @@ struct CompositionRoot: View {
 			.environment(\.appNavigation, appNavigation)
 			.padding(styleguide.large)
 	}
+	
+	
 }
 
 extension Date: @retroactive Identifiable {

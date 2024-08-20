@@ -65,7 +65,7 @@ struct TodoPagingView: View {
 	private func BottomBar() -> some View {
 		HStack(alignment: .bottom, spacing: styleguide.medium) {
 			OrganizedButton(imageName: "info") {
-				appNavigation.showsAppInfo = true
+				appNavigation.performAction(.showAppInfo)
 			}
 
 			if todoListProvider.sections.count > 1 {
@@ -94,7 +94,9 @@ struct TodoPagingView: View {
 				.animation(.snappy, value: isExcludeButtonVisible)
 				
 				OrganizedButton(imageName: "plus") {
-					appNavigation.newTodoDate = selectedSection?.date
+					if let date = selectedSection?.date {
+//						appNavigation.appScreen = .newTodo(date: date)
+					}
 				}
 			}
 		}
@@ -115,7 +117,12 @@ struct TodoPagingView: View {
 	}
 	
 	private var selectedSection: TodoSection? {
-		guard let selectedWeekdayIndex else { return nil }
+//		print("selectedWeekdayIndex: \(selectedWeekdayIndex)")
+
+		guard let selectedWeekdayIndex else {
+			return nil
+		}
+//		print("selectedSection: \(todoListProvider.sections[selectedWeekdayIndex].date)")
 		return todoListProvider.sections[selectedWeekdayIndex]
 	}
 }

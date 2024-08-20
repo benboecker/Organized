@@ -194,7 +194,7 @@ private extension AppInfoView {
 				Label("Einführung erneut anzeigen", systemImage: "play.circle")
 					.rowBackground()
 					.onTapGesture {
-						appNavigation.showsOnboarding = true
+						appNavigation.performAction(.showOnboarding)
 					}
 				Label("Anleitung", systemImage: "questionmark.circle")
 					.rowBackground()
@@ -209,7 +209,6 @@ private extension AppInfoView {
 				.padding(.bottom, styleguide.medium)
 				.padding(.top, styleguide.extraLarge)
 		}
-
 	}
 	
 	func AppInfoSection() -> some View {

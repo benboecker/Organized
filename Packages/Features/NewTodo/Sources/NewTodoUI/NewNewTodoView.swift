@@ -15,6 +15,7 @@ import Utils
 
 public struct NewNewTodoView: View {
 	public init(date: Date) {
+		print("New Todo on date: \(date.formatted(.dateTime.day().month()))")
 		self.date = date
 	}
 	
@@ -77,6 +78,7 @@ public struct NewNewTodoView: View {
 					HStack(spacing: styleguide.large) {
 						OrganizedToggle(title: "\(date.formatted(.dateTime.day().month(.wide)))", isOn: $isDateSelected)
 							.disabled(isDateSelected && !isImportant)
+						
 						OrganizedToggle(title: "Später", isOn: $isLaterSelected)
 							.hidden(isImportant)
 							.disabled(isLaterSelected)

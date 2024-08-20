@@ -14,7 +14,6 @@ import OSLog
 @Observable
 public class Settings {
 	public var numberOfTodos: Int = 3
-	public var isFocusedOnToday: Bool = false
 	public var didShowOnboarding: Bool = false
 
 	var manuallyExcludedDates: Set<Date> = []
@@ -26,9 +25,8 @@ public class Settings {
 		loadData()
 	}
 	
-	private init(numberOfTodos: Int, isFocusedOnToday: Bool, didShowOnboarding: Bool, manuallyExcludedDates: Set<Date>, excludedWeekdays: Set<Settings.ExcludedWeekday>) {
+	private init(numberOfTodos: Int, didShowOnboarding: Bool, manuallyExcludedDates: Set<Date>, excludedWeekdays: Set<Settings.ExcludedWeekday>) {
 		self.numberOfTodos = numberOfTodos
-		self.isFocusedOnToday = isFocusedOnToday
 		self.didShowOnboarding = didShowOnboarding
 		self.manuallyExcludedDates = manuallyExcludedDates
 		self.excludedWeekdays = excludedWeekdays
@@ -36,8 +34,7 @@ public class Settings {
 	
 	public static let testing = Settings(
 		numberOfTodos: 3,
-		isFocusedOnToday: false,
-		didShowOnboarding: false,
+		didShowOnboarding: true,
 		manuallyExcludedDates: [],
 		excludedWeekdays: []
 	)
@@ -70,15 +67,6 @@ public class Settings {
 			}
 		}
 		
-		@Sendable func observeFocusedOnToday() {
-			_ = withObservationTracking {
-				isFocusedOnToday
-			} onChange: { [weak self] in
-				self?.saveData()
-				observeFocusedOnToday()
-			}
-		}
-		
 		@Sendable func observeDidShowOnboarding() {
 			_ = withObservationTracking {
 				didShowOnboarding
@@ -91,7 +79,6 @@ public class Settings {
 		observeManuallyExcludedDates()
 		observeExcludedWeekdays()
 		observeNumberOfTodos()
-		observeFocusedOnToday()
 		observeDidShowOnboarding()
 	}
 }
