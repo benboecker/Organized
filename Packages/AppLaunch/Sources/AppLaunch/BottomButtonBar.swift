@@ -30,7 +30,7 @@ struct BottomButtonBar: View {
 		}
 		.padding(.top, styleguide.large)
 		.padding(.horizontal, styleguide.large)
-		.background(styleguide.primaryBackground.shadow(.drop(color: .black.opacity(0.15), radius: 6)))
+		.background(styleguide.backgroundPrimary.shadow(.drop(color: .black.opacity(0.15), radius: 6)))
 		
 	}
 }

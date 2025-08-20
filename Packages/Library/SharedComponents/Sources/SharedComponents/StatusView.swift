@@ -32,17 +32,17 @@ public struct StatusView: View {
 			Image(systemName: imageName)
 				.font(.title2)
 				.symbolRenderingMode(symbolRenderingMode)
-				.foregroundStyle(foregroundStyle, styleguide.primaryText)
+				.foregroundStyle(foregroundStyle, styleguide.foregroundPrimary)
 //				.frame(minWidth: 44, minHeight: 44)
 		}
     }
 
 	private var foregroundStyle: Color {
 		switch (isDone, status) {
-		case (true, _): styleguide.secondaryText
-		case (false, .normal): styleguide.primaryText
-		case (false, .important): styleguide.accent
-		case (false, .urgent): styleguide.accent
+		case (true, _): return styleguide.foregroundSecondary.color
+		case (false, .normal): return styleguide.foregroundPrimary.color
+		case (false, .important): return styleguide.accentPrimary.color
+		case (false, .urgent): return styleguide.accentPrimary.color
 		}
 	}
 

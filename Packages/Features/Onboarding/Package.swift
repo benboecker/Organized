@@ -1,14 +1,13 @@
-// swift-tools-version: 6.0
+// swift-tools-version: 6.2
 // The swift-tools-version declares the minimum version of Swift required to build this package.
 
 import PackageDescription
 
 let package = Package(
 	name: "Onboarding",
-	platforms: [.iOS(.v17)],
+	platforms: [.iOS(.v26)],
 	products: [
-		.library(name: "OnboardingDomain", targets: ["OnboardingDomain"]),
-		.library(name: "OnboardingUI", targets: ["OnboardingUI"]),
+		.library(name: "Onboarding", targets: ["Onboarding"]),
 	],
 	dependencies: [
 		.package(name: "Settings", path: "../../Library/Settings"),
@@ -18,9 +17,7 @@ let package = Package(
 		.package(name: "Utils", path: "../../Library/Utils"),
 	],
 	targets: [
-		.target(name: "OnboardingDomain"),
-		.target(name: "OnboardingUI", dependencies: [
-			"OnboardingDomain",
+		.target(name: "Onboarding", dependencies: [
 			.product(name: "Settings", package: "Settings"),
 			.product(name: "SharedComponents", package: "SharedComponents"),
 			.product(name: "Styleguide", package: "Styleguide"),

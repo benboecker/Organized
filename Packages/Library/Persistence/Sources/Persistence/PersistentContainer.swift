@@ -16,9 +16,9 @@ import DemoData
 
 public class PersistentContainer {
 	public let storageConfig: StorageConfig
-	public static let testing = PersistentContainer(with: .testing)
-	public static let live = PersistentContainer(with: .live)
-	public static let `extension` = PersistentContainer(with: .extension)
+	@MainActor public static let testing = PersistentContainer(with: .testing)
+	@MainActor public static let live = PersistentContainer(with: .live)
+	@MainActor public static let `extension` = PersistentContainer(with: .extension)
 
 	private let observer: PersistentHistoryObserver
 	private let container: NSPersistentContainer
@@ -40,7 +40,7 @@ public class PersistentContainer {
 //		container = NSPersistentCloudKitContainer(name: .appName, managedObjectModel: model)
 		container = NSPersistentContainer(name: .appName, managedObjectModel: model)
 		container.viewContext.automaticallyMergesChangesFromParent = true
-		container.viewContext.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
+		container.viewContext.mergePolicy = NSMergePolicy.mergeByPropertyObjectTrump
 		container.viewContext.transactionAuthor = storageConfig.isExtension ? .extensionTransactionAuthorName : .appTransactionAuthorName
 		container.viewContext.name = storageConfig.isExtension ? .extensionViewContextName : .viewContextName
 
@@ -107,7 +107,8 @@ public extension PersistentContainer {
 		let context = container.newBackgroundContext()
 		context.transactionAuthor = .appTransactionAuthorName
 		context.name = "background_context"
-		context.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
+		context.mergePolicy = NSMergePolicy.mergeByPropertyObjectTrump
+
 
 		return context
 	}

@@ -12,36 +12,49 @@ import SwiftUI
 
 
 public extension Styleguide {
-	static let organized = Styleguide(
-		fonts: FontStyle(
-			body:       .system(.body,       design: .serif,   weight: .medium),
-			headline:   .system(.headline,   design: .serif,   weight: .heavy),
-			title:      .system(.title3,     design: .serif,   weight: .heavy),
-			largeTitle: .system(.title,      design: .serif,   weight: .heavy),
-			caption:    .system(.caption,    design: .serif,   weight: .bold)
-		),
-		colors: ColorStyle(
-			primaryText:         .init(light: "#111111", dark: "#EEEEEE"),
-			secondaryText:       .init(light: "#999999", dark: "#CCCCCC"),
-			tertiaryText:        .init(light: "#F9F9F9", dark: "#090909"),
-			accent:              .init(light: "#e84118", dark: "#e84118"),
-			primaryBackground:   .init(light: "#FEFEFE", dark: "#111111"),
-			secondaryBackground: .init(light: "#EEEEEE", dark: "#222222")
-		),
-		spacing: Spacing(
-		    extraSmall: 4,
-			     small: 4,
-			    medium: 8,
-				 large: 16,
-			extraLarge: 32
-		)
-	)
+//	static let organized = Styleguide(
+//		fonts: FontStyle(
+//			headline1: <#T##Font#>,
+//			headline2: <#T##Font#>,
+//			headline3: <#T##Font#>,
+//			headline4: <#T##Font#>,
+//			body1: <#T##Font#>,
+//			body2: <#T##Font#>,
+//			caption1: <#T##Font#>,
+//			caption2: <#T##Font#>
+//		),
+//		colors: ColorStyle(
+//			foregroundPrimary: <#T##DynamicColor#>,
+//			foregroundSecondary: <#T##DynamicColor#>,
+//			foregroundTertiary: <#T##DynamicColor#>,
+//			backgroundPrimary: <#T##DynamicColor#>,
+//			backgroundSecondary: <#T##DynamicColor#>,
+//			backgroundTertiary: <#T##DynamicColor#>,
+//			accentPrimary: <#T##DynamicColor#>,
+//			accentSecondary: <#T##DynamicColor#>,
+//			accentTertiary: <#T##DynamicColor#>,
+//			confirmation: <#T##DynamicColor#>,
+//			warning: <#T##DynamicColor#>,
+//			error: <#T##DynamicColor#>
+//		),
+//		spacing: Spacing(
+//			extraSmall: 4,
+//			small: 4,
+//			medium: 8,
+//			large: 16,
+//			extraLarge: 32
+//		),
+//		shadows: Shadows(
+//			small: .,
+//			large: <#T##Shadow#>
+//		)
+//	)
 }
 
 
 
 public extension View {
 	func styledPreview() -> some View {
-		self.styledPreview(.organized)
+		self.styledPreview(using: .default)
 	}
 }

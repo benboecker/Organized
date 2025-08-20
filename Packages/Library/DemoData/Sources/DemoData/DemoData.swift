@@ -10,7 +10,7 @@ import Foundation
 public enum DemoData { }
 
 public extension DemoData {
-	struct Todo: Codable {
+	struct Todo: Codable, Sendable {
 		init(
 			title: String,
 			isImportant: Bool,

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "1600"
+   LastUpgradeVersion = "2600"
    version = "1.7">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -15,9 +15,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "Persistence"
-               BuildableName = "Persistence"
-               BlueprintName = "Persistence"
+               BlueprintIdentifier = "NewTodo"
+               BuildableName = "NewTodo"
+               BlueprintName = "NewTodo"
                ReferencedContainer = "container:">
             </BuildableReference>
          </BuildActionEntry>
@@ -34,9 +34,9 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "PersistenceTests"
-               BuildableName = "PersistenceTests"
-               BlueprintName = "PersistenceTests"
+               BlueprintIdentifier = "NewTodoTests"
+               BuildableName = "NewTodoTests"
+               BlueprintName = "NewTodoTests"
                ReferencedContainer = "container:">
             </BuildableReference>
          </TestableReference>
@@ -62,9 +62,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "Persistence"
-            BuildableName = "Persistence"
-            BlueprintName = "Persistence"
+            BlueprintIdentifier = "NewTodo"
+            BuildableName = "NewTodo"
+            BlueprintName = "NewTodo"
             ReferencedContainer = "container:">
          </BuildableReference>
       </MacroExpansion>

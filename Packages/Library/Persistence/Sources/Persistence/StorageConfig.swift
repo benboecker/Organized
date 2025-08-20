@@ -15,19 +15,19 @@ public struct StorageConfig {
 }
 
 public extension StorageConfig {	
-	static let `extension` = StorageConfig(
+	@MainActor static let `extension` = StorageConfig(
 		inMemory: false,
 		createDemoData: false,
 		isExtension: true
 	)
 	
-	static let live = StorageConfig(
+	@MainActor static let live = StorageConfig(
 		inMemory: false,
 		createDemoData: true,
 		isExtension: false
 	)
 
-	static let testing = StorageConfig(
+	@MainActor static let testing = StorageConfig(
 		inMemory: true,
 		createDemoData: true,
 		isExtension: false

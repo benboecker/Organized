@@ -5,18 +5,13 @@
 //  Created by Benjamin Böcker on 20.04.24.
 //
 
-import Alerts
-import AppInfoUI
-import NewTodoUI
-import NewTodoData
+import AppInfo
+import NewTodo
 import NewTodoDomain
-import OnboardingUI
-import OnboardingDomain
+import Onboarding
 import Persistence
 import SwiftUI
-import TodoListUI
-import TodoListData
-import TodoListDomain
+import TodoList
 import Styleguide
 import Settings
 import Utils
@@ -28,14 +23,14 @@ struct CompositionRoot: View {
 	@State private var todoRepository = PersistentTodoRepository(container: .testing)
 	@State private var todoListProvider: TodoListProvider
 	@State private var newTodoCreation = PersistentNewTodoCreation(container: .testing)
-	@State private var styleguide = Styleguide.organized
+	@State private var styleguide = Styleguide.default
 	
 	init() {
 		print("CompositionRoot init")
 		
 		let settings: Settings
 #if DEBUG
-		settings = .testing
+		settings = Settings()
 #else
 		settings = Settings()
 #endif
@@ -51,7 +46,6 @@ struct CompositionRoot: View {
 			TodoContainerView()
 		}
 		.onAppear {
-			settings.observeChanges()
 			todoListProvider.startObserving()
 		}
 		.sheet(isPresented: appNavigation.showsAppInfo) {
@@ -79,12 +73,6 @@ struct CompositionRoot: View {
 		.environment(\.appNavigation, appNavigation)
 	}
 	
-	let alertConfig = DisplayConfig(
-		enableBackgroundBlur: false,
-		enableOutsideTap: true,
-		transitionType: .slide,
-		slideEdge: .bottom
-	)
 	
 	func NewTodo(date: Date) -> some View {
 		NewNewTodoView(date: date)

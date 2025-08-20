@@ -13,73 +13,61 @@ import OSLog
 
 @Observable
 public class Settings {
-	public var numberOfTodos: Int = 3
-	public var didShowOnboarding: Bool = false
-
-	var manuallyExcludedDates: Set<Date> = []
-	var excludedWeekdays: Set<ExcludedWeekday> = []
+	private var data: SettingsData
+	
 	let calendar = Calendar.current
 	let logger = Logger(subsystem: "Settings", category: "Settings")
 	
 	public init() {
-		loadData()
+		self.data = SettingsData()
+		self.data = loadData()
+	}
+}
+
+public extension Settings {
+	var numberOfTodos: Int {
+		get {
+			data.numberOfTodos
+		}
+		set {
+			data.numberOfTodos = newValue
+		}
 	}
 	
-	private init(numberOfTodos: Int, didShowOnboarding: Bool, manuallyExcludedDates: Set<Date>, excludedWeekdays: Set<Settings.ExcludedWeekday>) {
-		self.numberOfTodos = numberOfTodos
-		self.didShowOnboarding = didShowOnboarding
-		self.manuallyExcludedDates = manuallyExcludedDates
-		self.excludedWeekdays = excludedWeekdays
+	var didShowOnboarding: Bool {
+		get {
+			data.didShowOnboarding
+		}
+		set {
+			data.didShowOnboarding = newValue
+		}
 	}
 	
-	public static let testing = Settings(
-		numberOfTodos: 3,
-		didShowOnboarding: true,
-		manuallyExcludedDates: [],
-		excludedWeekdays: []
-	)
+	var manuallyExcludedDates: Set<Date> {
+		get {
+			data.manuallyExcludedDates
+		}
+		set {
+			data.manuallyExcludedDates = newValue
+		}
+	}
 	
-	public func observeChanges() {
-		@Sendable func observeNumberOfTodos() {
-			_ = withObservationTracking {
-				numberOfTodos
-			} onChange: { [weak self] in
-				self?.saveData()
-				observeNumberOfTodos()
-			}
+	var excludedWeekdays: Set<ExcludedWeekday> {
+		get {
+			data.excludedWeekdays
 		}
-		
-		@Sendable func observeManuallyExcludedDates() {
-			_ = withObservationTracking {
-				manuallyExcludedDates
-			} onChange: { [weak self] in
-				self?.saveData()
-				observeManuallyExcludedDates()
-			}
+		set {
+			data.excludedWeekdays = newValue
 		}
-		
-		@Sendable func observeExcludedWeekdays() {
-			_ = withObservationTracking {
-				excludedWeekdays
-			} onChange: { [weak self] in
-				self?.saveData()
-				observeExcludedWeekdays()
-			}
-		}
-		
-		@Sendable func observeDidShowOnboarding() {
-			_ = withObservationTracking {
-				didShowOnboarding
-			} onChange: { [weak self] in
-				self?.saveData()
-				observeDidShowOnboarding()
-			}
-		}
-		
-		observeManuallyExcludedDates()
-		observeExcludedWeekdays()
-		observeNumberOfTodos()
-		observeDidShowOnboarding()
+	}
+}
+
+private extension Settings {
+	struct SettingsData: Sendable, Codable {
+		var numberOfTodos: Int = 3
+		var didShowOnboarding: Bool = false
+		var manuallyExcludedDates: Set<Date> = []
+		var excludedWeekdays: Set<ExcludedWeekday> = []
 	}
 }
 
@@ -92,8 +80,9 @@ private extension Settings {
 		logger.info("saving data")
 	}
 	
-	func loadData() {
+	func loadData() -> SettingsData {
 		logger.info("loaded data")
+		return SettingsData()
 	}
 }
 

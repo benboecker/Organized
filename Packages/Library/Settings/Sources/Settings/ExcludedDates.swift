@@ -78,7 +78,7 @@ public extension Settings {
 		manuallyExcludedDates.removeAll()
 	}
 	
-	struct ExcludedWeekday: Hashable {
+	struct ExcludedWeekday: Hashable, Codable, Sendable {
 		public let name: String
 		public let short: String
 		public let index: Int

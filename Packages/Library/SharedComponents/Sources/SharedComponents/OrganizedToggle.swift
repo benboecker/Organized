@@ -93,18 +93,18 @@ struct OrganizedToggleLabelStyle: LabelStyle {
 			switch variant {
 			case .icon:
 				configuration.icon
-					.font(styleguide.headline)
-					.foregroundStyle(isOn ? styleguide.tertiaryText : styleguide.secondaryText)
+					.font(styleguide.headline2)
+					.foregroundStyle(isOn ? styleguide.foregroundTertiary : styleguide.foregroundSecondary)
 					.padding(.vertical, styleguide.medium)
 					.padding(.horizontal, styleguide.large)
-					.background(isOn ? styleguide.secondaryText : styleguide.secondaryBackground, in: .circle)
+					.background(isOn ? styleguide.foregroundSecondary : styleguide.backgroundSecondary, in: .circle)
 			case .text:
 				configuration.title
-					.font(styleguide.headline)
-					.foregroundStyle(isOn ? styleguide.tertiaryText : styleguide.secondaryText)
+					.font(styleguide.headline2)
+					.foregroundStyle(isOn ? styleguide.foregroundTertiary : styleguide.foregroundSecondary)
 					.padding(.vertical, styleguide.medium)
 					.padding(.horizontal, styleguide.large)
-					.background(isOn ? styleguide.secondaryText : styleguide.secondaryBackground, in: .capsule)
+					.background(isOn ? styleguide.foregroundSecondary : styleguide.backgroundSecondary, in: .capsule)
 			case .iconAndText(let leading):
 				HStack {
 					if leading {
@@ -115,11 +115,11 @@ struct OrganizedToggleLabelStyle: LabelStyle {
 						configuration.icon
 					}
 				}
-				.font(styleguide.headline)
-				.foregroundStyle(isOn ? styleguide.tertiaryText : styleguide.secondaryText)
+				.font(styleguide.headline2)
+				.foregroundStyle(isOn ? styleguide.foregroundTertiary : styleguide.foregroundSecondary)
 				.padding(.vertical, styleguide.medium)
 				.padding(.horizontal, styleguide.large)
-				.background(isOn ? styleguide.secondaryText : styleguide.secondaryBackground, in: .capsule)
+				.background(isOn ? styleguide.foregroundSecondary : styleguide.backgroundSecondary, in: .capsule)
 			}
 		}
 	}

@@ -83,19 +83,19 @@ struct OrganizedButtonLabelStyle: LabelStyle {
 			switch variant {
 			case .icon:
 				configuration.icon
-					.font(styleguide.headline)
-					.foregroundStyle(isPressed ? styleguide.tertiaryText : styleguide.primaryText)
+					.font(styleguide.headline2)
+					.foregroundStyle(isPressed ? styleguide.foregroundTertiary : styleguide.foregroundPrimary)
 					.padding(.vertical, styleguide.medium)
 					.padding(.horizontal, styleguide.large)
 					.frame(minWidth: 42, minHeight: 42)
-					.background(isPressed ? styleguide.secondaryText : styleguide.secondaryBackground, in: .circle)
+					.background(isPressed ? styleguide.backgroundPrimary : styleguide.backgroundSecondary, in: .circle)
 			case .text:
 				configuration.title
-					.font(styleguide.headline)
-					.foregroundStyle(isPressed ? styleguide.tertiaryText : styleguide.primaryText)
+					.font(styleguide.headline2)
+					.foregroundStyle(isPressed ? styleguide.foregroundTertiary : styleguide.foregroundPrimary)
 					.padding(.vertical, styleguide.medium)
 					.padding(.horizontal, styleguide.large)
-					.background(isPressed ? styleguide.secondaryText : styleguide.secondaryBackground, in: .capsule)
+					.background(isPressed ? styleguide.foregroundSecondary : styleguide.backgroundSecondary, in: .capsule)
 			case .iconAndText(let leading):
 				HStack {
 					if leading {
@@ -106,11 +106,11 @@ struct OrganizedButtonLabelStyle: LabelStyle {
 						configuration.icon
 					}
 				}
-				.font(styleguide.headline)
-				.foregroundStyle(isPressed ? styleguide.tertiaryText : styleguide.primaryText)
+				.font(styleguide.headline2)
+				.foregroundStyle(isPressed ? styleguide.foregroundTertiary : styleguide.foregroundPrimary)
 				.padding(.vertical, styleguide.medium)
 				.padding(.horizontal, styleguide.large)
-				.background(isPressed ? styleguide.secondaryText : styleguide.secondaryBackground, in: .capsule)
+				.background(isPressed ? styleguide.foregroundSecondary : styleguide.backgroundSecondary, in: .capsule)
 			}
 		}
 	}

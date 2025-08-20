@@ -1,38 +1,35 @@
-// swift-tools-version: 5.10
+// swift-tools-version: 6.2
 // The swift-tools-version declares the minimum version of Swift required to build this package.
 
 import PackageDescription
 
 let package = Package(
 	name: "NewTodo",
-	platforms: [.iOS(.v17)],
+	platforms: [.iOS(.v26)],
 	products: [
-		.library(name: "NewTodoData", targets: ["NewTodoData"]),
-		.library(name: "NewTodoDomain", targets: ["NewTodoDomain"]),
-		.library(name: "NewTodoUI", targets: ["NewTodoUI"]),
+		.library(name: "NewTodo", targets: ["NewTodo"]),
 	],
 	dependencies: [
-		.package(name: "Persistence", path: "../Library/Persistence"),
+		.package(name: "Persistence", path: "../../Library/Persistence"),
+		.package(name: "SharedComponents", path: "../../Library/SharedComponents"),
+		.package(name: "Settings", path: "../../Library/Settings"),
+		.package(name: "Utils", path: "../../Library/Utils"),
 		.package(name: "Styleguide", path: "../../../../../Packages/Styleguide"),
-		.package(name: "SharedComponents", path: "../Library/SharedComponents"),
 		.package(name: "SwiftUITools", path: "../../../../../Packages/SwiftUITools"),
-		.package(name: "Utils", path: "../../../../../Packages/Utils"),
 	],
 	targets: [
-		.target(name: "NewTodoData", dependencies: [
+		.target(name: "NewTodo", dependencies: [
 			.product(name: "Persistence", package: "Persistence"),
-			"NewTodoDomain",
-		]),
-		.target(name: "NewTodoDomain"),
-		.target(name: "NewTodoUI", dependencies: [
 			.product(name: "Styleguide", package: "Styleguide"),
+			.product(name: "Settings", package: "Settings"),
 			.product(name: "SwiftUITools", package: "SwiftUITools"),
 			.product(name: "SharedComponents", package: "SharedComponents"),
 			.product(name: "Utils", package: "Utils"),
-			"NewTodoDomain",
 		]),
 		.testTarget(
-			name: "NewTodoDataTests",
-			dependencies: ["NewTodoData"]),
+			name: "NewTodoTests",
+			dependencies: [
+				"NewTodo"
+			]),
 	]
 )

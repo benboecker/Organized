@@ -21,12 +21,12 @@ public struct WeekdayView: View {
     public var body: some View {
 		HStack(spacing: styleguide.medium) {
 			Text(date, format: .dateTime.weekday(.wide))
-				.font(styleguide.title)
-				.foregroundStyle(styleguide.primaryText)
+				.font(styleguide.headline3)
+				.foregroundStyle(styleguide.foregroundPrimary)
 			
 			Text(date, format: .dateTime.day().month(.wide))
-				.font(styleguide.title)
-				.foregroundStyle(styleguide.secondaryText)
+				.font(styleguide.headline4)
+				.foregroundStyle(styleguide.foregroundSecondary)
 		}
 	}
 }
